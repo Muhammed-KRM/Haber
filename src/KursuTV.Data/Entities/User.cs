@@ -39,6 +39,7 @@ public class User
 
     // --- Moderasyon / Ban ---
     public int ViolationCount { get; set; } = 0;
+    public DateTime? LastViolationAt { get; set; }
     public DateTime? BannedUntil { get; set; }
     public string? BanReason { get; set; }
 

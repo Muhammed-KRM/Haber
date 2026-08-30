@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using KursuTV.Data.Context;
 using KursuTV.Data.Repositories;
@@ -13,13 +13,16 @@ public static class ServiceRegistration
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(connectionString));
 
-        // Add Repositories
+        // Generic Repository
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
+        // Domain Repositories
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IListingRepository, ListingRepository>();
-        
-        // DiÄŸer repositoryler eklenecek
-        // services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<INewsRepository, NewsRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<IMediaRepository, MediaRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
 
         return services;
     }

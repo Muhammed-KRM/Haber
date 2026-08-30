@@ -1,0 +1,23 @@
+# .NET Build Çıktıları
+bin/
+obj/
+*.user
+*.suo
+
+# Ortam Değişkenleri (GİZLİ - asla commit edilmez)
+.env
+.env.*
+!.env.example
+
+# Geliştirme ve IDE Dosyaları
+.vs/
+.vscode/settings.json
+*.swp
+
+# Node Modules (AdminPanel)
+AdminPanel/node_modules/
+AdminPanel/dist/
+AdminPanel/.angular/
+
+# Publish Çıktıları
+publish/

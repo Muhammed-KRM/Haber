@@ -1,36 +1,39 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using KursuTV.Data.Entities;
 
 namespace KursuTV.Data.Context;
 
-public class AppDbContext : DbContext
+/// <summary>
+/// Uygulamanın ana veritabanı bağlamı.
+/// Tüm entity konfigürasyonları Configurations/ klasöründeki
+/// IEntityTypeConfiguration implementasyonlarından otomatik yüklenir.
+/// </summary>
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
+    // --- Kullanıcı ve Kimlik ---
     public DbSet<User> Users => Set<User>();
-    public DbSet<Listing> Listings => Set<Listing>();
-    public DbSet<ListingImage> ListingImages => Set<ListingImage>();
-    public DbSet<Message> Messages => Set<Message>();
-    public DbSet<Review> Reviews => Set<Review>();
-    public DbSet<TokenTransaction> TokenTransactions => Set<TokenTransaction>();
-    public DbSet<Branch> Branches => Set<Branch>();
-    public DbSet<City> Cities => Set<City>();
-    public DbSet<District> Districts => Set<District>();
-    public DbSet<TokenPackage> TokenPackages => Set<TokenPackage>();
-    public DbSet<VitrinPackage> VitrinPackages => Set<VitrinPackage>();
+
+    // --- Haber Çekirdeği ---
+    public DbSet<News> News => Set<News>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Media> MediaItems => Set<Media>();
+    public DbSet<Comment> Comments => Set<Comment>();
+
+    // --- Pivot Tablolar ---
+    public DbSet<NewsCategory> NewsCategories => Set<NewsCategory>();
+    public DbSet<NewsTag> NewsTags => Set<NewsTag>();
+
+    // --- Loglama (Serilog Sinks) ---
     public DbSet<GlobalSetting> GlobalSettings => Set<GlobalSetting>();
     public DbSet<EndpointLog> EndpointLogs => Set<EndpointLog>();
     public DbSet<FunctionLog> FunctionLogs => Set<FunctionLog>();
-    public DbSet<ViolationLog> ViolationLogs => Set<ViolationLog>();
-    public DbSet<Notification> Notifications => Set<Notification>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        // Entity framework konfigÃ¼rasyon dosyalarÄ±nÄ± (IEntityTypeConfiguration) otomatik tarayÄ±p ekle
+
+        // Configurations/ altındaki IEntityTypeConfiguration sınıflarını otomatik tara ve uygula
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "O04T/Md2P7g=",
+  "dgSpecHash": "P92JDan5kgE=",
   "success": true,
-  "projectFilePath": "D:\\OZELDERS\\src\\OzelDers.Data\\OzelDers.Data.csproj",
+  "projectFilePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Data\\KursuTV.Data.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\muhammedk\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.11.0\\microsoft.codeanalysis.analyzers.3.11.0.nupkg.sha512",

@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "QumGpLLn0cg=",
+  "dgSpecHash": "IRldaiJLrno=",
   "success": true,
-  "projectFilePath": "D:\\OZELDERS\\src\\OzelDers.Business\\OzelDers.Business.csproj",
+  "projectFilePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
-    "C:\\Users\\muhammedk\\.nuget\\packages\\bcrypt.net-next\\4.1.0\\bcrypt.net-next.4.1.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\elastic.clients.elasticsearch\\9.3.4\\elastic.clients.elasticsearch.9.3.4.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\elastic.esql\\0.10.0\\elastic.esql.0.10.0.nupkg.sha512",
@@ -63,10 +63,22 @@
     {
       "code": "NU1902",
       "level": "Warning",
-      "message": "'MailKit' 4.15.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-9j88-vvj5-vhgr güvenlik açığı var",
-      "projectPath": "D:\\OZELDERS\\src\\OzelDers.Business\\OzelDers.Business.csproj",
+      "message": "'AngleSharp' 0.17.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-pgww-w46g-26qg güvenlik açığı var",
+      "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\OZELDERS\\src\\OzelDers.Business\\OzelDers.Business.csproj",
+      "filePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj",
+      "libraryId": "AngleSharp",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "'MailKit' 4.15.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-9j88-vvj5-vhgr güvenlik açığı var",
+      "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj",
       "libraryId": "MailKit",
       "targetGraphs": [
         "net10.0"

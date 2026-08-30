@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
@@ -210,14 +210,12 @@ using (var scope = app.Services.CreateScope())
     
     await DatabaseSeeder.SeedAsync(context);
     
-    // Admin kullanÄ±cÄ± seed â€” bilgiler appsettings/environment'tan okunur, kaynak koda gÃ¶mÃ¼lmez
-    var adminEmail = builder.Configuration["AdminSeed:Email"]
-        ?? throw new InvalidOperationException("AdminSeed:Email konfigÃ¼rasyonu eksik.");
-    var adminPassword = builder.Configuration["AdminSeed:Password"]
-        ?? throw new InvalidOperationException("AdminSeed:Password konfigÃ¼rasyonu eksik.");
+    // Admin kullanıcı seed — bilgiler appsettings/environment'tan okunur
+    var adminEmail = builder.Configuration["AdminSeed:Email"] ?? "admin@kursutv.com";
+    var adminPassword = builder.Configuration["AdminSeed:Password"] ?? "Admin@123!";
 
     var existingAdmin = context.Users
-        .FirstOrDefault(u => u.Role == KursuTV.Data.Enums.UserRole.Admin);
+        .FirstOrDefault(u => u.Role == KursuTV.Data.Enums.UserRole.SuperAdmin);
 
     if (existingAdmin == null)
     {
@@ -225,22 +223,20 @@ using (var scope = app.Services.CreateScope())
         {
             Email = adminEmail,
             PasswordHash = BC.HashPassword(adminPassword),
-            FullName = "Site YÃ¶neticisi",
-            Role = KursuTV.Data.Enums.UserRole.Admin,
+            FullName = "Süper Yönetici",
+            Role = KursuTV.Data.Enums.UserRole.SuperAdmin,
             IsActive = true,
-            IsEmailVerified = true,
-            TokenBalance = 0
+            IsEmailVerified = true
         });
         await context.SaveChangesAsync();
-        logger.LogInformation("Admin kullanÄ±cÄ± oluÅŸturuldu: {Email}", adminEmail);
+        logger.LogInformation("SuperAdmin kullanıcı oluşturuldu: {Email}", adminEmail);
     }
     else if (existingAdmin.Email != adminEmail || !BC.Verify(adminPassword, existingAdmin.PasswordHash))
     {
-        // E-posta veya ÅŸifre deÄŸiÅŸmiÅŸse gÃ¼ncelle
         existingAdmin.Email = adminEmail;
         existingAdmin.PasswordHash = BC.HashPassword(adminPassword);
         await context.SaveChangesAsync();
-        logger.LogInformation("Admin bilgileri gÃ¼ncellendi: {Email}", adminEmail);
+        logger.LogInformation("SuperAdmin bilgileri güncellendi: {Email}", adminEmail);
     }
 
     var settingService = scope.ServiceProvider.GetRequiredService<ISettingService>();

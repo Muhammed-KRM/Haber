@@ -1,4 +1,4 @@
-﻿using KursuTV.Business.DTOs;
+using KursuTV.Business.DTOs;
 using KursuTV.Business.Interfaces;
 using KursuTV.Data.Entities;
 using KursuTV.Data.Repositories;
@@ -7,26 +7,23 @@ namespace KursuTV.Business.Services;
 
 public class NotificationManager : INotificationService
 {
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    // HATA KODLARI â€” NotificationManager (Prefix: NM)
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     private const string EC_CREATE   = "NM-001";
     private const string EC_GETCOUNT = "NM-002";
     private const string EC_GETLIST  = "NM-003";
     private const string EC_READ     = "NM-004";
     private const string EC_READALL  = "NM-005";
-    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     private readonly IRepository<Notification> _repo;
     private readonly ILogService _logService;
-    private readonly ISmsService _smsService;
     private readonly KursuTV.Business.Infrastructure.Messaging.IFcmService _fcmService;
 
-    public NotificationManager(IRepository<Notification> repo, ILogService logService, ISmsService smsService, KursuTV.Business.Infrastructure.Messaging.IFcmService fcmService)
+    public NotificationManager(
+        IRepository<Notification> repo,
+        ILogService logService,
+        KursuTV.Business.Infrastructure.Messaging.IFcmService fcmService)
     {
         _repo = repo;
         _logService = logService;
-        _smsService = smsService;
         _fcmService = fcmService;
     }
 
@@ -35,7 +32,6 @@ public class NotificationManager : INotificationService
     {
         try
         {
-            // Duplicate Ã¶nleme: aynÄ± idempotency key varsa tekrar yazma
             if (!string.IsNullOrEmpty(idempotencyKey))
             {
                 var existing = await _repo.FindAsync(n =>
@@ -61,7 +57,7 @@ public class NotificationManager : INotificationService
         }
         catch (Exception ex)
         {
-            await _logService.LogFunctionErrorAsync(EC_CREATE, ex, new { userId, type });
+            await _logService.LogFunctionErrorAsync(EC_CREATE, ex, new { userId, type, title }, userId);
             throw;
         }
     }
@@ -70,23 +66,22 @@ public class NotificationManager : INotificationService
     {
         try
         {
-            var all = await _repo.FindAsync(n => n.UserId == userId && !n.IsRead);
-            return all.Count();
+            var list = await _repo.FindAsync(n => n.UserId == userId && !n.IsRead);
+            return list.Count();
         }
         catch (Exception ex)
         {
-            await _logService.LogFunctionErrorAsync(EC_GETCOUNT, ex, userId);
+            await _logService.LogFunctionErrorAsync(EC_GETCOUNT, ex, userId, userId);
             throw;
         }
     }
 
-    public async Task<List<NotificationDto>> GetUserNotificationsAsync(Guid userId,
-        int page = 1, int pageSize = 20)
+    public async Task<List<NotificationDto>> GetUserNotificationsAsync(Guid userId, int page = 1, int pageSize = 20)
     {
         try
         {
-            var all = await _repo.FindAsync(n => n.UserId == userId);
-            return all
+            var list = await _repo.FindAsync(n => n.UserId == userId);
+            return list
                 .OrderByDescending(n => n.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -104,26 +99,26 @@ public class NotificationManager : INotificationService
         }
         catch (Exception ex)
         {
-            await _logService.LogFunctionErrorAsync(EC_GETLIST, ex, userId);
+            await _logService.LogFunctionErrorAsync(EC_GETLIST, ex, new { userId, page, pageSize }, userId);
             throw;
         }
     }
 
-    public async Task MarkAsReadAsync(int notificationId, Guid userId)
+    public async Task<bool> MarkAsReadAsync(int notificationId, Guid userId)
     {
         try
         {
-            var matches = await _repo.FindAsync(n => n.Id == notificationId && n.UserId == userId);
-            var n = matches.FirstOrDefault();
-            if (n == null) return;
-            n.IsRead = true;
-            n.ReadAt = DateTime.UtcNow;
-            _repo.Update(n);
+            var notif = await _repo.GetByIdAsync(notificationId);
+            if (notif == null || notif.UserId != userId) return false;
+            notif.IsRead = true;
+            notif.ReadAt = DateTime.UtcNow;
+            _repo.Update(notif);
             await _repo.SaveChangesAsync();
+            return true;
         }
         catch (Exception ex)
         {
-            await _logService.LogFunctionErrorAsync(EC_READ, ex, new { notificationId, userId });
+            await _logService.LogFunctionErrorAsync(EC_READ, ex, new { notificationId, userId }, userId);
             throw;
         }
     }
@@ -143,35 +138,13 @@ public class NotificationManager : INotificationService
         }
         catch (Exception ex)
         {
-            await _logService.LogFunctionErrorAsync(EC_READALL, ex, userId);
+            await _logService.LogFunctionErrorAsync(EC_READALL, ex, userId, userId);
             throw;
         }
     }
 
-    public async Task SendSmsNotificationAsync(Guid userId, string message)
+    public async Task SendPushNotificationAsync(string fcmToken, string title, string body, string? clickAction = null)
     {
-        try
-        {
-            // KullanÄ±cÄ±nÄ±n telefon numarasÄ±nÄ± al (User entity'sinde PhoneNumber alanÄ± olmalÄ±)
-            // Åimdilik basit bir implementasyon yapalÄ±m
-            await _smsService.SendAsync("905551234567", message); // Test numarasÄ±
-            // Log baÅŸarÄ±lÄ±
-        }
-        catch (Exception ex)
-        {
-            await _logService.LogFunctionErrorAsync("NM-006", ex, message, userId);
-        }
-    }
-
-    public async Task SendFcmNotificationAsync(string fcmToken, string title, string body, Dictionary<string, string>? data = null)
-    {
-        try
-        {
-            await _fcmService.SendNotificationAsync(fcmToken, title, body, data);
-        }
-        catch (Exception ex)
-        {
-            await _logService.LogFunctionErrorAsync("NM-007", ex, title);
-        }
+        await _fcmService.SendNotificationAsync(fcmToken, title, body);
     }
 }

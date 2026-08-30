@@ -1,9 +1,10 @@
-﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 using Microsoft.Extensions.Configuration;
 using KursuTV.Business.DTOs;
 using KursuTV.Business.Infrastructure.Search.Models;
 using KursuTV.Business.Interfaces;
+using KursuTV.Data.Enums;
 
 namespace KursuTV.Business.Infrastructure.Search;
 
@@ -15,93 +16,83 @@ public class ElasticsearchService : ISearchService
     public ElasticsearchService(ElasticsearchClient client, IConfiguration config)
     {
         _client = client;
-        _indexName = config["Elasticsearch:DefaultIndex"] ?? "listings";
+        _indexName = config["Elasticsearch:DefaultIndex"] ?? "news_index";
     }
 
-    public async Task IndexListingAsync(ListingDto listing)
+    public async Task IndexNewsAsync(NewsDetailDto news, CancellationToken cancellationToken = default)
     {
-        var doc = new ListingDocument
+        var doc = new NewsDocument
         {
-            Id = listing.Id.ToString(),
-            Title = listing.Title,
-            Description = listing.Description ?? "",
-            TeacherName = listing.OwnerName,
-            BranchSlug = listing.BranchName.ToLowerInvariant(), // basitleÅŸtirilmiÅŸ
-            BranchName = listing.BranchName,
-            CitySlug = listing.CityName.ToLowerInvariant(),
-            DistrictSlug = listing.DistrictName.ToLowerInvariant(),
-            HourlyPrice = listing.HourlyPrice,
-            LessonType = "Online", // default
-            IsVitrin = listing.IsVitrin,
-            AverageRating = (float)listing.AverageRating,
-            ReviewCount = listing.ReviewCount,
-            Status = "Active",
-            CreatedAt = listing.CreatedAt
+            Id = news.Id.ToString(),
+            Title = news.Title,
+            Slug = news.Slug,
+            Spot = news.Spot,
+            Content = news.Content,
+            CoverImageUrl = news.CoverImageUrl,
+            AuthorName = news.AuthorName,
+            CategoryNames = news.Categories.Select(c => c.Name).ToList(),
+            CategorySlugs = news.Categories.Select(c => c.Slug).ToList(),
+            TagNames = news.Tags.Select(t => t.Name).ToList(),
+            ViewCount = news.ViewCount,
+            PublishedAt = news.PublishedAt
         };
 
-        await _client.IndexAsync(doc, idx => idx.Index(_indexName).Id(doc.Id));
+        await _client.IndexAsync(doc, idx => idx.Index(_indexName).Id(doc.Id), cancellationToken);
     }
 
-    public async Task DeleteListingIndexAsync(Guid listingId)
+    public async Task DeleteNewsIndexAsync(Guid newsId, CancellationToken cancellationToken = default)
     {
-        await _client.DeleteAsync<ListingDocument>(listingId.ToString(), d => d.Index(_indexName));
+        await _client.DeleteAsync<NewsDocument>(newsId.ToString(), d => d.Index(_indexName), cancellationToken);
     }
 
-    public async Task<SearchResultDto> SearchAsync(SearchFilterDto filters)
+    public async Task<PagedResultDto<NewsListDto>> SearchNewsAsync(NewsSearchFilterDto filters, CancellationToken cancellationToken = default)
     {
-        var mustQueries = new List<Action<QueryDescriptor<ListingDocument>>>();
+        var mustQueries = new List<Action<QueryDescriptor<NewsDocument>>>();
 
         if (!string.IsNullOrWhiteSpace(filters.Query))
         {
             mustQueries.Add(q => q.QueryString(qs => qs
-                .Fields(new[] { "title^3", "description", "teacherName^2" })
+                .Fields(new[] { "title^3", "spot^2", "content", "tagNames^2" })
                 .Query($"*{filters.Query}*")
             ));
         }
 
-        if (!string.IsNullOrWhiteSpace(filters.Branch))
+        if (!string.IsNullOrWhiteSpace(filters.CategorySlug))
         {
-            mustQueries.Add(q => q.Term(t => t.Field(f => f.BranchSlug).Value(filters.Branch)));
+            mustQueries.Add(q => q.Term(t => t.Field(f => f.CategorySlugs).Value(filters.CategorySlug)));
         }
 
-        if (!string.IsNullOrWhiteSpace(filters.City))
-        {
-            mustQueries.Add(q => q.Term(t => t.Field(f => f.CitySlug).Value(filters.City)));
-        }
-
-        var searchResponse = await _client.SearchAsync<ListingDocument>(s => s
+        var searchResponse = await _client.SearchAsync<NewsDocument>(s => s
             .Indices(_indexName)
             .From((filters.Page - 1) * filters.PageSize)
             .Size(filters.PageSize)
             .Query(q => q.Bool(b => b.Must(mustQueries.ToArray())))
             .Sort(srt => srt
-                .Field(f => f.IsVitrin, sort => sort.Order(SortOrder.Desc))
-                .Field(f => f.AverageRating, sort => sort.Order(SortOrder.Desc))
-                .Field(f => f.CreatedAt, sort => sort.Order(SortOrder.Desc))
-            )
+                .Field(f => f.PublishedAt, sort => sort.Order(SortOrder.Desc))
+            ),
+            cancellationToken
         );
 
-        var result = new SearchResultDto
-        {
-            Page = filters.Page,
-            PageSize = filters.PageSize,
-            TotalCount = (int)searchResponse.Total,
-            Items = searchResponse.Documents.Select(d => new ListingDto
-            {
-                Id = Guid.Parse(d.Id),
-                Title = d.Title,
-                OwnerName = d.TeacherName,
-                BranchName = d.BranchName,
-                CityName = d.CitySlug,
-                DistrictName = d.DistrictSlug,
-                HourlyPrice = d.HourlyPrice,
-                IsVitrin = d.IsVitrin,
-                AverageRating = d.AverageRating,
-                ReviewCount = d.ReviewCount,
-                CreatedAt = d.CreatedAt
-            }).ToList()
-        };
+        var totalCount = (int)searchResponse.Total;
+        var items = searchResponse.Documents.Select(d => new NewsListDto(
+            Guid.Parse(d.Id),
+            d.Title,
+            d.Slug,
+            d.Spot,
+            d.CoverImageUrl,
+            null,
+            NewsStatus.Published,
+            NewsType.Article,
+            false,
+            0,
+            d.ViewCount,
+            d.PublishedAt,
+            d.PublishedAt ?? DateTime.UtcNow,
+            d.AuthorName,
+            d.CategoryNames.Zip(d.CategorySlugs, (name, slug) => new CategoryDto(0, name, slug, null, 0, true, null, null)).ToList()
+        )).ToList();
 
-        return result;
+        var totalPages = (int)Math.Ceiling(totalCount / (double)filters.PageSize);
+        return new PagedResultDto<NewsListDto>(items, totalCount, filters.Page, filters.PageSize, totalPages);
     }
 }

@@ -1,12 +1,11 @@
-﻿using KursuTV.Business.DTOs;
+using KursuTV.Business.DTOs;
 
 namespace KursuTV.Business.Interfaces;
 
 public interface IUserService
 {
-    Task<UserProfileDto> GetProfileAsync(Guid userId);
-    Task UpdatePersonalInfoAsync(Guid userId, PersonalInfoDto dto);
-    Task UpdatePaymentInfoAsync(Guid userId, PaymentInfoDto dto);
-    Task ChangePasswordAsync(Guid userId, PasswordChangeDto dto);
-    Task UpdateNotificationSettingsAsync(Guid userId, NotificationSettingsDto dto);
+    Task<UserDto?> GetProfileAsync(Guid userId);
+    Task<UserDto> UpdateProfileAsync(Guid userId, UserProfileUpdateDto dto);
+    Task ChangePasswordAsync(Guid userId, ChangePasswordDto dto);
+    Task<List<UserDto>> GetAuthorsAsync(CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,4 @@
-﻿using KursuTV.Business.DTOs;
+using KursuTV.Business.DTOs;
 using KursuTV.Data.Entities;
 
 namespace KursuTV.Business.Interfaces;
@@ -9,6 +9,7 @@ public interface INotificationService
         string message, string? actionUrl = null, string? idempotencyKey = null);
     Task<int> GetUnreadCountAsync(Guid userId);
     Task<List<NotificationDto>> GetUserNotificationsAsync(Guid userId, int page = 1, int pageSize = 20);
-    Task MarkAsReadAsync(int notificationId, Guid userId);
+    Task<bool> MarkAsReadAsync(int notificationId, Guid userId);
     Task MarkAllAsReadAsync(Guid userId);
+    Task SendPushNotificationAsync(string fcmToken, string title, string body, string? clickAction = null);
 }

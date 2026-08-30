@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,18 +8,33 @@ public static class SlugHelper
 {
     public static string GenerateSlug(string text)
     {
-        // TÃ¼rkÃ§e karakterleri dÃ¶nÃ¼ÅŸtÃ¼r
-        var slug = text.ToLowerInvariant();
-        slug = slug.Replace("Ä±", "i").Replace("ÄŸ", "g").Replace("Ã¼", "u")
-                   .Replace("ÅŸ", "s").Replace("Ã¶", "o").Replace("Ã§", "c");
-        
-        // AksanlarÄ± kaldÄ±r
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        var slug = text.Trim().ToLowerInvariant();
+
+        // Türkçe karakterleri normalize et
+        slug = slug
+            .Replace("ı", "i")
+            .Replace("ğ", "g")
+            .Replace("ü", "u")
+            .Replace("ş", "s")
+            .Replace("ö", "o")
+            .Replace("ç", "c")
+            .Replace("İ", "i")
+            .Replace("Ğ", "g")
+            .Replace("Ü", "u")
+            .Replace("Ş", "s")
+            .Replace("Ö", "o")
+            .Replace("Ç", "c");
+
+        // Aksan işaretlerini kaldır
         slug = RemoveDiacritics(slug);
-        
-        // AlfanÃ¼merik olmayan karakterleri tire ile deÄŸiÅŸtir
+
+        // Alfanümerik olmayan karakterleri tireye çevir
         slug = Regex.Replace(slug, @"[^a-z0-9\s-]", "");
         slug = Regex.Replace(slug, @"[\s-]+", "-").Trim('-');
-        
+
         return slug;
     }
 
