@@ -2,24 +2,43 @@
 
 @layer base {
   :root {
-    --bg-primary: #F7F1E3;        /* %60 Ana Zemin */
-    --bg-surface: #FFFFFF;        /* Kart / Modal İçi Beyaz */
-    --bg-surface-soft: #EFE7D5;   /* Yumuşak Kart Zemini */
+    /* 60% Dominant (Ana Zemin ve Yüzeyler) */
+    --bg-primary: #F8FAFC;        /* %60 Temiz, ferah Slate zemin */
+    --bg-surface: #FFFFFF;        /* Kart / Modal İçi Saf Beyaz */
+    --bg-surface-hover: #F1F5F9;  /* Kart Hover Rengi */
+    --bg-surface-subtle: #F8FAFC; /* İkincil panel zeminleri */
     
-    --text-primary: #3A2418;      /* %30 Başlıklar ve Ana Metinler */
-    --text-muted: #725B4D;        /* Açıklamalar ve Alt Metinler */
+    /* 30% Secondary (Yapı, Tipografi, Kenarlıklar) */
+    --sidebar-bg: #0F172A;        /* Koyu Gece Mavisi / Antrasit Sidebar */
+    --sidebar-surface: #1E293B;   /* Sidebar aktif eleman / alt menü */
+    --sidebar-text: #94A3B8;      /* Sidebar soluk metinler */
+    --sidebar-text-active: #FFFFFF;/* Sidebar aktif metin */
     
-    --accent-color: #C65D3A;      /* %10 Fiyat ve Vurgular */
-    --accent-hover: #AA4B2B;      /* Buton Hover Rengi */
-    --accent-soft: rgba(198, 93, 58, 0.12); /* Hafif Vurgu Rozetleri */
-
-    --border-subtle: #E3D7C1;
+    --text-primary: #0F172A;      /* %30 Başlıklar ve Ana Metinler (Slate-900) */
+    --text-secondary: #475569;    /* Açıklamalar ve Alt Metinler (Slate-600) */
+    --text-muted: #94A3B8;        /* İpuçları, Pasif Etiketler (Slate-400) */
+    --border-subtle: #E2E8F0;     /* İnce kart ve tablo çizgileri */
+    --border-focus: #CBD5E1;
+    
+    /* 10% Accent (Kürsü TV Canlı Kırmızı & Vurgular) */
+    --accent-brand: #D32F2F;      /* %10 Kürsü TV Kurumsal Kırmızı */
+    --accent-brand-hover: #B71C1C;/* Kırmızı Hover */
+    --accent-brand-light: #FFEBEE;/* Kırmızı Yumuşak Rozet Zemini */
+    --accent-brand-border: #FFCDD2;
+    
+    /* Durum Vurguları */
+    --color-success: #10B981;     /* Yayında / Onaylandı (Zümrüt Yeşili) */
+    --color-success-soft: rgba(16, 185, 129, 0.12);
+    --color-warning: #F59E0B;     /* Taslak / Beklemede (Amber) */
+    --color-warning-soft: rgba(245, 158, 11, 0.12);
+    --color-info: #3B82F6;        /* Bilgi / Medya (Mavi) */
+    --color-info-soft: rgba(59, 130, 246, 0.12);
   }
 
   body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
@@ -27,48 +46,55 @@
   }
 }
 
-/* Özel kaydırma çubuğu gizleme */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Animasyonlar */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Glassmorphism & Shadow Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-@keyframes scaleUp {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+.glass-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.premium-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-scale-up {
-  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.premium-card:hover {
+  box-shadow: 0 4px 12px 0 rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
 }
 
-/* Kategori Menüsü Yatay Kaydırma Çubuğu */
-.category-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(198, 93, 58, 0.5) transparent;
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-.category-scrollbar::-webkit-scrollbar {
-  height: 4px;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
 }
-.category-scrollbar::-webkit-scrollbar-track {
-  background: rgba(58, 36, 24, 0.06);
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
   border-radius: 9999px;
-  margin: 0 16px;
 }
-.category-scrollbar::-webkit-scrollbar-thumb {
-  background: #C65D3A;
-  border-radius: 9999px;
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2s infinite ease-in-out;
 }

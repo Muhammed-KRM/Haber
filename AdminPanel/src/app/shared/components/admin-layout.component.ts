@@ -1,0 +1,251 @@
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
+import { ToastContainerComponent } from '../components/toast-container.component';
+
+@Component({
+  selector: 'app-admin-layout',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastContainerComponent],
+  template: `
+    <div class="flex h-screen bg-slate-50 text-slate-900 font-sans overflow-hidden">
+      <!-- SOL SIDEBAR (30% Yapı: Slate-900 Koyu Antrasit) -->
+      <aside 
+        class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between border-r border-slate-800 transition-all duration-300 z-30 shrink-0 select-none"
+        [class.w-20]="isCollapsed()"
+      >
+        <!-- Logo & Marka Başlığı -->
+        <div>
+          <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800/80 bg-slate-950/40">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <!-- Kürsü TV Kırmızı İkon Rozeti -->
+              <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-700 to-red-600 flex items-center justify-center text-white font-black text-lg shadow-md shadow-red-900/30 shrink-0">
+                K
+              </div>
+              @if (!isCollapsed()) {
+                <div class="flex flex-col">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-extrabold text-white text-base tracking-tight">KÜRSÜ<span class="text-red-500">TV</span></span>
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Yönetim Portalı</span>
+                </div>
+              }
+            </div>
+            
+            <button 
+              (click)="toggleSidebar()" 
+              class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Navigasyon Menüsü -->
+          <nav class="p-3 space-y-1 overflow-y-auto custom-scrollbar max-h-[calc(100vh-140px)]">
+            <!-- Ana Başlık -->
+            @if (!isCollapsed()) {
+              <div class="px-3 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">İçerik Yönetimi</div>
+            }
+
+            <!-- Dashboard -->
+            <a 
+              routerLink="/admin/dashboard" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Kontrol Paneli</span> }
+            </a>
+
+            <!-- Haberler -->
+            <a 
+              routerLink="/admin/news" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Haber Listesi</span> }
+            </a>
+
+            <!-- Yeni Haber Ekle -->
+            <a 
+              routerLink="/admin/news/new" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Haber Yaz (Editör)</span> }
+            </a>
+
+            <!-- Kategoriler -->
+            <a 
+              routerLink="/admin/categories" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Kategoriler</span> }
+            </a>
+
+            <!-- Medya Galerisi -->
+            <a 
+              routerLink="/admin/media" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Medya Kütüphanesi</span> }
+            </a>
+
+            <!-- Yorumlar -->
+            <a 
+              routerLink="/admin/comments" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Yorum Moderasyonu</span> }
+            </a>
+
+            <!-- Sistem & Kullanıcılar -->
+            @if (!isCollapsed()) {
+              <div class="px-3 pt-4 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Sistem & Yetki</div>
+            }
+
+            <!-- Yazarlar & Kullanıcılar -->
+            <a 
+              routerLink="/admin/users" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Yazarlar & Yetkiler</span> }
+            </a>
+
+            <!-- Ayarlar -->
+            <a 
+              routerLink="/admin/settings" 
+              routerLinkActive="bg-red-600/10 text-red-400 font-semibold border-r-2 border-red-500"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              @if (!isCollapsed()) { <span>Site Ayarları & SEO</span> }
+            </a>
+          </nav>
+        </div>
+
+        <!-- Kullanıcı Bilgisi & Çıkış Yap (Alt Kısım) -->
+        <div class="p-3 border-t border-slate-800 bg-slate-950/40">
+          <div class="flex items-center justify-between gap-3 p-2 rounded-xl bg-slate-800/50">
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <div class="w-8 h-8 rounded-full bg-slate-700 text-slate-200 font-bold flex items-center justify-center text-xs shrink-0 border border-slate-600">
+                {{ authService.currentUser()?.fullName?.charAt(0) || 'A' }}
+              </div>
+              @if (!isCollapsed()) {
+                <div class="flex flex-col min-w-0">
+                  <span class="text-xs font-semibold text-white truncate">{{ authService.currentUser()?.fullName || 'Yönetici' }}</span>
+                  <span class="text-[10px] text-slate-400 truncate">{{ authService.currentUser()?.role || 'SuperAdmin' }}</span>
+                </div>
+              }
+            </div>
+            <button 
+              (click)="authService.logout()" 
+              title="Çıkış Yap"
+              class="text-slate-400 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-slate-800"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- SAĞ İÇERİK ALANI (60% Zemin: Slate-50) -->
+      <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+        <!-- TOPBAR (Cam Efektli Üst Panel) -->
+        <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 z-20 shadow-xs">
+          <!-- Hızlı Arama & Son Dakika Durumu -->
+          <div class="flex items-center gap-4 flex-1 max-w-md">
+            <div class="relative w-full">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                placeholder="Haber, etiket veya yazar ara..." 
+                class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-100/70 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all placeholder:text-slate-400"
+              />
+            </div>
+          </div>
+
+          <!-- Sağ Üst Aksiyonlar: Hızlı Haber Yaz + Canlı Durum -->
+          <div class="flex items-center gap-3.5">
+            <!-- Canlı Siteyi Aç -->
+            <a 
+              href="https://kursutv.com" 
+              target="_blank" 
+              class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 rounded-lg transition-colors"
+            >
+              <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Siteyi Gör
+            </a>
+
+            <!-- %10 VURGU: Yeni Haber Ekle Butonu (Canlı Kürsü TV Kırmızı) -->
+            <a 
+              routerLink="/admin/news/new"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white text-xs font-semibold rounded-lg shadow-sm shadow-red-500/20 hover:shadow-md hover:shadow-red-500/30 transition-all transform active:scale-95"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              Yeni Haber Ekle
+            </a>
+          </div>
+        </header>
+
+        <!-- SAYFA İÇERİĞİ (Router Outlet) -->
+        <main class="flex-1 overflow-y-auto custom-scrollbar p-6">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+
+    <!-- Global Toast Bildirimleri -->
+    <app-toast-container></app-toast-container>
+  `
+})
+export class AdminLayoutComponent {
+  isCollapsed = signal<boolean>(false);
+
+  constructor(public authService: AuthService) {}
+
+  toggleSidebar() {
+    this.isCollapsed.update(v => !v);
+  }
+}
