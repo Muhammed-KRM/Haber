@@ -8,9 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- RabbitMQ mesajlaşma -->
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
+    <!-- Host -->
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+    <!-- Redis cache invalidation -->
     <PackageReference Include="StackExchange.Redis" Version="2.12.14" />
+    <!-- WebP görsel dönüşümü -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
   </ItemGroup>
 
   <ItemGroup>

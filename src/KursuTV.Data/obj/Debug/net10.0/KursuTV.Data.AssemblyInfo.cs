@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KursuTV.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b160126c189d4b30c7aa186d51abc4937b3d8d6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15aa725ae022e673b7b92064e03c95c794504a73")]
 [assembly: System.Reflection.AssemblyProductAttribute("KursuTV.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KursuTV.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
