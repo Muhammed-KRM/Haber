@@ -1,55 +1,55 @@
-﻿{
+{
   "Files": [
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\obj\\Debug\\net10.0\\scopedcss\\projectbundle\\KursuTV.SharedUI.bundle.scp.css",
-      "PackagePath": "staticwebassets\\KursuTV.SharedUI.xb6ztuzu2e.bundle.scp.css"
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\obj\\Debug\\net10.0\\scopedcss\\projectbundle\\KursuTV.SharedUI.bundle.scp.css",
+      "PackagePath": "staticwebassets\\KursuTV.SharedUI.t0ld24t9cd.bundle.scp.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\background.png",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\background.png",
       "PackagePath": "staticwebassets\\background.png"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\LegalPages.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\LegalPages.css",
       "PackagePath": "staticwebassets\\css\\LegalPages.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\animations.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\animations.css",
       "PackagePath": "staticwebassets\\css\\animations.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\app.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\reset.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\reset.css",
       "PackagePath": "staticwebassets\\css\\reset.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\typography.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\typography.css",
       "PackagePath": "staticwebassets\\css\\typography.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\utilities.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\utilities.css",
       "PackagePath": "staticwebassets\\css\\utilities.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\css\\variables.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\css\\variables.css",
       "PackagePath": "staticwebassets\\css\\variables.css"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\exampleJsInterop.js",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\exampleJsInterop.js",
       "PackagePath": "staticwebassets\\exampleJsInterop.js"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\js\\interop.js",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\js\\interop.js",
       "PackagePath": "staticwebassets\\js\\interop.js"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\lib\\sweetalert2\\sweetalert2.all.min.js",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\lib\\sweetalert2\\sweetalert2.all.min.js",
       "PackagePath": "staticwebassets\\lib\\sweetalert2\\sweetalert2.all.min.js"
     },
     {
-      "Id": "D:\\OZELDERS\\src\\KursuTV.SharedUI\\wwwroot\\lib\\sweetalert2\\sweetalert2.min.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.SharedUI\\wwwroot\\lib\\sweetalert2\\sweetalert2.min.css",
       "PackagePath": "staticwebassets\\lib\\sweetalert2\\sweetalert2.min.css"
     },
     {
@@ -75,4 +75,3 @@
   ],
   "ElementsToRemove": []
 }
-

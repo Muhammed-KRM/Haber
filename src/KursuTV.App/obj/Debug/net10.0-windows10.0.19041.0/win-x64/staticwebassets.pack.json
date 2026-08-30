@@ -1,4 +1,4 @@
-﻿{
+{
   "Files": [
     {
       "Id": "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.aspnetcore.components.webview\\10.0.0\\staticwebassets\\blazor.modules.json",
@@ -9,19 +9,19 @@
       "PackagePath": "staticwebassets\\_framework\\blazor.webview.js"
     },
     {
-      "Id": "d:\\OZELDERS\\src\\KursuTV.App\\wwwroot\\app.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "d:\\OZELDERS\\src\\KursuTV.App\\wwwroot\\index.html",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "d:\\OZELDERS\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "d:\\OZELDERS\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
@@ -47,4 +47,3 @@
   ],
   "ElementsToRemove": []
 }
-

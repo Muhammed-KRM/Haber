@@ -64,4 +64,10 @@ public interface INewsRepository : IRepository<News>
         int? categoryId,
         Guid? authorId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Yayın zamanı gelmiş haberleri Published olarak işaretler, etkilenen sayıyı döner.
+    /// </summary>
+    Task<int> PublishScheduledNewsAsync(CancellationToken cancellationToken = default);
 }
+

@@ -1,0 +1,56 @@
+@page "/yazarlar"
+@using KursuTV.SharedUI.Components
+
+<PageTitle>Köşe Yazarları - Kürsü TV</PageTitle>
+
+<div class="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
+    <div>
+        <Header />
+
+        <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+            <div class="border-b-2 border-red-600 pb-3">
+                <h1 class="text-2xl font-black text-slate-900 uppercase tracking-tight">KÜRSÜ TV YAZAR KADROSU</h1>
+                <p class="text-xs text-slate-500 mt-1">Türkiye ve dünya gündemini yorumlayan usta kalemlerimiz.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                @for (int i = 0; i < Authors.Count; i++)
+                {
+                    var author = Authors[i];
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                        <div class="flex items-center gap-4">
+                            <img src="@author.Photo" class="w-16 h-16 rounded-full object-cover border-2 border-red-500 shadow-sm shrink-0" />
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900 leading-tight">@author.Name</h3>
+                                <span class="text-xs text-red-600 font-semibold">@author.Title</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400">Son Köşe Yazısı:</span>
+                            <a href="/haber/@author.ArticleSlug" class="block text-xs font-bold text-slate-800 hover:text-red-600 transition-colors line-clamp-2">
+                                @author.LastArticle
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </main>
+    </div>
+
+    <Footer />
+</div>
+
+@code {
+    public record AuthorCard(string Name, string Title, string Photo, string LastArticle, string ArticleSlug);
+
+    private List<AuthorCard> Authors = new()
+    {
+        new("Cevdet Sezgin", "Başyazar / Ekonomi & Politika", "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", "Bal Gibi Pazarlık Yapmışsınız", "bal-gibi-pazarlik-yapmissiniz"),
+        new("İhsan Eliaçık", "İlahiyatçı & Yazar", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", "Adalet, Emek ve Dayanışmanın Önemi", "adalet-emek-ve-dayanismanin-onemi"),
+        new("Dr. Selin Yılmaz", "Ekonomist", "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80", "Yeni Ekonomik Dengeler ve Beklentiler", "yeni-ekonomik-dengeler-ve-beklentiler"),
+        new("Murat Güler", "Dış Politika & Strateji", "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80", "Ortadoğu'da Değişen Dengeler", "ortadoguda-degisen-dengeler"),
+        new("Zeynep Kaya", "Kültür & Edebiyat", "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80", "Kültür Dünyamızda Neler Oluyor?", "kultur-dunyamizda-neler-oluyor"),
+        new("Ahmet Demir", "Yerel Yönetimler Analisti", "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80", "Yerel Yönetimler ve Şeffaflık", "yerel-yonetimler-ve-seffaflik")
+    };
+}

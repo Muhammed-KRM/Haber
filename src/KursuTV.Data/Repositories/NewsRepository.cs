@@ -187,4 +187,18 @@ public class NewsRepository : GenericRepository<News>, INewsRepository
 
         return (items, totalCount);
     }
+
+    public async Task<int> PublishScheduledNewsAsync(CancellationToken cancellationToken = default)
+    {
+        var nowUtc = DateTime.UtcNow;
+
+        return await _dbSet
+            .Where(n => n.Status == NewsStatus.Scheduled && n.ScheduledPublishAt <= nowUtc)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(n => n.Status, NewsStatus.Published)
+                .SetProperty(n => n.PublishedAt, nowUtc)
+                .SetProperty(n => n.UpdatedAt, nowUtc),
+            cancellationToken);
+    }
 }
+

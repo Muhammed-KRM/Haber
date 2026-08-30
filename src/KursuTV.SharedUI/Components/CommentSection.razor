@@ -1,0 +1,107 @@
+@using KursuTV.Business.DTOs
+@inject CommentApiService CommentApi
+
+<div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+            <span>Okuyucu Yorumları</span>
+            <span class="text-xs font-bold text-slate-400">(@Comments.Count)</span>
+        </h3>
+    </div>
+
+    <!-- Yorum Yazma Formu -->
+    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+        <h4 class="text-xs font-bold text-slate-800">Görüşünüzü Paylaşın</h4>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input 
+                type="text" 
+                @bind="guestName" 
+                placeholder="Adınız Soyadınız *" 
+                class="px-3.5 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+            />
+        </div>
+
+        <textarea 
+            @bind="commentContent" 
+            rows="3"
+            placeholder="Bu haber hakkındaki yorumunuz... (Maksimum 2000 karakter)"
+            class="w-full px-3.5 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 resize-none"
+        ></textarea>
+
+        @if (isSubmitted)
+        {
+            <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg font-medium">
+                ✓ Yorumunuz moderatör onayına iletildi. Kontrol edildikten sonra yayına alınacaktır.
+            </div>
+        }
+
+        <div class="flex justify-end">
+            <button 
+                type="button" 
+                @onclick="SubmitComment"
+                disabled="@(isSubmitting || string.IsNullOrWhiteSpace(commentContent) || string.IsNullOrWhiteSpace(guestName))"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+                @(isSubmitting ? "Gönderiliyor..." : "Yorumu Gönder")
+            </button>
+        </div>
+    </div>
+
+    <!-- Onaylı Yorumlar Listesi -->
+    <div class="space-y-4">
+        @for (int i = 0; i < Comments.Count; i++)
+        {
+            var comment = Comments[i];
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center text-xs">
+                            @comment.AuthorName.FirstOrDefault()
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">@comment.AuthorName</span>
+                    </div>
+                    <span class="text-[11px] text-slate-400">@comment.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span>
+                </div>
+                <p class="text-xs text-slate-700 leading-relaxed font-serif pl-9">
+                    @comment.Content
+                </p>
+            </div>
+        }
+
+        @if (Comments.Count == 0)
+        {
+            <p class="text-xs text-slate-400 text-center py-4">Bu habere henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guid NewsId { get; set; }
+
+    [Parameter]
+    public List<CommentDto> Comments { get; set; } = new();
+
+    private string guestName = "";
+    private string commentContent = "";
+    private bool isSubmitting = false;
+    private bool isSubmitted = false;
+
+    private async Task SubmitComment()
+    {
+        if (string.IsNullOrWhiteSpace(commentContent) || string.IsNullOrWhiteSpace(guestName)) return;
+
+        isSubmitting = true;
+        var dto = new CreateCommentDto(NewsId, commentContent.Trim(), guestName.Trim(), null);
+        var success = await CommentApi.AddCommentAsync(dto);
+        isSubmitting = false;
+
+        if (success)
+        {
+            isSubmitted = true;
+            commentContent = "";
+            guestName = "";
+        }
+    }
+}

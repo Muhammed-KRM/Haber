@@ -20,5 +20,6 @@ public interface INewsService
     Task<NewsDetailDto?> GetByIdForEditAsync(Guid newsId, CancellationToken cancellationToken = default);
     Task<PagedResultDto<NewsListDto>> GetAdminNewsPagedAsync(NewsFilterDto filter, CancellationToken cancellationToken = default);
     Task AutoSaveDraftAsync(NewsUpdateDto dto, Guid currentUserId, CancellationToken cancellationToken = default);
-    Task PublishScheduledNewsAsync(CancellationToken cancellationToken = default);
+    Task<int> PublishScheduledNewsAsync(CancellationToken cancellationToken = default);
+    Task InvalidateSitemapCacheAsync(CancellationToken cancellationToken = default);
 }

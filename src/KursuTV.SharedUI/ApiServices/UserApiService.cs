@@ -1,6 +1,5 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using KursuTV.Business.DTOs;
-
 using KursuTV.Business.Interfaces;
 
 namespace KursuTV.SharedUI.ApiServices;
@@ -14,36 +13,26 @@ public class UserApiService : IUserService
         _http = http;
     }
 
-    public async Task<UserProfileDto> GetProfileAsync(Guid userId)
+    public async Task<UserDto?> GetProfileAsync(Guid userId)
     {
-        return await _http.GetFromJsonAsync<UserProfileDto>("api/users/profile") ?? new UserProfileDto();
+        return await _http.GetFromJsonAsync<UserDto>("api/users/profile");
     }
 
-    public async Task UpdatePersonalInfoAsync(Guid userId, PersonalInfoDto dto)
+    public async Task<UserDto> UpdateProfileAsync(Guid userId, UserProfileUpdateDto dto)
     {
-        var response = await _http.PutAsJsonAsync("api/users/personal-info", dto);
+        var response = await _http.PutAsJsonAsync("api/users/profile", dto);
         response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<UserDto>() ?? new UserDto();
     }
 
-    public async Task UpdatePaymentInfoAsync(Guid userId, PaymentInfoDto dto)
-    {
-        var response = await _http.PutAsJsonAsync("api/users/payment-info", dto);
-        response.EnsureSuccessStatusCode();
-    }
-
-    public async Task ChangePasswordAsync(Guid userId, PasswordChangeDto dto)
+    public async Task ChangePasswordAsync(Guid userId, ChangePasswordDto dto)
     {
         var response = await _http.PutAsJsonAsync("api/users/change-password", dto);
-        if (!response.IsSuccessStatusCode)
-        {
-            var content = await response.Content.ReadAsStringAsync();
-            throw new ApplicationException(content);
-        }
+        response.EnsureSuccessStatusCode();
     }
 
-    public async Task UpdateNotificationSettingsAsync(Guid userId, NotificationSettingsDto dto)
+    public async Task<List<UserDto>> GetAuthorsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _http.PutAsJsonAsync("api/users/notification-settings", dto);
-        response.EnsureSuccessStatusCode();
+        return await _http.GetFromJsonAsync<List<UserDto>>("api/users/authors", cancellationToken) ?? new();
     }
 }

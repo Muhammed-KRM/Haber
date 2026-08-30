@@ -1,160 +1,160 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/background.png">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/background.png">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\background.png'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"378"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 19:52:31 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/background.x2rx4ajns0.png">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/background.x2rx4ajns0.png">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\background.png'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"x2rx4ajns0"},{"Name":"integrity","Value":"sha256-WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY="},{"Name":"label","Value":"_content/OzelDers.SharedUI/background.png"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"x2rx4ajns0"},{"Name":"integrity","Value":"sha256-WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY="},{"Name":"label","Value":"_content/KursuTV.SharedUI/background.png"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"378"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022WeOKCkI7IdJHs2kCqsKgLfiWX4/sNPbaRUspOLefkCY=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 19:52:31 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/animations.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/animations.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\animations.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GokemKb7wl6hwR4eZPPF\u002Bxi2dDhRwtDmIq8V9IYFbMI="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1093"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GokemKb7wl6hwR4eZPPF\u002Bxi2dDhRwtDmIq8V9IYFbMI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 21:45:58 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/animations.e6g44e1nke.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/animations.e6g44e1nke.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\animations.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"e6g44e1nke"},{"Name":"integrity","Value":"sha256-GokemKb7wl6hwR4eZPPF\u002Bxi2dDhRwtDmIq8V9IYFbMI="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/animations.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"e6g44e1nke"},{"Name":"integrity","Value":"sha256-GokemKb7wl6hwR4eZPPF\u002Bxi2dDhRwtDmIq8V9IYFbMI="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/animations.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1093"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GokemKb7wl6hwR4eZPPF\u002Bxi2dDhRwtDmIq8V9IYFbMI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 21:45:58 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/app.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/app.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\app.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-r32dKOFvALxFHtz23NG3HC7dNbq2Nann2ZvwVqy9KuU="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1520"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022r32dKOFvALxFHtz23NG3HC7dNbq2Nann2ZvwVqy9KuU=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 08:24:20 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/app.j7uvrum9o4.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/app.j7uvrum9o4.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\app.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"j7uvrum9o4"},{"Name":"integrity","Value":"sha256-r32dKOFvALxFHtz23NG3HC7dNbq2Nann2ZvwVqy9KuU="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/app.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"j7uvrum9o4"},{"Name":"integrity","Value":"sha256-r32dKOFvALxFHtz23NG3HC7dNbq2Nann2ZvwVqy9KuU="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/app.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1520"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022r32dKOFvALxFHtz23NG3HC7dNbq2Nann2ZvwVqy9KuU=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 08:24:20 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/LegalPages.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/LegalPages.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\LegalPages.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-PmDwUkoYiYXbaRNSn57dcPv/Y4NU/CufVdj/MJz62as="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4129"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022PmDwUkoYiYXbaRNSn57dcPv/Y4NU/CufVdj/MJz62as=\u0022"},{"Name":"Last-Modified","Value":"Wed, 08 Apr 2026 18:02:30 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/LegalPages.el0rc6gkjm.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/LegalPages.el0rc6gkjm.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\LegalPages.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"el0rc6gkjm"},{"Name":"integrity","Value":"sha256-PmDwUkoYiYXbaRNSn57dcPv/Y4NU/CufVdj/MJz62as="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/LegalPages.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"el0rc6gkjm"},{"Name":"integrity","Value":"sha256-PmDwUkoYiYXbaRNSn57dcPv/Y4NU/CufVdj/MJz62as="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/LegalPages.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4129"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022PmDwUkoYiYXbaRNSn57dcPv/Y4NU/CufVdj/MJz62as=\u0022"},{"Name":"Last-Modified","Value":"Wed, 08 Apr 2026 18:02:30 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/reset.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/reset.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\reset.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GV2Lg6r5whw9hc8CN/ThfCzWadJE/PcSAK1BJhkWrzg="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"960"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GV2Lg6r5whw9hc8CN/ThfCzWadJE/PcSAK1BJhkWrzg=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 08:24:09 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/reset.d3mtgqpccm.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/reset.d3mtgqpccm.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\reset.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"d3mtgqpccm"},{"Name":"integrity","Value":"sha256-GV2Lg6r5whw9hc8CN/ThfCzWadJE/PcSAK1BJhkWrzg="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/reset.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"d3mtgqpccm"},{"Name":"integrity","Value":"sha256-GV2Lg6r5whw9hc8CN/ThfCzWadJE/PcSAK1BJhkWrzg="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/reset.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"960"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GV2Lg6r5whw9hc8CN/ThfCzWadJE/PcSAK1BJhkWrzg=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 08:24:09 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/typography.2v0zrf5uof.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/typography.2v0zrf5uof.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\typography.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"2v0zrf5uof"},{"Name":"integrity","Value":"sha256-4qkYlniqlrn4tqEpOA1M\u002BKBISKgIDiTzCQBN/8lVuvA="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/typography.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"2v0zrf5uof"},{"Name":"integrity","Value":"sha256-4qkYlniqlrn4tqEpOA1M\u002BKBISKgIDiTzCQBN/8lVuvA="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/typography.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1060"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00224qkYlniqlrn4tqEpOA1M\u002BKBISKgIDiTzCQBN/8lVuvA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 08 Apr 2026 19:57:56 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/typography.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/typography.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\typography.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-4qkYlniqlrn4tqEpOA1M\u002BKBISKgIDiTzCQBN/8lVuvA="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1060"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00224qkYlniqlrn4tqEpOA1M\u002BKBISKgIDiTzCQBN/8lVuvA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 08 Apr 2026 19:57:56 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/utilities.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/utilities.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\utilities.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-E5JnN5jBddMX5HDkl/h5V3J6N7jt046XsJ9I2SaPCGk="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5156"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E5JnN5jBddMX5HDkl/h5V3J6N7jt046XsJ9I2SaPCGk=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 09:19:26 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/utilities.njxpw70y6j.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/utilities.njxpw70y6j.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\utilities.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"njxpw70y6j"},{"Name":"integrity","Value":"sha256-E5JnN5jBddMX5HDkl/h5V3J6N7jt046XsJ9I2SaPCGk="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/utilities.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"njxpw70y6j"},{"Name":"integrity","Value":"sha256-E5JnN5jBddMX5HDkl/h5V3J6N7jt046XsJ9I2SaPCGk="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/utilities.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5156"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022E5JnN5jBddMX5HDkl/h5V3J6N7jt046XsJ9I2SaPCGk=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 09:19:26 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/variables.3lz4eyzru5.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/variables.3lz4eyzru5.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\variables.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"3lz4eyzru5"},{"Name":"integrity","Value":"sha256-2eyp2P7h3imJMDryCaODMvpk8rnmwyphbUHrf7jnhzs="},{"Name":"label","Value":"_content/OzelDers.SharedUI/css/variables.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"3lz4eyzru5"},{"Name":"integrity","Value":"sha256-2eyp2P7h3imJMDryCaODMvpk8rnmwyphbUHrf7jnhzs="},{"Name":"label","Value":"_content/KursuTV.SharedUI/css/variables.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"3365"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00222eyp2P7h3imJMDryCaODMvpk8rnmwyphbUHrf7jnhzs=\u0022"},{"Name":"Last-Modified","Value":"Tue, 05 May 2026 07:06:57 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/css/variables.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/css/variables.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\variables.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-2eyp2P7h3imJMDryCaODMvpk8rnmwyphbUHrf7jnhzs="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"3365"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00222eyp2P7h3imJMDryCaODMvpk8rnmwyphbUHrf7jnhzs=\u0022"},{"Name":"Last-Modified","Value":"Tue, 05 May 2026 07:06:57 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/exampleJsInterop.6pqz8bsss0.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/exampleJsInterop.6pqz8bsss0.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\exampleJsInterop.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"6pqz8bsss0"},{"Name":"integrity","Value":"sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1\u002B76qQ8B4="},{"Name":"label","Value":"_content/OzelDers.SharedUI/exampleJsInterop.js"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"6pqz8bsss0"},{"Name":"integrity","Value":"sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1\u002B76qQ8B4="},{"Name":"label","Value":"_content/KursuTV.SharedUI/exampleJsInterop.js"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"247"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1\u002B76qQ8B4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 19:52:31 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/exampleJsInterop.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/exampleJsInterop.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\exampleJsInterop.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1\u002B76qQ8B4="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"247"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022FrrTtczTUEHjkhc/zWRPC7CmxeXI0JCZGc1\u002B76qQ8B4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 07 Apr 2026 19:52:31 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/js/interop.bpnn3p69am.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/js/interop.bpnn3p69am.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\interop.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"bpnn3p69am"},{"Name":"integrity","Value":"sha256-QaEb7VfmXcj8\u002BHIxHgfBE9ny2GuCGF3lDyN0EYGiI\u002BA="},{"Name":"label","Value":"_content/OzelDers.SharedUI/js/interop.js"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"bpnn3p69am"},{"Name":"integrity","Value":"sha256-QaEb7VfmXcj8\u002BHIxHgfBE9ny2GuCGF3lDyN0EYGiI\u002BA="},{"Name":"label","Value":"_content/KursuTV.SharedUI/js/interop.js"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2635"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022QaEb7VfmXcj8\u002BHIxHgfBE9ny2GuCGF3lDyN0EYGiI\u002BA=\u0022"},{"Name":"Last-Modified","Value":"Tue, 05 May 2026 13:57:57 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/js/interop.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/js/interop.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\interop.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-QaEb7VfmXcj8\u002BHIxHgfBE9ny2GuCGF3lDyN0EYGiI\u002BA="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"2635"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022QaEb7VfmXcj8\u002BHIxHgfBE9ny2GuCGF3lDyN0EYGiI\u002BA=\u0022"},{"Name":"Last-Modified","Value":"Tue, 05 May 2026 13:57:57 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.all.min.ffyht1pj2o.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/KursuTV.SharedUI.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\KursuTV.SharedUI.t0ld24t9cd.bundle.scp.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-U3JTfj1SSwqRWEglnz8UaUisClmBSeKanhUytOkRQnE="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5072"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022U3JTfj1SSwqRWEglnz8UaUisClmBSeKanhUytOkRQnE=\u0022"},{"Name":"Last-Modified","Value":"Sun, 30 Aug 2026 19:42:31 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/KursuTV.SharedUI.t0ld24t9cd.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\KursuTV.SharedUI.t0ld24t9cd.bundle.scp.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"t0ld24t9cd"},{"Name":"integrity","Value":"sha256-U3JTfj1SSwqRWEglnz8UaUisClmBSeKanhUytOkRQnE="},{"Name":"label","Value":"_content/KursuTV.SharedUI/KursuTV.SharedUI.bundle.scp.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5072"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022U3JTfj1SSwqRWEglnz8UaUisClmBSeKanhUytOkRQnE=\u0022"},{"Name":"Last-Modified","Value":"Sun, 30 Aug 2026 19:42:31 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.all.min.ffyht1pj2o.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\sweetalert2\sweetalert2.all.min.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ffyht1pj2o"},{"Name":"integrity","Value":"sha256-dQbI9NheRwerRvmFjwxuZeMxa50vEi3PSFudvznVp6w="},{"Name":"label","Value":"_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.all.min.js"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ffyht1pj2o"},{"Name":"integrity","Value":"sha256-dQbI9NheRwerRvmFjwxuZeMxa50vEi3PSFudvznVp6w="},{"Name":"label","Value":"_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.all.min.js"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"79991"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022dQbI9NheRwerRvmFjwxuZeMxa50vEi3PSFudvznVp6w=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 10:08:00 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.all.min.js">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.all.min.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\sweetalert2\sweetalert2.all.min.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-dQbI9NheRwerRvmFjwxuZeMxa50vEi3PSFudvznVp6w="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"79991"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022dQbI9NheRwerRvmFjwxuZeMxa50vEi3PSFudvznVp6w=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 10:08:00 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.min.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.min.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\sweetalert2\sweetalert2.min.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-YKKnn5oXErZthQwr01oz4mEVF11gcVMJYcmUuhoyUgM="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"30668"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022YKKnn5oXErZthQwr01oz4mEVF11gcVMJYcmUuhoyUgM=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 10:08:00 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.min.kn1oser9pt.css">
+    <StaticWebAssetEndpoint Include="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.min.kn1oser9pt.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\sweetalert2\sweetalert2.min.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"kn1oser9pt"},{"Name":"integrity","Value":"sha256-YKKnn5oXErZthQwr01oz4mEVF11gcVMJYcmUuhoyUgM="},{"Name":"label","Value":"_content/OzelDers.SharedUI/lib/sweetalert2/sweetalert2.min.css"}]]]></EndpointProperties>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"kn1oser9pt"},{"Name":"integrity","Value":"sha256-YKKnn5oXErZthQwr01oz4mEVF11gcVMJYcmUuhoyUgM="},{"Name":"label","Value":"_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.min.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"30668"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022YKKnn5oXErZthQwr01oz4mEVF11gcVMJYcmUuhoyUgM=\u0022"},{"Name":"Last-Modified","Value":"Tue, 14 Apr 2026 10:08:00 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/OzelDers.SharedUI.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\OzelDers.SharedUI.xb6ztuzu2e.bundle.scp.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-zS/kf\u002BD55c03czgEZib4V9oZHMX8RCuEDV2\u002BB7YVWow="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"164620"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022zS/kf\u002BD55c03czgEZib4V9oZHMX8RCuEDV2\u002BB7YVWow=\u0022"},{"Name":"Last-Modified","Value":"Wed, 06 May 2026 11:16:01 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OzelDers.SharedUI/OzelDers.SharedUI.xb6ztuzu2e.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\OzelDers.SharedUI.xb6ztuzu2e.bundle.scp.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"xb6ztuzu2e"},{"Name":"integrity","Value":"sha256-zS/kf\u002BD55c03czgEZib4V9oZHMX8RCuEDV2\u002BB7YVWow="},{"Name":"label","Value":"_content/OzelDers.SharedUI/OzelDers.SharedUI.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"164620"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022zS/kf\u002BD55c03czgEZib4V9oZHMX8RCuEDV2\u002BB7YVWow=\u0022"},{"Name":"Last-Modified","Value":"Wed, 06 May 2026 11:16:01 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

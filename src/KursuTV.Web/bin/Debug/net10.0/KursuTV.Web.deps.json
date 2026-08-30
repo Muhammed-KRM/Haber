@@ -1,4 +1,4 @@
-﻿{
+{
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v10.0",
     "signature": ""
@@ -46,11 +46,11 @@
           }
         }
       },
-      "BCrypt.Net-Next/4.1.0": {
+      "BCrypt.Net-Next/4.2.0": {
         "runtime": {
-          "lib/net10.0/BCrypt.Net-Next.dll": {
-            "assemblyVersion": "4.1.0.0",
-            "fileVersion": "4.1.0.0"
+          "lib/net10.0/BCrypt-Net-Next.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
           }
         }
       },
@@ -333,16 +333,16 @@
       "KursuTV.Business/1.0.0": {
         "dependencies": {
           "AutoMapper": "16.1.1",
-          "BCrypt.Net-Next": "4.1.0",
+          "BCrypt.Net-Next": "4.2.0",
           "Elastic.Clients.Elasticsearch": "9.3.4",
           "FluentValidation": "12.1.1",
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "HtmlSanitizer": "9.0.892",
+          "KursuTV.Data": "1.0.0",
           "MailKit": "4.15.1",
           "MassTransit.RabbitMQ": "8.3.6",
           "MediatR": "14.1.0",
           "Microsoft.EntityFrameworkCore.Relational": "10.0.5",
-          "KursuTV.Data": "1.0.0",
           "SixLabors.ImageSharp": "3.1.12",
           "StackExchange.Redis": "2.12.14"
         },
@@ -355,6 +355,7 @@
       },
       "KursuTV.Data/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
           "Microsoft.EntityFrameworkCore": "10.0.5",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.1"
         },
@@ -405,12 +406,12 @@
       "path": "automapper/16.1.1",
       "hashPath": "automapper.16.1.1.nupkg.sha512"
     },
-    "BCrypt.Net-Next/4.1.0": {
+    "BCrypt.Net-Next/4.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5YT3DKllmtkyW68PjURu/V1TOe4MKiByKwsRNVcfYE1S5KuFTeozdmKzyNzolKiQF391OXCaQtINvYT3j1ERzQ==",
-      "path": "bcrypt.net-next/4.1.0",
-      "hashPath": "bcrypt.net-next.4.1.0.nupkg.sha512"
+      "sha512": "sha512-gwLD2KfCuwQesP17aVh4h6lpiMPEVt5Lbpndo0ej903hNUUTtyxt3ARdDjmuydBRTAUICc7OVKVbaOvc6SQYXA==",
+      "path": "bcrypt.net-next/4.2.0",
+      "hashPath": "bcrypt.net-next.4.2.0.nupkg.sha512"
     },
     "BouncyCastle.Cryptography/2.6.2": {
       "type": "package",

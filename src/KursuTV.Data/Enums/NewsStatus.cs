@@ -2,7 +2,7 @@ namespace KursuTV.Data.Enums;
 
 /// <summary>
 /// Bir haberin yayın akışındaki durumunu tanımlar.
-/// Taslak → İnceleniyor → Yayında → Arşivlendi iş akışı.
+/// Taslak → İnceleniyor → Zamanlanmış → Yayında → Arşivlendi iş akışı.
 /// </summary>
 public enum NewsStatus
 {
@@ -16,5 +16,9 @@ public enum NewsStatus
     Published = 2,
 
     /// <summary>Yayından kaldırılmış arşivlenmiş haber.</summary>
-    Archived = 3
+    Archived = 3,
+
+    /// <summary>İleri tarihli yayınlanmak üzere zamanlanmış haber (Worker Job tarafından işlenir).</summary>
+    Scheduled = 4
 }
+

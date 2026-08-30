@@ -1,0 +1,184 @@
+@page "/haber/{Slug}"
+@using KursuTV.Business.DTOs
+@using KursuTV.SharedUI.Components
+@inject NewsApiService NewsApi
+@inject NavigationManager Nav
+
+@if (news != null)
+{
+    <PageTitle>@news.Title - Kürsü TV</PageTitle>
+    <HeadContent>
+        <meta name="description" content="@(news.MetaDescription ?? news.Spot ?? news.Title)" />
+        <meta property="og:title" content="@(news.MetaTitle ?? news.Title)" />
+        <meta property="og:description" content="@(news.MetaDescription ?? news.Spot)" />
+        @if (!string.IsNullOrEmpty(news.CoverImageUrl))
+        {
+            <meta property="og:image" content="@news.CoverImageUrl" />
+        }
+    </HeadContent>
+}
+
+<div class="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
+    <div>
+        <Header />
+
+        <main class="max-w-7xl mx-auto px-4 py-6">
+            @if (isLoading)
+            {
+                <div class="py-24 text-center text-slate-400 text-sm animate-pulse">Haber yükleniyor...</div>
+            }
+            else if (news == null)
+            {
+                <div class="py-24 text-center space-y-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Aradığınız Haber Bulunamadı</h2>
+                    <p class="text-xs text-slate-500">Haber yayından kaldırılmış veya bağlantı adresi değişmiş olabilir.</p>
+                    <a href="/" class="inline-block px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold">Anasayfaya Dön</a>
+                </div>
+            }
+            else
+            {
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- SOL: HABER DETAYI (2 Kolon) -->
+                    <article class="lg:col-span-2 space-y-6">
+                        <!-- Kategori & Tarih Üst Bilgisi -->
+                        <div class="flex items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                            <div class="flex items-center gap-2">
+                                @for (int i = 0; i < news.Categories.Count; i++)
+                                {
+                                    var cat = news.Categories[i];
+                                    <a href="/kategori/@cat.Slug" class="px-2.5 py-0.5 bg-red-600 text-white text-[11px] font-bold rounded uppercase">
+                                        @cat.Name
+                                    </a>
+                                }
+                            </div>
+
+                            <div class="flex items-center gap-3 text-xs text-slate-500">
+                                <span>@((news.PublishedAt ?? news.CreatedAt).ToString("dd MMMM yyyy HH:mm"))</span>
+                                <span>&bull;</span>
+                                <span class="font-semibold text-slate-700">@news.ViewCount.ToString("N0") Okunma</span>
+                            </div>
+                        </div>
+
+                        <!-- Başlık -->
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tight">
+                            @news.Title
+                        </h1>
+
+                        <!-- Spot / Vurucu Özet -->
+                        @if (!string.IsNullOrEmpty(news.Spot))
+                        {
+                            <p class="text-sm sm:text-base text-slate-600 font-semibold leading-relaxed border-l-4 border-red-600 pl-4 py-1 bg-red-50/40 rounded-r-lg">
+                                @news.Spot
+                            </p>
+                        }
+
+                        <!-- Yazar Bilgisi -->
+                        <div class="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center text-sm shrink-0">
+                                    @news.AuthorName.FirstOrDefault()
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-900 leading-none">@news.AuthorName</h4>
+                                    <span class="text-[11px] text-slate-400">Kürsü TV Haber Merkezi</span>
+                                </div>
+                            </div>
+
+                            <!-- Paylaş Butonları -->
+                            <div class="flex items-center gap-2">
+                                <button class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded hover:bg-emerald-700 transition-colors">WhatsApp</button>
+                                <button class="px-2.5 py-1 bg-slate-900 text-white text-[11px] font-bold rounded hover:bg-black transition-colors">X</button>
+                            </div>
+                        </div>
+
+                        <!-- Kapak Fotoğrafı -->
+                        @if (!string.IsNullOrEmpty(news.CoverImageUrl))
+                        {
+                            <div class="rounded-2xl overflow-hidden shadow-md aspect-[16/9] bg-slate-900">
+                                <img src="@news.CoverImageUrl" alt="@news.CoverImageAlt" class="w-full h-full object-cover" />
+                            </div>
+                        }
+
+                        <!-- Zengin Metin Haber İçeriği -->
+                        <div class="prose prose-slate max-w-none text-slate-800 leading-relaxed font-serif text-base sm:text-lg space-y-4 pt-2">
+                            @((MarkupString)news.Content)
+                        </div>
+
+                        <!-- Etiketler -->
+                        @if (news.Tags.Count > 0)
+                        {
+                            <div class="pt-4 border-t border-slate-200 flex flex-wrap gap-1.5 items-center">
+                                <span class="text-xs font-bold text-slate-500 mr-2">Etiketler:</span>
+                                @for (int i = 0; i < news.Tags.Count; i++)
+                                {
+                                    var tag = news.Tags[i];
+                                    <a href="/ara?q=@tag.Name" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-md transition-colors">
+                                        #@tag.Name
+                                    </a>
+                                }
+                            </div>
+                        }
+
+                        <!-- YORUM BÖLÜMÜ -->
+                        <CommentSection NewsId="news.Id" Comments="news.Comments" />
+                    </article>
+
+                    <!-- SAĞ: ÇOK OKUNANLAR & İLGİLİ HABERLER (1 Kolon) -->
+                    <aside class="space-y-6">
+                        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                                <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Çok Okunanlar</h3>
+                                <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+                            </div>
+
+                            <div class="space-y-3">
+                                @for (int i = 0; i < mostViewed.Count; i++)
+                                {
+                                    var item = mostViewed[i];
+                                    var rank = i + 1;
+                                    <a href="/haber/@item.Slug" class="flex items-start gap-3 group">
+                                        <span class="w-6 h-6 rounded bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                                            @rank
+                                        </span>
+                                        <h4 class="text-xs font-semibold text-slate-800 group-hover:text-red-600 transition-colors leading-snug line-clamp-2">
+                                            @item.Title
+                                        </h4>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- 1-6 Köşe Yazarları Kutusu -->
+                        <ColumnistWidget />
+                    </aside>
+                </div>
+            }
+        </main>
+    </div>
+
+    <Footer />
+</div>
+
+@code {
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private NewsDetailDto? news;
+    private List<NewsListDto> mostViewed = new();
+    private bool isLoading = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (!string.IsNullOrEmpty(Slug))
+        {
+            news = await NewsApi.GetBySlugAsync(Slug);
+            if (news != null)
+            {
+                await NewsApi.RecordViewAsync(news.Id);
+            }
+            mostViewed = await NewsApi.GetMostViewedAsync(5);
+        }
+        isLoading = false;
+    }
+}

@@ -1,0 +1,54 @@
+@using KursuTV.Business.DTOs
+
+@if (BreakingNews != null && BreakingNews.Count > 0)
+{
+    <div class="bg-red-50 border-y border-red-200/80 py-2 px-4 select-none">
+        <div class="max-w-7xl mx-auto flex items-center gap-3 overflow-hidden">
+            <!-- Son Dakika Rozeti -->
+            <div class="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 text-white rounded text-[11px] font-black uppercase tracking-wider shrink-0 shadow-xs">
+                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                SON DAKİKA
+            </div>
+
+            <!-- Kayan / Geçişli Haber Başlıkları -->
+            <div class="flex-1 overflow-hidden whitespace-nowrap">
+                <a href="/haber/@CurrentItem.Slug" class="text-xs sm:text-sm font-bold text-slate-900 hover:text-red-600 transition-colors inline-block truncate max-w-full">
+                    {{ CurrentItem.Title }}
+                </a>
+            </div>
+
+            <!-- İleri / Geri Navigasyon -->
+            <div class="flex items-center gap-1 shrink-0">
+                <button @onclick="Prev" class="p-1 text-slate-500 hover:text-red-600 transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <span class="text-[11px] font-bold text-slate-700">@(currentIndex + 1)/@BreakingNews.Count</span>
+                <button @onclick="Next" class="p-1 text-slate-500 hover:text-red-600 transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<BreakingNewsDto> BreakingNews { get; set; } = new();
+
+    private int currentIndex = 0;
+
+    private BreakingNewsDto CurrentItem => 
+        BreakingNews.Count > 0 ? BreakingNews[currentIndex % BreakingNews.Count] : new BreakingNewsDto(Guid.Empty, "", "", null);
+
+    private void Next()
+    {
+        if (BreakingNews.Count == 0) return;
+        currentIndex = (currentIndex + 1) % BreakingNews.Count;
+    }
+
+    private void Prev()
+    {
+        if (BreakingNews.Count == 0) return;
+        currentIndex = (currentIndex - 1 + BreakingNews.Count) % BreakingNews.Count;
+    }
+}

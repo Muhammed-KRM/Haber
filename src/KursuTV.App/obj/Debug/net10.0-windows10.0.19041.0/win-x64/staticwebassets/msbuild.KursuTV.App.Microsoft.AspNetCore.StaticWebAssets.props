@@ -2,7 +2,7 @@
   <ItemGroup>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\app.css'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>app.css</RelativePath>
@@ -22,7 +22,7 @@
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>index.html</RelativePath>
@@ -42,7 +42,7 @@
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\bootstrap\dist\css\bootstrap.min.css'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>lib/bootstrap/dist/css/bootstrap.min.css</RelativePath>
@@ -62,7 +62,7 @@
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\bootstrap\dist\css\bootstrap.min.css.map'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>lib/bootstrap/dist/css/bootstrap.min.css.map</RelativePath>
@@ -82,7 +82,7 @@
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\_framework\blazor.modules.json'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>_framework/blazor.modules.json</RelativePath>
@@ -102,7 +102,7 @@
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\_framework\blazor.webview.js'))">
       <SourceType>Package</SourceType>
-      <SourceId>OzelDers.App</SourceId>
+      <SourceId>KursuTV.App</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>/</BasePath>
       <RelativePath>_framework/blazor.webview.js</RelativePath>

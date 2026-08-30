@@ -1,0 +1,86 @@
+@using KursuTV.Business.DTOs
+
+@if (Headlines != null && Headlines.Count > 0)
+{
+    <div class="relative bg-slate-900 rounded-2xl overflow-hidden shadow-xl select-none group">
+        <!-- Manşet Görseli & Bağlantısı -->
+        <a href="/haber/@ActiveItem.Slug" class="block relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
+            @if (!string.IsNullOrEmpty(ActiveItem.CoverImageUrl))
+            {
+                <img 
+                    src="@ActiveItem.CoverImageUrl" 
+                    alt="@ActiveItem.CoverImageAlt" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+            }
+            else
+            {
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-tr from-slate-900 via-slate-800 to-red-950 text-white text-3xl font-black">
+                    KÜRSÜ TV
+                </div>
+            }
+
+            <!-- Koyu Gradyan Katmanı -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+
+            <!-- Kırmızı Başlık Bandı (Kürsü TV Tarzı) -->
+            <div class="absolute bottom-0 inset-x-0 p-4 sm:p-6 space-y-2">
+                @if (!string.IsNullOrEmpty(ActiveItem.PrimaryCategoryName))
+                {
+                    <span class="inline-block px-2.5 py-1 bg-red-600 text-white text-[11px] font-black uppercase tracking-wider rounded">
+                        @ActiveItem.PrimaryCategoryName
+                    </span>
+                }
+
+                <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+                    <span class="bg-red-600/90 text-white px-2 py-0.5 box-decoration-clone rounded">
+                        @ActiveItem.Title
+                    </span>
+                </h2>
+
+                @if (!string.IsNullOrEmpty(ActiveItem.Spot))
+                {
+                    <p class="hidden sm:line-clamp-2 text-xs sm:text-sm text-slate-200 font-medium drop-shadow leading-snug max-w-3xl">
+                        @ActiveItem.Spot
+                    </p>
+                }
+            </div>
+        </a>
+
+        <!-- 1-12 Numaralandırma Butonları (Görselin Altındaki Çubuk) -->
+        <div class="bg-slate-950/95 border-t border-slate-800 px-2 py-2 flex items-center justify-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar">
+            @for (int i = 0; i < Headlines.Count; i++)
+            {
+                var idx = i;
+                <button 
+                    @onclick="() => SelectHeadline(idx)"
+                    class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-black text-xs transition-all duration-200 flex items-center justify-center shrink-0"
+                    class:bg-red-600="@(activeIndex == idx)"
+                    class:text-white="@(activeIndex == idx)"
+                    class:shadow-md="@(activeIndex == idx)"
+                    class:bg-slate-800="@(activeIndex != idx)"
+                    class:text-slate-300="@(activeIndex != idx)"
+                    class:hover:bg-slate-700="@(activeIndex != idx)"
+                    style="@(activeIndex == idx ? "background-color: #dc2626; color: white;" : "background-color: #1e293b; color: #cbd5e1;")"
+                >
+                    @(idx + 1)
+                </button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<HeadlineNewsDto> Headlines { get; set; } = new();
+
+    private int activeIndex = 0;
+
+    private HeadlineNewsDto ActiveItem => 
+        Headlines.Count > 0 ? Headlines[activeIndex % Headlines.Count] : new HeadlineNewsDto(Guid.Empty, "", "", null, null, null, 0, null, null, null);
+
+    private void SelectHeadline(int index)
+    {
+        activeIndex = index;
+    }
+}

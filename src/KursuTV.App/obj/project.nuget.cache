@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VrPeYcEHbLM=",
+  "dgSpecHash": "qDx0RoI6jIo=",
   "success": true,
-  "projectFilePath": "d:\\OZELDERS\\src\\OzelDers.App\\OzelDers.App.csproj",
+  "projectFilePath": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\muhammedk\\.nuget\\packages\\googlegson\\2.13.1.1\\googlegson.2.13.1.1.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.aspnetcore.authorization\\10.0.0\\microsoft.aspnetcore.authorization.10.0.0.nupkg.sha512",

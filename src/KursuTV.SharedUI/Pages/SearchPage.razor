@@ -1,0 +1,104 @@
+@page "/ara"
+@using KursuTV.Business.DTOs
+@using KursuTV.SharedUI.Components
+@inject NewsApiService NewsApi
+@inject NavigationManager Nav
+
+<PageTitle>Haber Arama - Kürsü TV</PageTitle>
+
+<div class="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
+    <div>
+        <Header />
+
+        <main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+            <div class="space-y-3">
+                <h1 class="text-2xl font-black text-slate-900">Haber Arama</h1>
+                
+                <form method="get" action="/ara" class="flex gap-2">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="@Query"
+                        placeholder="Anahtar kelime girin..." 
+                        class="flex-1 px-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 shadow-sm"
+                    />
+                    <button 
+                        type="submit" 
+                        class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl shadow-sm transition-colors"
+                    >
+                        Ara
+                    </button>
+                </form>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Query))
+            {
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        "{{ Query }}" ile ilgili sonuçlar (@(results?.Count ?? 0))
+                    </h2>
+
+                    <div class="space-y-3">
+                        @for (int i = 0; i < (results?.Count ?? 0); i++)
+                        {
+                            var item = results![i];
+                            <a href="/haber/@item.Slug" class="block p-4 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all group">
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    @if (!string.IsNullOrEmpty(item.CoverImageUrl))
+                                    {
+                                        <div class="w-full sm:w-36 aspect-[16/9] bg-slate-100 rounded-lg overflow-hidden shrink-0">
+                                            <img src="@item.CoverImageUrl" class="w-full h-full object-cover" />
+                                        </div>
+                                    }
+                                    <div class="space-y-1 min-w-0 flex-1">
+                                        <h3 class="text-sm font-bold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
+                                            @item.Title
+                                        </h3>
+                                        @if (!string.IsNullOrEmpty(item.Spot))
+                                        {
+                                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">@item.Spot</p>
+                                        }
+                                        <div class="flex items-center gap-3 text-[10px] text-slate-400 pt-1">
+                                            <span>@item.AuthorName</span>
+                                            <span>&bull;</span>
+                                            <span>@((item.PublishedAt ?? item.CreatedAt).ToString("dd.MM.yyyy HH:mm"))</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+
+                        @if (results == null || results.Count == 0)
+                        {
+                            <div class="py-12 text-center text-slate-400 text-xs">
+                                Aradığınız kelimeye uygun haber bulunamadı.
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </main>
+    </div>
+
+    <Footer />
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "q")]
+    public string? Query { get; set; }
+
+    private List<NewsListDto>? results;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            var paged = await NewsApi.GetPublishedNewsPagedAsync(1, 20);
+            if (paged != null)
+            {
+                var q = Query.Trim().ToLower();
+                results = paged.Items.Where(n => n.Title.ToLower().Contains(q) || (n.Spot != null && n.Spot.ToLower().Contains(q))).ToList();
+            }
+        }
+    }
+}

@@ -424,23 +424,7 @@ public class NewsManager : INewsService
         }
     }
 
-    public async Task PublishScheduledNewsAsync(CancellationToken cancellationToken = default)
-    {
-        var scheduledNews = await _newsRepository.GetPendingScheduledNewsAsync(DateTime.UtcNow, cancellationToken);
-        if (scheduledNews.Count == 0) return;
-
-        foreach (var item in scheduledNews)
-        {
-            item.Status = NewsStatus.Published;
-            item.PublishedAt = DateTime.UtcNow;
-            item.ScheduledPublishAt = null;
-            _newsRepository.Update(item);
-        }
-
-        await _newsRepository.SaveChangesAsync();
-        await InvalidateCachesAsync();
-        _logger.LogInformation("{Count} adet ileri tarihli haber otomatik yayına alındı.", scheduledNews.Count);
-    }
+    // PublishScheduledNewsAsync → bkz. dosyanın sonundaki Task<int> döndüren implementasyon
 
     private async Task InvalidateCachesAsync()
     {
@@ -500,4 +484,27 @@ public class NewsManager : INewsService
             )).ToList() ?? new List<CommentDto>()
         );
     }
+
+    /// <inheritdoc/>
+    public async Task<int> PublishScheduledNewsAsync(CancellationToken cancellationToken = default)
+    {
+        var count = await _newsRepository.PublishScheduledNewsAsync(cancellationToken);
+        if (count > 0)
+        {
+            // Manşet ve son dakika cache'ini temizle
+            await _cacheService.RemoveAsync(HeadlinesCacheKey);
+            await _cacheService.RemoveAsync(BreakingNewsCacheKey);
+            _logger.LogInformation("[NewsManager.PublishScheduledNewsAsync] {Count} haber yayına alındı.", count);
+        }
+        return count;
+    }
+
+    /// <inheritdoc/>
+    public async Task InvalidateSitemapCacheAsync(CancellationToken cancellationToken = default)
+    {
+        await _cacheService.RemoveAsync("sitemap:xml");
+        await _cacheService.RemoveAsync("sitemap:google-news");
+        _logger.LogInformation("[NewsManager.InvalidateSitemapCacheAsync] Sitemap cache temizlendi.");
+    }
 }
+
