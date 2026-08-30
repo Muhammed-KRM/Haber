@@ -1,0 +1,16 @@
+D:\OZELDERS\src\OzelDers.Business\bin\Debug\net10.0\OzelDers.Business.deps.json
+D:\OZELDERS\src\OzelDers.Business\bin\Debug\net10.0\OzelDers.Business.dll
+D:\OZELDERS\src\OzelDers.Business\bin\Debug\net10.0\OzelDers.Business.pdb
+D:\OZELDERS\src\OzelDers.Business\bin\Debug\net10.0\OzelDers.Data.dll
+D:\OZELDERS\src\OzelDers.Business\bin\Debug\net10.0\OzelDers.Data.pdb
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.csproj.AssemblyReference.cache
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.AssemblyInfoInputs.cache
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.AssemblyInfo.cs
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.csproj.CoreCompileInputs.cache
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.sourcelink.json
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.7148EF3A.Up2Date
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.dll
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\refint\OzelDers.Business.dll
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\OzelDers.Business.pdb
+D:\OZELDERS\src\OzelDers.Business\obj\Debug\net10.0\ref\OzelDers.Business.dll

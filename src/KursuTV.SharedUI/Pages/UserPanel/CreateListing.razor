@@ -1,0 +1,540 @@
+﻿@page "/panel/ilan-olustur"
+@using KursuTV.Business.DTOs
+@inject IListingService ListingService
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Yeni Ä°lan OluÅŸtur | KursuTV.com</PageTitle>
+
+<AuthorizeView Context="authContext">
+    <Authorized>
+        <section class="section create-listing-page">
+            <div class="container">
+                <PageHeader Title="Yeni Ä°lan OluÅŸtur" Subtitle="Ã–ÄŸrencilere ulaÅŸmak iÃ§in ilanÄ±nÄ±zÄ± oluÅŸturun" BackUrl="/panel/ilanlarim" />
+
+                <div class="form-container card">
+                    <EditForm Model="model" OnValidSubmit="HandleSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="alert alert-danger" />
+                        <!-- Ä°lan TÃ¼rÃ¼ -->
+                        <div class="form-section">
+                            <h2>Ä°lan TÃ¼rÃ¼</h2>
+                                <InputRadioGroup @bind-Value="model.Type">
+                                    <label class="radio-card">
+                                        <InputRadio Value="ListingType.TeacherOffering" />
+                                        <div class="radio-content">
+                                            <span class="radio-icon">ğŸ‘¨â€ğŸ«</span>
+                                            <span class="radio-label">Ã–ÄŸretmen</span>
+                                            <span class="radio-desc">Ders vermek istiyorum</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card">
+                                        <InputRadio Value="ListingType.StudentLooking" />
+                                        <div class="radio-content">
+                                            <span class="radio-icon">ğŸ‘¨â€ğŸ“</span>
+                                            <span class="radio-label">Ã–ÄŸrenci</span>
+                                            <span class="radio-desc">Ders almak istiyorum</span>
+                                        </div>
+                                    </label>
+                                </InputRadioGroup>
+                        </div>
+
+                        <!-- Temel Bilgiler -->
+                        <div class="form-section">
+                            <h2>Temel Bilgiler</h2>
+                            
+                            <div class="form-group">
+                                <label>Ä°lan BaÅŸlÄ±ÄŸÄ± <span class="required">*</span></label>
+                                <input type="text" @bind="model.Title" class="form-input" 
+                                       placeholder="Ã–rn: Deneyimli Matematik Ã–ÄŸretmeni" maxlength="100" />
+                                <span class="form-hint">Dikkat Ã§ekici ve aÃ§Ä±klayÄ±cÄ± bir baÅŸlÄ±k yazÄ±n</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>AÃ§Ä±klama <span class="required">*</span></label>
+                                <textarea @bind="model.Description" class="form-textarea" rows="6"
+                                          placeholder="Kendinizi, deneyimlerinizi ve ders verme tarzÄ±nÄ±zÄ± anlatÄ±n..." maxlength="1000"></textarea>
+                                <span class="form-hint">@model.Description?.Length / 1000 karakter</span>
+                            </div>
+                        </div>
+
+                        <!-- Ders DetaylarÄ± -->
+                        <div class="form-section">
+                            <h2>Ders DetaylarÄ±</h2>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>BranÅŸ <span class="required">*</span></label>
+                                    <select @bind="model.BranchId" class="form-select">
+                                        <option value="0">BranÅŸ SeÃ§in</option>
+                                        @foreach (var branch in branches)
+                                        {
+                                            <option value="@branch.Id">@branch.Name</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ders TÃ¼rÃ¼ <span class="required">*</span></label>
+                                    <select @bind="model.LessonType" class="form-select">
+                                        <option value="@LessonType.FaceToFace">YÃ¼z YÃ¼ze</option>
+                                        <option value="@LessonType.Online">Online</option>
+                                        <option value="@LessonType.Both">Her Ä°kisi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>EÄŸitim Seviyesi</label>
+                                    <select @bind="model.EducationLevel" class="form-select">
+                                        <option value="">Seviye SeÃ§in (opsiyonel)</option>
+                                        <option value="Ä°lkokul">Ä°lkokul</option>
+                                        <option value="Ortaokul">Ortaokul</option>
+                                        <option value="Lise">Lise</option>
+                                        <option value="Ãœniversite">Ãœniversite</option>
+                                        <option value="YetiÅŸkin">YetiÅŸkin</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ders SÃ¼resi</label>
+                                    <select @bind="model.LessonDurationMinutes" class="form-select">
+                                        <option value="45">45 dakika</option>
+                                        <option value="60">60 dakika</option>
+                                        <option value="90">90 dakika</option>
+                                        <option value="120">120 dakika</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Saatlik Ãœcret (TL) <span class="required">*</span></label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon">ğŸ’°</span>
+                                    <input type="number" @bind="model.HourlyPrice" class="form-input" 
+                                           placeholder="0" min="0" max="10000" />
+                                    <span class="input-suffix">TL/saat</span>
+                                </div>
+                                <span class="form-hint">Piyasa ortalamasÄ±na uygun bir fiyat belirleyin</span>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Deneyim YÄ±lÄ±</label>
+                                    <input type="number" @bind="model.ExperienceYears" class="form-input"
+                                           placeholder="0" min="0" max="50" />
+                                </div>
+                                <div class="form-group">
+                                    <label>EÄŸitim GeÃ§miÅŸi</label>
+                                    <input type="text" @bind="model.EducationBackground" class="form-input"
+                                           placeholder="Ã–rn: Ä°TÃœ Matematik MÃ¼hendisliÄŸi" maxlength="200" />
+                                </div>
+                            </div>
+
+                            <!-- SÄ±nÄ±f AralÄ±ÄŸÄ± -->
+                            <div class="form-group">
+                                <label>Ders VerdiÄŸiniz SÄ±nÄ±f AralÄ±ÄŸÄ±</label>
+                                <div class="grade-range-picker">
+                                    <select @bind="model.GradeMin" class="form-select">
+                                        <option value="">BaÅŸlangÄ±Ã§ SÄ±nÄ±fÄ±</option>
+                                        @foreach (var g in GradeOptions)
+                                        {
+                                            <option value="@g.Value">@g.Label</option>
+                                        }
+                                    </select>
+                                    <span class="grade-sep">â€”</span>
+                                    <select @bind="model.GradeMax" class="form-select">
+                                        <option value="">BitiÅŸ SÄ±nÄ±fÄ±</option>
+                                        @foreach (var g in GradeOptions)
+                                        {
+                                            <option value="@g.Value">@g.Label</option>
+                                        }
+                                    </select>
+                                </div>
+                                <span class="form-hint">Ã–rn: 1. SÄ±nÄ±f â€” 4. SÄ±nÄ±f, veya 9. SÄ±nÄ±f â€” Lise+</span>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" @bind="model.HasTrialLesson" />
+                                        Ãœcretsiz deneme dersi sunuyorum
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" @bind="model.IsGroupLesson" />
+                                        Grup dersi verebilirim
+                                    </label>
+                                    @if (model.IsGroupLesson)
+                                    {
+                                        <input type="number" @bind="model.MaxGroupSize" class="form-input mt-2"
+                                               placeholder="Maks. kiÅŸi sayÄ±sÄ±" min="2" max="20" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FotoÄŸraf YÃ¼kleme -->
+                        <div class="form-section">
+                            <h2>FotoÄŸraflar</h2>
+                            <p class="text-muted" style="margin-bottom: 1rem;">Ä°lanÄ±nÄ±za en fazla 5 fotoÄŸraf ekleyebilirsiniz. (Max 5MB, JPG/PNG/WebP)</p>
+
+                            <div class="upload-area" style="border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 1.5rem; text-align: center; margin-bottom: 1rem;">
+                                <InputFile OnChange="HandleImageUpload" multiple accept="image/jpeg,image/png,image/webp"
+                                           style="display: none;" id="imageUploadInput" />
+                                <label for="imageUploadInput" style="cursor: pointer; display: block;">
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">ğŸ“·</div>
+                                    <p style="margin: 0; color: var(--color-text-secondary);">
+                                        FotoÄŸraf seÃ§mek iÃ§in tÄ±klayÄ±n
+                                    </p>
+                                    <p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--color-text-muted);">
+                                        JPG, PNG veya WebP Â· Max 5MB
+                                    </p>
+                                </label>
+                            </div>
+
+                            @if (isUploadingImages)
+                            {
+                                <div class="text-center text-muted" style="margin-bottom: 1rem;">
+                                    <span>YÃ¼kleniyor...</span>
+                                </div>
+                            }
+
+                            @if (uploadedImageUrls.Any())
+                            {
+                                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                                    @foreach (var url in uploadedImageUrls)
+                                    {
+                                        <div style="position: relative; width: 100px; height: 100px;">
+                                            <img src="@url" alt="YÃ¼klenen fotoÄŸraf"
+                                                 style="width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-sm);" />
+                                            <button type="button" @onclick="() => RemoveImage(url)"
+                                                    style="position: absolute; top: -8px; right: -8px; background: var(--color-danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center;">
+                                                âœ•
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(uploadError))
+                            {
+                                <div class="alert alert-danger" style="margin-top: 0.5rem;">@uploadError</div>
+                            }
+                        </div>
+
+                        <!-- Konum -->
+                        <div class="form-section">
+                            <h2>Konum Bilgileri</h2>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Åehir <span class="required">*</span></label>
+                                    <select @bind="selectedCityId" @bind:after="LoadDistricts" class="form-select">
+                                        <option value="0">Åehir SeÃ§in</option>
+                                        @foreach (var city in cities)
+                                        {
+                                            <option value="@city.Id">@city.Name</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ä°lÃ§e <span class="required">*</span></label>
+                                    <select @bind="model.DistrictId" class="form-select" disabled="@(districts.Count == 0)">
+                                        <option value="0">Ä°lÃ§e SeÃ§in</option>
+                                        @foreach (var district in districts)
+                                        {
+                                            <option value="@district.Id">@district.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hata MesajÄ± -->
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <!-- Form AksiyonlarÄ± -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" @onclick="Cancel">
+                                Ä°ptal
+                            </button>
+                            <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                                @if (isSubmitting)
+                                {
+                                    <span>OluÅŸturuluyor...</span>
+                                }
+                                else
+                                {
+                                    <span>âœ“ Ä°lanÄ± YayÄ±nla</span>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+
+                <!-- Bilgilendirme Kutusu -->
+                <div class="info-box card">
+                    <h3>ğŸ’¡ Ä°puÃ§larÄ±</h3>
+                    <ul>
+                        <li>BaÅŸlÄ±ÄŸÄ±nÄ±zÄ± kÄ±sa ve Ã¶z tutun</li>
+                        <li>Deneyimlerinizi ve eÄŸitim geÃ§miÅŸinizi belirtin</li>
+                        <li>Ders verme tarzÄ±nÄ±zÄ± aÃ§Ä±klayÄ±n</li>
+                        <li>BaÅŸarÄ± hikayelerinizi paylaÅŸÄ±n</li>
+                        <li>Ä°letiÅŸim bilgilerinizi aÃ§Ä±klamaya eklemeyin (platform Ã¼zerinden iletiÅŸim kurulur)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container section text-center py-20 flex-center" style="min-height: 50vh;">
+            <div class="card glass" style="max-width: 500px; margin: 0 auto; padding: 3rem;">
+                <h3 style="color: var(--color-secondary); margin-bottom: 1rem;">LÃ¼tfen Bekleyin veya GiriÅŸ YapÄ±n</h3>
+                <p class="text-muted mb-8">GÃ¼venlik kontrolÃ¼ saÄŸlanÄ±yor. LÃ¼tfen giriÅŸ yaptÄ±ÄŸÄ±nÄ±zÄ± doÄŸrulayÄ±n.</p>
+                <a href="/giris" class="btn btn-primary" style="width: 100%;">GiriÅŸ Yap SayfasÄ±na Git</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private ListingCreateDto model = new() 
+    { 
+        Type = ListingType.TeacherOffering,
+        LessonType = LessonType.FaceToFace 
+    };
+
+    // SÄ±nÄ±f seÃ§enekleri: Value=sÄ±nÄ±f numarasÄ±, Label=gÃ¶rÃ¼nen ad
+    private static readonly (int Value, string Label)[] GradeOptions =
+    [
+        (0,  "AnasÄ±nÄ±fÄ±"),
+        (1,  "1. SÄ±nÄ±f"),  (2,  "2. SÄ±nÄ±f"),  (3,  "3. SÄ±nÄ±f"),  (4,  "4. SÄ±nÄ±f"),
+        (5,  "5. SÄ±nÄ±f"),  (6,  "6. SÄ±nÄ±f"),  (7,  "7. SÄ±nÄ±f"),  (8,  "8. SÄ±nÄ±f"),
+        (9,  "9. SÄ±nÄ±f"),  (10, "10. SÄ±nÄ±f"), (11, "11. SÄ±nÄ±f"), (12, "12. SÄ±nÄ±f"),
+        (13, "Ãœniversite"), (14, "Mezun / YetiÅŸkin"),
+    ];
+    private List<BranchDto> branches = new();
+    private List<CityDto> cities = new();
+    private List<DistrictDto> districts = new();
+    private int selectedCityId = 0;
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    // FotoÄŸraf yÃ¼kleme
+    private List<string> uploadedImageUrls = new();
+    private bool isUploadingImages = false;
+    private string? uploadError;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadFormData();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadFormData()
+    {
+        try
+        {
+            var branchResult = await Http.GetFromJsonAsync<List<BranchDto>>("api/branches");
+            if (branchResult != null) branches = branchResult;
+
+            var cityResult = await Http.GetFromJsonAsync<List<CityDto>>("api/cities");
+            if (cityResult != null) cities = cityResult;
+            
+            await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] {branches.Count} branÅŸ ve {cities.Count} ÅŸehir API'den baÅŸarÄ±yla yÃ¼klendi.");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "BranÅŸ ve ÅŸehir bilgileri yÃ¼klenirken hata oluÅŸtu.";
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] HATA: Veriler API'den Ã§ekilemedi: ", ex.Message);
+        }
+    }
+
+    private async Task LoadDistricts()
+    {
+        districts.Clear();
+        model.DistrictId = 0;
+
+        if (selectedCityId > 0)
+        {
+            try
+            {
+                var city = cities.FirstOrDefault(c => c.Id == selectedCityId);
+                if (city != null && city.Districts != null)
+                {
+                    districts = city.Districts;
+                }
+                else
+                {
+                    // Fallback to fetch from an API if needed, but our Cities API seems to include Districts
+                }
+            }
+            catch
+            {
+                // API henÃ¼z Ã§alÄ±ÅŸmÄ±yorsa
+            }
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        errorMessage = null;
+        isSubmitting = true;
+
+        await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] Ä°lan yayÄ±nlama iÅŸlemi baÅŸlatÄ±ldÄ±...");
+
+        try
+        {
+            // Validasyon
+            if (string.IsNullOrWhiteSpace(model.Title))
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "warning", "Eksik Alan", "Ä°lan baÅŸlÄ±ÄŸÄ± zorunludur.", 0);
+                return;
+            }
+
+            if (model.BranchId == 0)
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "warning", "Eksik Alan", "LÃ¼tfen bir branÅŸ seÃ§in.", 0);
+                return;
+            }
+
+            if (model.DistrictId == 0)
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "warning", "Eksik Alan", "LÃ¼tfen ÅŸehir ve ilÃ§e seÃ§in.", 0);
+                return;
+            }
+
+            // Payload loglama
+            var payloadStr = System.Text.Json.JsonSerializer.Serialize(model, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] ----- API Ä°STEK DETAYI -----");
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] URL: /api/listings");
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] Authorization: Bearer token AuthTokenHandler tarafÄ±ndan otomatik ekleniyor");
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] Payload: \n" + payloadStr);
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] ------------------------------");
+
+            // API'ye gÃ¶nder
+            model.ImageUrls = uploadedImageUrls;
+            var result = await ListingService.CreateAsync(model, Guid.Empty);
+            // Moderasyon uyarÄ±sÄ± varsa SweetAlert2 ile bÃ¼yÃ¼k popup gÃ¶ster
+            if (!string.IsNullOrEmpty(result.ModerationMessage))
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "warning",
+                    "âš ï¸ Ä°lan Ä°ncelemeye AlÄ±ndÄ±",
+                    $"Ä°lanÄ±nÄ±z platform kurallarÄ±na aykÄ±rÄ± iÃ§erik barÄ±ndÄ±rdÄ±ÄŸÄ± iÃ§in incelemeye alÄ±ndÄ±.\n\nSebep: {result.ModerationMessage}\n\nÄ°lanÄ±nÄ±z admin onayÄ±ndan sonra yayÄ±na girecektir.",
+                    0);
+                Navigation.NavigateTo("/panel/ilanlarim");
+                return;
+            }
+
+            await JS.InvokeVoidAsync("kursutv.showSwal", "success", "Ä°lan YayÄ±nlandÄ±! ğŸ‰", "Ä°lanÄ±nÄ±z baÅŸarÄ±yla oluÅŸturuldu.", 2500);
+            await Task.Delay(2600);
+            Navigation.NavigateTo("/panel/ilanlarim");
+        }
+        catch (HttpRequestException ex)
+        {
+            var rawMsg = ex.Message;
+            var friendlyMsg = rawMsg;
+            try
+            {
+                if (rawMsg.Contains("{"))
+                {
+                    var jsonPart = rawMsg.Substring(rawMsg.IndexOf("{"));
+                    var doc = System.Text.Json.JsonDocument.Parse(jsonPart);
+                    if (doc.RootElement.TryGetProperty("detail", out var detail))
+                        friendlyMsg = detail.GetString() ?? rawMsg;
+                }
+            }
+            catch { /* JSON parse baÅŸarÄ±sÄ±zsa ham mesajÄ± kullan */ }
+            errorMessage = friendlyMsg;
+            await JS.InvokeVoidAsync("kursutv.showSwal", "error", "Ä°lan OluÅŸturulamadÄ±", friendlyMsg, 0);
+            await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA DETAYI:", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            await JS.InvokeVoidAsync("kursutv.showSwal", "error", "Beklenmeyen Hata", ex.Message, 0);
+            await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA:", ex.Message);
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/panel/ilanlarim");
+    }
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        uploadError = null;
+        if (uploadedImageUrls.Count >= 5)
+        {
+            uploadError = "En fazla 5 fotoÄŸraf yÃ¼kleyebilirsiniz.";
+            return;
+        }
+
+        isUploadingImages = true;
+        StateHasChanged();
+
+        foreach (var file in e.GetMultipleFiles(5))
+        {
+            if (uploadedImageUrls.Count >= 5) break;
+
+            if (file.Size > 5 * 1024 * 1024)
+            {
+                uploadError = $"{file.Name} dosyasÄ± 5MB'dan bÃ¼yÃ¼k.";
+                continue;
+            }
+
+            try
+            {
+                using var content = new MultipartFormDataContent();
+                using var stream = file.OpenReadStream(5 * 1024 * 1024);
+                using var streamContent = new StreamContent(stream);
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                content.Add(streamContent, "file", file.Name);
+
+                var response = await Http.PostAsync("api/upload", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<UploadResultDto>();
+                    if (result?.ImageUrl != null)
+                        uploadedImageUrls.Add(result.ImageUrl);
+                }
+                else
+                {
+                    uploadError = $"{file.Name} yÃ¼klenemedi.";
+                }
+            }
+            catch (Exception ex)
+            {
+                uploadError = $"YÃ¼kleme hatasÄ±: {ex.Message}";
+            }
+        }
+
+        isUploadingImages = false;
+    }
+
+    private void RemoveImage(string url)
+    {
+        uploadedImageUrls.Remove(url);
+    }
+
+    private record UploadResultDto(string ImageUrl);
+}

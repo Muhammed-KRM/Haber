@@ -1,0 +1,104 @@
+﻿@page "/giris"
+@inject KursuTV.Business.Interfaces.IAuthService AuthService
+@inject NavigationManager NavigationManager
+@inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthStateProvider
+@using KursuTV.Business.Interfaces
+
+<PageTitle>GiriÅŸ Yap | KursuTV.com</PageTitle>
+
+<section class="section py-20 flex-center">
+    <div class="container" style="max-width: 450px;">
+        <div class="card glass animate-slide-up" style="border-radius: var(--radius-xl); padding: 3rem 2rem;">
+            <div class="text-center mb-12">
+                <h2 style="margin-bottom: 0.5rem; font-size: 2.5rem;">HoÅŸ Geldiniz</h2>
+                <p class="text-muted">EÄŸitim serÃ¼veninize devam edin.</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" style="margin-bottom: 2rem;">@errorMessage</div>
+            }
+
+            <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="alert alert-danger" style="margin-bottom: 1.5rem;" />
+                <div class="flex-col gap-4 mb-4">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label class="font-bold text-sm">E-posta</label>
+                        <input type="email" @bind="loginModel.Email" class="search-input" style="border: 1px solid var(--color-border);" placeholder="ornek@email.com" required />
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label class="font-bold text-sm">Åifre</label>
+                        <input type="password" @bind="loginModel.Password" class="search-input" style="border: 1px solid var(--color-border);" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required />
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;" disabled="@isLoading">
+                    @if (isLoading) { <span>GiriÅŸ YapÄ±lÄ±yor...</span> } else { <span>GiriÅŸ Yap</span> }
+                </button>
+            </EditForm>
+
+            <p class="text-center text-muted" style="margin-top: 2rem;">
+                HesabÄ±nÄ±z yok mu? <a href="/kayit" class="text-primary font-bold" style="text-decoration: none;">Ãœcretsiz KayÄ±t Ol</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+@using Microsoft.JSInterop
+@code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    private KursuTV.Business.DTOs.UserLoginDto loginModel = new();
+    private string? errorMessage;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // OnInitializedAsync iÃ§inde JS Ã§aÄŸÄ±rmÄ±yoruz (Prerendering hatasÄ±na yol aÃ§ar)
+    }
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] GiriÅŸ denemesi baÅŸlatÄ±ldÄ±: {loginModel.Email}");
+
+        try
+        {
+            var result = await AuthService.LoginAsync(loginModel);
+            if (result.Success && result.Token != null && AuthStateProvider is ICustomAuthStateProvider stateProvider)
+            {
+                await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] API giriÅŸi BAÅARILI. Kimlik bilgileri iÅŸleniyor...");
+                var user = result.User;
+                if (user != null)
+                {
+                    await stateProvider.LogInAsync(user.Id, user.FullName, user.Email, user.Role ?? "User", result.Token);
+                    await JS.InvokeVoidAsync("kursutv.showSwal", "success", "HoÅŸ Geldiniz! ğŸ‰", $"Merhaba {user.FullName}, ana sayfaya yÃ¶nlendiriliyorsunuz...", 2000);
+                    await Task.Delay(2100);
+                    NavigationManager.NavigateTo("/", forceLoad: true);
+                }
+                else
+                {
+                    errorMessage = "Sistemsel bir hata oluÅŸtu, kullanÄ±cÄ± verisi okunamadÄ±.";
+                    await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] HATA: API Token verdi ama User objesi boÅŸ geldi.");
+                }
+            }
+            else
+            {
+                errorMessage = result.ErrorMessage ?? "GiriÅŸ baÅŸarÄ±sÄ±z.";
+                await JS.InvokeVoidAsync("kursutv.showSwal", "error", "GiriÅŸ BaÅŸarÄ±sÄ±z", errorMessage, 0);
+                await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] HATA: API giriÅŸi reddetti. Sebep: {errorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Beklenmeyen sunucu hatasÄ±.";
+            await JS.InvokeVoidAsync("console.error", $"[KursuTV Tracker] KRÄ°TÄ°K HATA: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

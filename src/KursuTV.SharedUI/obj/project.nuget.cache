@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "dgSpecHash": "AHHaJf334jA=",
+  "success": true,
+  "projectFilePath": "D:\\OZELDERS\\src\\OzelDers.SharedUI\\OzelDers.SharedUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\bcrypt.net-next\\4.1.0\\bcrypt.net-next.4.1.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\elastic.clients.elasticsearch\\9.3.4\\elastic.clients.elasticsearch.9.3.4.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\elastic.esql\\0.10.0\\elastic.esql.0.10.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\elastic.transport\\0.15.1\\elastic.transport.0.15.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\htmlsanitizer\\9.0.892\\htmlsanitizer.9.0.892.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\mailkit\\4.15.1\\mailkit.4.15.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\masstransit\\8.3.6\\masstransit.8.3.6.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\masstransit.abstractions\\8.3.6\\masstransit.abstractions.8.3.6.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\masstransit.rabbitmq\\8.3.6\\masstransit.rabbitmq.8.3.6.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.5\\microsoft.entityframeworkcore.10.0.5.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.5\\microsoft.entityframeworkcore.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.5\\microsoft.entityframeworkcore.analyzers.10.0.5.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.5\\microsoft.entityframeworkcore.relational.10.0.5.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.14.0\\microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.14.0\\microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.identitymodel.logging\\8.14.0\\microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.14.0\\microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\mimekit\\4.15.1\\mimekit.4.15.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\npgsql\\10.0.2\\npgsql.10.0.2.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.1\\npgsql.entityframeworkcore.postgresql.10.0.1.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.8\\pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\rabbitmq.client\\7.0.0\\rabbitmq.client.7.0.0.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\sixlabors.imagesharp\\3.1.12\\sixlabors.imagesharp.3.1.12.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\stackexchange.redis\\2.12.14\\stackexchange.redis.2.12.14.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\system.io.hashing\\10.0.2\\system.io.hashing.10.0.2.nupkg.sha512",
+    "C:\\Users\\muhammedk\\.nuget\\packages\\system.security.cryptography.pkcs\\10.0.0\\system.security.cryptography.pkcs.10.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "'MailKit' 4.15.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-9j88-vvj5-vhgr güvenlik açığı var",
+      "projectPath": "D:\\OZELDERS\\src\\OzelDers.SharedUI\\OzelDers.SharedUI.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\OZELDERS\\src\\OzelDers.SharedUI\\OzelDers.SharedUI.csproj",
+      "libraryId": "MailKit",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

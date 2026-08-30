@@ -1,0 +1,68 @@
+﻿@* ListingCard Component â€” DÃ¶kÃ¼man satÄ±r 341 *@
+@using KursuTV.Data.Enums
+
+<div class="listing-card card @(Listing.IsVitrin ? "card-vitrin" : "") animate-fade-in">
+    @if (Listing.IsVitrin)
+    {
+        <span class="badge badge-vitrin">â­ Vitrin</span>
+    }
+
+    <div class="card-header">
+        <div class="owner-avatar">
+            @if (!string.IsNullOrEmpty(Listing.OwnerImageUrl))
+            {
+                <img src="@Listing.OwnerImageUrl" alt="@Listing.OwnerName" loading="lazy" />
+            }
+            else
+            {
+                <span class="avatar-placeholder">@(string.IsNullOrEmpty(Listing.OwnerName) ? "U" : Listing.OwnerName[..1].ToUpper())</span>
+            }
+        </div>
+        <div class="owner-info">
+            <strong>@Listing.OwnerName</strong>
+            <span class="text-muted text-sm">@Listing.DistrictName, @Listing.CityName</span>
+        </div>
+    </div>
+
+    <h3 class="card-title">
+        <a href="/ilan/@Listing.Slug">@Listing.Title</a>
+    </h3>
+
+    <div class="card-meta">
+        <div class="badges-row">
+            <span class="badge badge-primary">@Listing.BranchName</span>
+            @switch (Listing.LessonType)
+            {
+                case LessonType.Online:
+                    <span class="badge" style="background-color: var(--color-info); color: white;">ğŸŒ Online</span>
+                    break;
+                case LessonType.FaceToFace:
+                    <span class="badge" style="background-color: var(--color-success); color: white;">ğŸ‘¥ YÃ¼z YÃ¼ze</span>
+                    break;
+                case LessonType.Both:
+                    <span class="badge" style="background-color: var(--color-secondary); color: white;">ğŸŒ/ğŸ‘¥ Ä°kisi de</span>
+                    break;
+            }
+        </div>
+        <span class="price">@Listing.HourlyPrice TL/saat</span>
+    </div>
+
+    <div class="card-footer">
+        <div class="rating-stars">
+            @{
+                int fullStars = (int)Math.Floor(Listing.AverageRating);
+                int emptyStars = 5 - fullStars;
+            }
+            <span class="stars">
+                @for (int i = 0; i < fullStars; i++) { <i class="star filled">â˜…</i> }
+                @for (int i = 0; i < emptyStars; i++) { <i class="star empty">â˜…</i> }
+            </span>
+            <span class="rating-text">@Listing.AverageRating.ToString("F1") (@Listing.ReviewCount yorum)</span>
+        </div>
+        <a href="/ilan/@Listing.Slug" class="btn btn-secondary btn-sm">Detaylar</a>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ListingDto Listing { get; set; } = null!;
+}

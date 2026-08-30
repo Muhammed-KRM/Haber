@@ -1,0 +1,61 @@
+﻿@page "/sehirler/{City}"
+@inject KursuTV.Business.Interfaces.IListingService ListingService
+
+<PageTitle>@FormattedCity Ã–zel Ders Verenler | KursuTV.com</PageTitle>
+<HeadContent>
+    <meta name="description" content="@FormattedCity bÃ¶lgesindeki en iyi Ã¶zel ders Ã¶ÄŸretmenlerini keÅŸfedin. BÃ¼tÃ§enize ve hedeflerinize en uygun eÄŸitmene anÄ±nda ulaÅŸÄ±n." />
+    <meta property="og:title" content="@FormattedCity Ã–zel Ders Verenler" />
+</HeadContent>
+
+<!-- 1. Hero Section -->
+<section class="seo-hero">
+    <div class="container text-center">
+        <h1 class="seo-title animate-slide-up">
+            <span class="text-primary">@FormattedCity</span> Ã–zel Ders Verenler
+        </h1>
+        <p class="seo-subtitle animate-fade-in">
+            @FormattedCity bÃ¶lgesinde alanÄ±nda uzman eÄŸitmenleri inceleyin, deÄŸerlendirmeleri okuyun ve ihtiyacÄ±nÄ±z olan Ã¶zel dersi hemen almaya baÅŸlayÄ±n.
+        </p>
+    </div>
+</section>
+
+<!-- 2. SonuÃ§lar Section -->
+<section class="section seo-results">
+    <div class="container">
+        <div class="grid grid-3">
+            @if (listings.Any())
+            {
+                @foreach (var listing in listings)
+                {
+                    <KursuTV.SharedUI.Components.ListingCard Listing="listing" />
+                }
+            }
+            else
+            {
+                <div class="alert alert-info" style="grid-column: 1 / -1;">
+                    Bu bÃ¶lgede henÃ¼z bir ilan bulunamadÄ±.
+                </div>
+            }
+        </div>
+        
+        <div class="pagination-wrapper text-center mt-4">
+            <KursuTV.SharedUI.Components.Pagination />
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public string City { get; set; } = string.Empty;
+
+    public string FormattedCity => char.ToUpper(City[0]) + City.Substring(1).Replace("-", " ");
+
+    // Mock Data Listesi (API baÄŸlanana kadar kullanÄ±lacak)
+    private List<KursuTV.Business.DTOs.ListingDto> listings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var searchResult = await ListingService.SearchAsync(new KursuTV.Business.DTOs.SearchFilterDto { City = City });
+        listings = searchResult.Items.ToList();
+    }
+}

@@ -1,0 +1,318 @@
+﻿@page "/panel/ilan-duzenle/{ListingId:guid}"
+@using KursuTV.Business.DTOs
+@inject IListingService ListingService
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Ä°lan DÃ¼zenle | KursuTV.com</PageTitle>
+
+<AuthorizeView Context="authContext">
+    <Authorized>
+        <section class="section edit-listing-page">
+            <div class="container">
+                <PageHeader Title="Ä°lanÄ± DÃ¼zenle" Subtitle="Ä°lan bilgilerini gÃ¼ncelleyin" BackUrl="/panel/ilanlarim" />
+
+                @if (isLoading)
+                {
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Ä°lan yÃ¼kleniyor...</p>
+                    </div>
+                }
+                else if (model == null)
+                {
+                    <div class="alert alert-danger">
+                        Ä°lan bulunamadÄ± veya eriÅŸim yetkiniz yok.
+                    </div>
+                }
+                else
+                {
+                    <div class="form-container card">
+                        <EditForm Model="model" OnValidSubmit="HandleSubmit">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary class="alert alert-danger" />
+                            <div class="form-section">
+                                <h2>Ä°lan TÃ¼rÃ¼</h2>
+                                <div class="info-badge">
+                                    <span class="badge-icon">@(model.Type == ListingType.TeacherOffering ? "ğŸ‘¨â€ğŸ«" : "ğŸ‘¨â€ğŸ“")</span>
+                                    <span class="badge-text">@(model.Type == ListingType.TeacherOffering ? "Ã–ÄŸretmen Ä°lanÄ±" : "Ã–ÄŸrenci Ä°lanÄ±")</span>
+                                    <span class="badge-note">(DeÄŸiÅŸtirilemez)</span>
+                                </div>
+                            </div>
+
+                            <!-- Temel Bilgiler -->
+                            <div class="form-section">
+                                <h2>Temel Bilgiler</h2>
+                                
+                                <div class="form-group">
+                                    <label>Ä°lan BaÅŸlÄ±ÄŸÄ± <span class="required">*</span></label>
+                                    <input type="text" @bind="model.Title" class="form-input" 
+                                           placeholder="Ã–rn: Deneyimli Matematik Ã–ÄŸretmeni" maxlength="100" />
+                                    <span class="form-hint">Dikkat Ã§ekici ve aÃ§Ä±klayÄ±cÄ± bir baÅŸlÄ±k yazÄ±n</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>AÃ§Ä±klama <span class="required">*</span></label>
+                                    <textarea @bind="model.Description" class="form-textarea" rows="6"
+                                              placeholder="Kendinizi, deneyimlerinizi ve ders verme tarzÄ±nÄ±zÄ± anlatÄ±n..." maxlength="1000"></textarea>
+                                    <span class="form-hint">@(model.Description?.Length ?? 0) / 1000 karakter</span>
+                                </div>
+                            </div>
+
+                            <!-- Ders DetaylarÄ± -->
+                            <div class="form-section">
+                                <h2>Ders DetaylarÄ±</h2>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>BranÅŸ <span class="required">*</span></label>
+                                        <select @bind="model.BranchId" class="form-select">
+                                            <option value="0">BranÅŸ SeÃ§in</option>
+                                            @foreach (var branch in branches)
+                                            {
+                                                <option value="@branch.Id">@branch.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ders TÃ¼rÃ¼ <span class="required">*</span></label>
+                                        <select @bind="model.LessonType" class="form-select">
+                                            <option value="@LessonType.FaceToFace">YÃ¼z YÃ¼ze</option>
+                                            <option value="@LessonType.Online">Online</option>
+                                            <option value="@LessonType.Both">Her Ä°kisi</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Saatlik Ãœcret (TL) <span class="required">*</span></label>
+                                    <div class="input-with-icon">
+                                        <span class="input-icon">ğŸ’°</span>
+                                        <input type="number" @bind="model.HourlyPrice" class="form-input" 
+                                               placeholder="0" min="0" max="10000" />
+                                        <span class="input-suffix">TL/saat</span>
+                                    </div>
+                                    <span class="form-hint">Piyasa ortalamasÄ±na uygun bir fiyat belirleyin</span>
+                                </div>
+                            </div>
+
+                            <!-- Konum -->
+                            <div class="form-section">
+                                <h2>Konum Bilgileri</h2>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Åehir <span class="required">*</span></label>
+                                        <select @bind="selectedCityId" @bind:after="LoadDistricts" class="form-select">
+                                            <option value="0">Åehir SeÃ§in</option>
+                                            @foreach (var city in cities)
+                                            {
+                                                <option value="@city.Id">@city.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ä°lÃ§e <span class="required">*</span></label>
+                                        <select @bind="model.DistrictId" class="form-select" disabled="@(districts.Count == 0)">
+                                            <option value="0">Ä°lÃ§e SeÃ§in</option>
+                                            @foreach (var district in districts)
+                                            {
+                                                <option value="@district.Id">@district.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ä°lan Durumu -->
+                            <div class="form-section">
+                                <h2>Ä°lan Durumu</h2>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" @bind="model.IsActive" />
+                                        <span>Ä°lan aktif (Arama sonuÃ§larÄ±nda gÃ¶rÃ¼nsÃ¼n)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Hata MesajÄ± -->
+                            @if (!string.IsNullOrEmpty(errorMessage))
+                            {
+                                <div class="alert alert-danger">
+                                    @errorMessage
+                                </div>
+                            }
+
+                            <!-- Form AksiyonlarÄ± -->
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" @onclick="Cancel">
+                                    Ä°ptal
+                                </button>
+                                <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                                    @if (isSubmitting)
+                                    {
+                                        <span>Kaydediliyor...</span>
+                                    }
+                                    else
+                                    {
+                                        <span>âœ“ DeÄŸiÅŸiklikleri Kaydet</span>
+                                    }
+                                </button>
+                            </div>
+                        </EditForm>
+                    </div>
+                }
+            </div>
+        </section>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container section text-center flex-center py-20" style="min-height: 50vh;">
+            <div class="card glass" style="max-width: 500px; margin: 0 auto; padding: 3rem;">
+                <h3 style="color: var(--color-secondary); margin-bottom: 1rem;">LÃ¼tfen Bekleyin veya GiriÅŸ YapÄ±n</h3>
+                <p class="text-muted mb-8">GÃ¼venlik kontrolÃ¼ saÄŸlanÄ±yor. LÃ¼tfen giriÅŸ yaptÄ±ÄŸÄ±nÄ±zÄ± doÄŸrulayÄ±n.</p>
+                <a href="/giris" class="btn btn-primary" style="width: 100%;">GiriÅŸ Yap SayfasÄ±na Git</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public Guid ListingId { get; set; }
+
+    private ListingUpdateDto? model;
+    private List<BranchDto> branches = new();
+    private List<CityDto> cities = new();
+    private List<DistrictDto> districts = new();
+    private int selectedCityId = 0;
+    private bool isLoading = true;
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadFormData();
+            await LoadListing();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadListing()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] Ä°lan detaylarÄ± Ã§ekiliyor: {ListingId}");
+            var listing = await ListingService.GetByIdAsync(ListingId);
+            
+            if (listing != null)
+            {
+                model = new ListingUpdateDto
+                {
+                    Type = listing.Type,
+                    Title = listing.Title,
+                    Description = listing.Description,
+                    BranchId = branches.FirstOrDefault(b => b.Name == listing.BranchName)?.Id ?? 0,
+                    LessonType = listing.LessonType,
+                    HourlyPrice = listing.HourlyPrice,
+                    DistrictId = 0, // Bu kÄ±smÄ± API'den doÄŸru Ã§ekmek gerekebilir
+                    IsActive = listing.Status == ListingStatus.Active
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA: Ä°lan yÃ¼klenenemedi.", ex.Message);
+            model = null;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadFormData()
+    {
+        try
+        {
+            var branchResult = await Http.GetFromJsonAsync<List<BranchDto>>("api/branches");
+            if (branchResult != null) branches = branchResult;
+
+            var cityResult = await Http.GetFromJsonAsync<List<CityDto>>("api/cities");
+            if (cityResult != null) cities = cityResult;
+            
+            await LoadDistricts();
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA: Form verileri (branÅŸ/ÅŸehir) yÃ¼klenemedi.", ex.Message);
+        }
+    }
+
+    private async Task LoadDistricts()
+    {
+        districts.Clear();
+
+        if (selectedCityId > 0)
+        {
+             try
+            {
+                var city = cities.FirstOrDefault(c => c.Id == selectedCityId);
+                if (city != null && city.Districts != null)
+                {
+                    districts = city.Districts;
+                }
+            }
+            catch
+            {
+                // API henÃ¼z Ã§alÄ±ÅŸmÄ±yorsa
+            }
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        errorMessage = null;
+        isSubmitting = true;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(model?.Title))
+            {
+                errorMessage = "Ä°lan baÅŸlÄ±ÄŸÄ± zorunludur.";
+                return;
+            }
+
+            if (model.BranchId == 0)
+            {
+                errorMessage = "LÃ¼tfen bir branÅŸ seÃ§in.";
+                return;
+            }
+
+            await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] Ä°lan gÃ¼ncelleniyor: {ListingId}");
+            
+            await ListingService.UpdateAsync(ListingId, model, Guid.Empty);
+            
+            await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] BAÅARILI: Ä°lan gÃ¼ncellendi.");
+            Navigation.NavigateTo("/panel/ilanlarim");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Ä°lan gÃ¼ncellenirken bir hata oluÅŸtu: " + ex.Message;
+            await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA: Ä°lan gÃ¼ncellenemedi.", ex.Message);
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/panel/ilanlarim");
+    }
+}

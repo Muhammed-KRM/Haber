@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\OzelDers.SharedUI.props" />
+</Project>

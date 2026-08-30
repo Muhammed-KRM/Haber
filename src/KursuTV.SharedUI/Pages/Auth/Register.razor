@@ -1,0 +1,100 @@
+﻿@page "/kayit"
+@inject KursuTV.Business.Interfaces.IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Ãœcretsiz KayÄ±t | KursuTV.com</PageTitle>
+
+<section class="section py-20 flex-center">
+    <div class="container" style="max-width: 450px;">
+        <div class="card glass animate-slide-up" style="border-radius: var(--radius-xl); padding: 3rem 2rem;">
+            <div class="text-center mb-12">
+                <h2 style="margin-bottom: 0.5rem; font-size: 2.5rem;">Ãœcretsiz KayÄ±t Ol</h2>
+                <p class="text-muted">KayÄ±t olanlara <span class="text-primary font-bold">3 jeton hediye!</span> ğŸ</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" style="margin-bottom: 2rem;">@errorMessage</div>
+            }
+            @if (isSuccess)
+            {
+                <div class="alert alert-success" style="margin-bottom: 2rem;">KayÄ±t baÅŸarÄ±lÄ±! GiriÅŸ sayfasÄ±na yÃ¶nlendiriliyorsunuz...</div>
+            }
+
+            <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="alert alert-danger" style="margin-bottom: 1.5rem;" />
+                <div class="flex-col gap-4 mb-4">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label class="font-bold text-sm">Ad Soyad</label>
+                        <input type="text" @bind="registerModel.FullName" class="search-input" style="border: 1px solid var(--color-border);" placeholder="Ad Soyad" required />
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label class="font-bold text-sm">E-posta</label>
+                        <input type="email" @bind="registerModel.Email" class="search-input" style="border: 1px solid var(--color-border);" placeholder="ornek@email.com" required />
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label class="font-bold text-sm">Åifre</label>
+                        <input type="password" @bind="registerModel.Password" class="search-input" style="border: 1px solid var(--color-border);" placeholder="En az 8 karakter" required />
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;" disabled="@isLoading">
+                    @if (isLoading) { <span>KayÄ±t YapÄ±lÄ±yor...</span> } else { <span>Hesap OluÅŸtur</span> }
+                </button>
+            </EditForm>
+
+            <p class="text-center text-muted" style="margin-top: 2rem;">
+                Zaten hesabÄ±nÄ±z var mÄ±? <a href="/giris" class="text-primary font-bold" style="text-decoration: none;">GiriÅŸ Yap</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+@using Microsoft.JSInterop
+@code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    private KursuTV.Business.DTOs.UserRegisterDto registerModel = new();
+    private string? errorMessage;
+    private bool isLoading;
+    private bool isSuccess;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // OnInitializedAsync iÃ§inde JS Ã§aÄŸÄ±rmÄ±yoruz (Prerendering hatasÄ±na yol aÃ§ar)
+    }
+
+    private async Task HandleRegister()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] KayÄ±t denemesi baÅŸlatÄ±ldÄ±: {registerModel.Email}");
+
+        try
+        {
+            var result = await AuthService.RegisterAsync(registerModel);
+            if (result.Success)
+            {
+                isSuccess = true;
+                await JS.InvokeVoidAsync("console.log", "[KursuTV Tracker] API kaydÄ± BAÅARILI. GiriÅŸ sayfasÄ±na yÃ¶nlendiriliyor...");
+                await Task.Delay(2000);
+                NavigationManager.NavigateTo("/giris");
+            }
+            else
+            {
+                errorMessage = result.ErrorMessage ?? "KayÄ±t iÅŸlemi baÅŸarÄ±sÄ±z.";
+                await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] HATA: API kaydÄ± reddetti. Sebep: {errorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Beklenmeyen sunucu hatasÄ±. API'nin Ã§alÄ±ÅŸtÄ±ÄŸÄ±ndan emin olun.";
+            await JS.InvokeVoidAsync("console.error", $"[KursuTV Tracker] KRÄ°TÄ°K HATA: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

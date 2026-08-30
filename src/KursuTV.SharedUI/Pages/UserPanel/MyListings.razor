@@ -1,0 +1,276 @@
+﻿@page "/panel/ilanlarim"
+@using System.Net.Http
+@inject IListingService ListingService
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Ä°lanlarÄ±m | KursuTV.com</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <section class="section my-listings-page">
+            <div class="container">
+                <PageHeader Title="Ä°lanlarÄ±m" Subtitle="TÃ¼m ilanlarÄ±nÄ±zÄ± buradan yÃ¶netebilirsiniz" BackUrl="/panel/dashboard">
+                    <Actions>
+                        <a href="/panel/ilan-olustur" class="btn btn-primary">
+                            <span class="btn-icon">â•</span> Yeni Ä°lan
+                        </a>
+                    </Actions>
+                </PageHeader>
+
+                <!-- Filtreler -->
+                <div class="filters-bar card mb-6">
+                    <div class="filter-group">
+                        <label>Durum:</label>
+                        <select @bind="statusFilter" @bind:after="FilterListings" class="filter-select">
+                            <option value="all">TÃ¼mÃ¼</option>
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Pasif</option>
+                            <option value="pending">Onay Bekliyor</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>SÄ±ralama:</label>
+                        <select @bind="sortBy" @bind:after="FilterListings" class="filter-select">
+                            <option value="newest">En Yeni</option>
+                            <option value="oldest">En Eski</option>
+                            <option value="price-high">Fiyat (YÃ¼ksek)</option>
+                            <option value="price-low">Fiyat (DÃ¼ÅŸÃ¼k)</option>
+                        </select>
+                    </div>
+                </div>
+
+                @if (isLoading)
+                {
+                    <div class="grid grid-3">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <div class="skeleton" style="height: 250px;"></div>
+                        }
+                    </div>
+                }
+                else if (filteredListings == null || !filteredListings.Any())
+                {
+                    <div class="empty-state card">
+                        <div class="empty-icon">ğŸ“</div>
+                        <h3>Ä°lan bulunamadÄ±</h3>
+                        <p class="text-muted">SeÃ§tiÄŸiniz kriterlere uygun ilanÄ±nÄ±z bulunmuyor veya henÃ¼z hiÃ§ ilan oluÅŸturmadÄ±nÄ±z.</p>
+                        <a href="/panel/ilan-olustur" class="btn btn-primary mt-4">Ä°lk Ä°lanÄ±nÄ± OluÅŸtur</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="listings-grid">
+                        @foreach (var listing in filteredListings)
+                        {
+                            <div @key="listing.Id" class="listing-card card @(listing.Status.ToString().ToLower() == "active" ? "" : "inactive")">
+                                <div class="listing-header">
+                                    <div class="listing-status @listing.Status.ToString().ToLower()">
+                                        @GetStatusText(listing.Status)
+                                    </div>
+                                    @if (listing.IsVitrin)
+                                    {
+                                        <div class="badge badge-vitrin" title="Vitrin Ä°lanÄ±">â­ Vitrin</div>
+                                    }
+                                </div>
+
+                                <div class="listing-content">
+                                    <h3 class="listing-title">@listing.Title</h3>
+                                    <div class="listing-details">
+                                        <div class="detail-item">
+                                            <span class="detail-icon">ğŸ“š</span>
+                                            <span>@listing.BranchName</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">ğŸ’°</span>
+                                            <span>@listing.HourlyPrice TL/saat</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">ğŸ‘¥</span>
+                                            <span>@GetLessonTypeText(listing.LessonType)</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">ğŸ“</span>
+                                            <span>@listing.CityName, @listing.DistrictName</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="listing-stats">
+                                        <div class="stat">
+                                            <span class="stat-value">@listing.ReviewCount</span>
+                                            <span class="stat-label">Yorum</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-value">â­ @listing.AverageRating.ToString("F1")</span>
+                                            <span class="stat-label">Puan</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="listing-actions">
+                                    <div class="action-group primary-actions">
+                                        <a href="/panel/ilan-duzenle/@listing.Id" class="btn btn-secondary btn-sm" title="DÃ¼zenle">
+                                            âœï¸ DÃ¼zenle
+                                        </a>
+                                        <a href="/ilan/@listing.Slug" class="btn btn-secondary btn-sm" title="GÃ¶rÃ¼ntÃ¼le" target="_blank">
+                                            ğŸ‘ï¸ GÃ¶r
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="action-group secondary-actions">
+                                        @if (!listing.IsVitrin && listing.Status == ListingStatus.Active)
+                                        {
+                                            <button class="btn btn-warning btn-sm" @onclick="() => PromoteListing(listing.Id)" title="Vitrini Al">
+                                                â­ Vitrin Yap
+                                            </button>
+                                        }
+                                        <button class="btn btn-danger btn-sm btn-icon-only" @onclick="() => DeleteListing(listing.Id)" title="Sil">
+                                            ğŸ—‘ï¸
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container section text-center flex-center py-20" style="min-height: 50vh;">
+            <div class="card glass" style="max-width: 500px; margin: 0 auto; padding: 3rem;">
+                <h3 style="color: var(--color-secondary); margin-bottom: 1rem;">LÃ¼tfen Bekleyin veya GiriÅŸ YapÄ±n</h3>
+                <p class="text-muted mb-8">GÃ¼venlik kontrolÃ¼ saÄŸlanÄ±yor. LÃ¼tfen giriÅŸ yaptÄ±ÄŸÄ±nÄ±zÄ± doÄŸrulayÄ±n.</p>
+                <a href="/giris" class="btn btn-primary" style="width: 100%;">GiriÅŸ Yap SayfasÄ±na Git</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<ListingDto>? listings;
+    private List<ListingDto>? filteredListings;
+    private bool isLoading = true;
+    private string statusFilter = "all";
+    private string sortBy = "newest";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadListings();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadListings()
+    {
+        isLoading = true;
+        try
+        {
+            listings = await ListingService.GetMyListingsAsync(Guid.Empty);
+            FilterListings();
+        }
+        catch (HttpRequestException ex)
+        {
+            await JS.InvokeVoidAsync("console.error", "[KursuTV] Ä°lanlar yÃ¼klenemedi:", ex.Message);
+            try
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "error", "Veri YÃ¼kleme HatasÄ±", "API baÄŸlantÄ±sÄ± kurulamadÄ±. SayfayÄ± yenilemeyi deneyin.", 0);
+            }
+            catch { /* Prerendering sÄ±rasÄ±nda JS Ã§aÄŸÄ±rÄ±lamaz */ }
+        }
+        catch (Exception ex)
+        {
+            // Prerendering sÄ±rasÄ±nda JS Ã§aÄŸÄ±rÄ±lamaz, sessizce geÃ§
+            try
+            {
+                await JS.InvokeVoidAsync("console.error", "[KursuTV] Ä°lanlar yÃ¼klenirken hata:", ex.Message);
+            }
+            catch { }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void FilterListings()
+    {
+        if (listings == null)
+        {
+            filteredListings = null;
+            return;
+        }
+
+        var filtered = listings.AsEnumerable();
+
+        // Durum filtresi
+        if (statusFilter != "all")
+        {
+            filtered = filtered.Where(l => l.Status.ToString().ToLower() == statusFilter);
+        }
+
+        // SÄ±ralama
+        filtered = sortBy switch
+        {
+            "newest" => filtered.OrderByDescending(l => l.CreatedAt),
+            "oldest" => filtered.OrderBy(l => l.CreatedAt),
+            "price-high" => filtered.OrderByDescending(l => l.HourlyPrice),
+            "price-low" => filtered.OrderBy(l => l.HourlyPrice),
+            _ => filtered
+        };
+
+        filteredListings = filtered.ToList();
+    }
+
+    private string GetStatusText(ListingStatus status)
+    {
+        return status switch
+        {
+            ListingStatus.Active => "YayÄ±nda",
+            ListingStatus.Pending => "Onay Bekliyor",
+            ListingStatus.Suspended => "AskÄ±ya AlÄ±ndÄ±",
+            ListingStatus.Closed => "KapatÄ±ldÄ±",
+            _ => "Bilinmiyor"
+        };
+    }
+
+    private string GetLessonTypeText(LessonType type)
+    {
+        return type switch
+        {
+            LessonType.FaceToFace => "YÃ¼z YÃ¼ze",
+            LessonType.Online => "Online",
+            LessonType.Both => "Hibrit",
+            _ => "BelirtilmemiÅŸ"
+        };
+    }
+
+    private async Task PromoteListing(Guid listingId)
+    {
+        // Vitrin satÄ±n alma sayfasÄ±na yÃ¶nlendir
+        Navigation.NavigateTo($"/panel/vitrin-satin-al/{listingId}");
+    }
+
+    private async Task DeleteListing(Guid listingId)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("kursutv.showConfirm", "Ä°lanÄ± Sil", "Bu ilanÄ± silmek istediÄŸinize emin misiniz? Bu iÅŸlem geri alÄ±namaz.", "Evet, Sil", "Ä°ptal");
+        if (confirmed)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("console.log", $"[KursuTV Tracker] Ä°lan siliniyor: {listingId}");
+                await ListingService.DeleteAsync(listingId, Guid.Empty);
+                await JS.InvokeVoidAsync("kursutv.showSwal", "success", "Silindi!", "Ä°lan baÅŸarÄ±yla silindi.", 2000);
+                await LoadListings();
+            }
+            catch (Exception ex)
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "error", "Silinemedi", ex.Message, 0);
+                await JS.InvokeVoidAsync("console.error", "[KursuTV Tracker] HATA: Ä°lan silinemedi.", ex.Message);
+            }
+        }
+    }
+}

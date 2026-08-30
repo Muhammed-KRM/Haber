@@ -1,0 +1,227 @@
+/* ===========================
+   OzelDers — Utility Classes
+   =========================== */
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 15px var(--color-primary-glow);
+}
+.btn-primary:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--color-primary-glow);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+.btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+}
+.btn-outline:hover {
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+}
+
+/* Cards */
+.card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: var(--space-8);
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+}
+
+/* C-3: will-change — sadece ilan kartlarına, genel .card'a değil */
+.listing-card {
+    will-change: transform;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+}
+
+.card-premium {
+    position: relative;
+    overflow: hidden;
+}
+.card-premium::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}
+
+/* SearchBar */
+.search-container {
+    padding: 0.75rem;
+    border-radius: var(--radius-full);
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    outline: none;
+    background: transparent;
+    min-width: 0; /* flex shrink için kritik */
+}
+
+.search-btn {
+    border-radius: 40px;
+    padding: 0.875rem 1.5rem;
+    font-weight: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Utility Spacing */
+.section { padding: var(--space-16) 0; }
+.py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-12 { margin-bottom: 3rem; }
+
+/* Flex Helpers */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-col { flex-direction: column; }
+.gap-4 { gap: 1rem; }
+.gap-8 { gap: 2rem; }
+
+/* Animation Classes */
+.animate-float { animation: float 6s ease-in-out infinite; }
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* ===========================
+   Mobil UI Standartları (Touch Targets, Safe Area, iOS Input Fix)
+   =========================== */
+
+/* Touch Target — sadece .btn sınıfı ve özel touch elementler */
+.btn {
+    min-height: 48px;
+    min-width: 48px;
+}
+
+/* iOS auto-zoom engeli: input'lar min 16px font */
+input,
+textarea,
+select {
+    font-size: 1rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    font-size: 1rem;
+}
+
+/* Safe Area — cihaz çentik ve alt navigasyon çubuğu için */
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+/* App geneli safe area — MAUI WebView için */
+body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+/* Status bar safe area div (index.html'de kullanılıyor) */
+.status-bar-safe-area {
+    height: env(safe-area-inset-top);
+    background: transparent;
+}
+
+/* ===========================
+   Responsive Navbar & Mobile Menu — NavMenu.razor.css'de yönetiliyor
+   =========================== */
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: var(--space-2);
+    min-height: 48px;
+    min-width: 48px;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-only-text {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .mobile-only-text {
+        display: inline;
+        margin-left: 8px;
+    }
+}

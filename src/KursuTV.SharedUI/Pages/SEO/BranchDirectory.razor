@@ -1,0 +1,56 @@
+﻿@page "/ders-verenler/{Branch}"
+@inject KursuTV.Business.Interfaces.IListingService ListingService
+
+<PageTitle>@FormattedBranch Ã–zel Ders Verenler | KursuTV.com</PageTitle>
+<HeadContent>
+    <meta name="description" content="En iyi @FormattedBranch eÄŸitmenlerinden Ã¶zel ders alÄ±n. Binlerce onaylÄ± profili inceleyin, bÃ¼tÃ§enize uygun uzman Ã¶ÄŸretmeni hemen bulun." />
+    <meta property="og:title" content="@FormattedBranch Ã–zel Ders" />
+</HeadContent>
+
+<section class="branch-hero">
+    <div class="container flex-row">
+        <div class="content-side text-left">
+            <span class="badge badge-primary mb-2">PopÃ¼ler Kategori</span>
+            <h1 class="branch-title animate-slide-up">
+                <span class="text-primary">@FormattedBranch</span> Ã–ÄŸrenme Vakti Geldi
+            </h1>
+            <p class="branch-subtitle animate-fade-in">
+                Hedeflerine daha hÄ±zlÄ± ulaÅŸmak iÃ§in alanÄ±nda uzman binlerce Ã¶ÄŸretmen seni bekliyor. SeÃ§, iletiÅŸime geÃ§ ve hemen baÅŸla.
+            </p>
+        </div>
+        <div class="graphic-side">
+            <!-- Glassmorphism grafik efekti -->
+            <div class="glass-orb"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section seo-results bg-soft">
+    <div class="container">
+        <h2 class="text-center mb-6 text-secondary">TÃ¼m @FormattedBranch EÄŸitmenleri</h2>
+        <div class="grid grid-3">
+            @if (listings.Any())
+            {
+                @foreach (var listing in listings)
+                {
+                    <KursuTV.SharedUI.Components.ListingCard Listing="listing" />
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public string Branch { get; set; } = string.Empty;
+
+    public string FormattedBranch => char.ToUpper(Branch[0]) + Branch.Substring(1).Replace("-", " ");
+
+    private List<KursuTV.Business.DTOs.ListingDto> listings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var searchResult = await ListingService.SearchAsync(new KursuTV.Business.DTOs.SearchFilterDto { Branch = Branch });
+        listings = searchResult.Items.ToList();
+    }
+}

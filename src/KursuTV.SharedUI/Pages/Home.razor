@@ -1,0 +1,242 @@
+﻿@page "/"
+@inject IListingService ListingService
+@inject HttpClient Http
+
+<PageTitle>Ã–zel Ders Bul | KursuTV.com</PageTitle>
+
+<!-- 1. Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title animate-slide-up">AradÄ±ÄŸÄ±n <span>Ã–ÄŸretmeni</span> Bul</h1>
+        <p class="hero-subtitle animate-fade-in">TÃ¼rkiye'nin en gÃ¼venilir Ã¶zel ders platformunda binlerce uzman Ã¶ÄŸretmen seni bekliyor.</p>
+
+        <!-- Ana arama kutusu -->
+        <div class="search-container animate-fade-in">
+            <span style="padding-left: 1rem; font-size: 1.5rem;">ğŸ”</span>
+            <input type="text" @bind="searchQuery" @bind:event="oninput" @onkeyup="HandleKeyDown"
+                   class="search-input"
+                   placeholder="Ne Ã¶ÄŸrenmek istersin? (Matematik, Ä°ngilizce...)" />
+            <button class="btn btn-primary search-btn" @onclick="ExecuteSearch">Hemen Bul</button>
+        </div>
+
+        <!-- Mega Filter -->
+        <div class="mega-filter animate-fade-in">
+            <div class="mega-filter-inner">
+                <div class="mf-group">
+                    <label class="mf-label">ğŸ“š BranÅŸ</label>
+                    <select @bind="filterBranch" class="mf-select">
+                        <option value="">TÃ¼m BranÅŸlar</option>
+                        @foreach (var b in branches)
+                        {
+                            <option value="@b.Name">@b.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="mf-divider"></div>
+                <div class="mf-group">
+                    <label class="mf-label">ğŸ“ Åehir</label>
+                    <select @bind="filterCity" class="mf-select">
+                        <option value="">TÃ¼m Åehirler</option>
+                        @foreach (var c in cities)
+                        {
+                            <option value="@c.Name">@c.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="mf-divider"></div>
+                <div class="mf-group mf-price-group">
+                    <label class="mf-label">ğŸ’° Maks. Fiyat: <strong>@(filterMaxPrice == 2000 ? "TÃ¼mÃ¼" : filterMaxPrice + " TL")</strong></label>
+                    <input type="range" min="0" max="2000" step="50"
+                           @bind="filterMaxPrice" @bind:event="oninput"
+                           class="mf-range" />
+                    <div class="mf-range-labels"><span>Ãœcretsiz</span><span>2000 TL</span></div>
+                </div>
+                <button class="btn btn-primary mf-search-btn" @onclick="ExecuteMegaSearch">
+                    Ara
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. PopÃ¼ler Kategoriler -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center">PopÃ¼ler Kategoriler</h2>
+        <div class="grid grid-4 category-grid">
+            <a href="/kategori/akademik" class="category-card animate-float">
+                <span class="category-icon">ğŸ“š</span>
+                <span>Akademik</span>
+            </a>
+            <a href="/kategori/sinav" class="category-card animate-float" style="animation-delay: 0.1s">
+                <span class="category-icon">ğŸ¯</span>
+                <span>SÄ±nav HazÄ±rlÄ±k</span>
+            </a>
+            <a href="/kategori/yazilim" class="category-card animate-float" style="animation-delay: 0.2s">
+                <span class="category-icon">ğŸ’»</span>
+                <span>YazÄ±lÄ±m</span>
+            </a>
+            <a href="/kategori/muzik" class="category-card animate-float" style="animation-delay: 0.3s">
+                <span class="category-icon">ğŸµ</span>
+                <span>MÃ¼zik & Sanat</span>
+            </a>
+            <a href="/kategori/spor" class="category-card animate-float" style="animation-delay: 0.4s">
+                <span class="category-icon">âš½</span>
+                <span>Spor</span>
+            </a>
+            <a href="/kategori/dil" class="category-card animate-float" style="animation-delay: 0.5s">
+                <span class="category-icon">ğŸŒ</span>
+                <span>YabancÄ± Dil</span>
+            </a>
+            <a href="/arama?branch=matematik" class="category-card animate-float" style="animation-delay: 0.6s">
+                <span class="category-icon">ğŸ“</span>
+                <span>Matematik</span>
+            </a>
+            <a href="/arama?branch=fizik" class="category-card animate-float" style="animation-delay: 0.7s">
+                <span class="category-icon">âš›ï¸</span>
+                <span>Fizik</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Vitrin Ä°lanlarÄ± -->
+<section class="section py-20" style="background: rgba(255,255,255,0.4)">
+    <div class="container">
+        <h2 class="text-center font-bold">âœ¨ Ã–ne Ã‡Ä±kan EÄŸitmenler</h2>
+        @if (vitrinListings.Any())
+        {
+            <div class="grid grid-3">
+                @foreach (var listing in vitrinListings)
+                {
+                    <ListingCard @key="listing.Id" Listing="listing" />
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center padding-xl glass" style="border-radius: var(--radius-lg)">
+                <p class="text-muted">HenÃ¼z vitrin ilanÄ± bulunmamaktadÄ±r.</p>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- 4. NasÄ±l Ã‡alÄ±ÅŸÄ±r -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center mb-12">Ders Almaya Hemen BaÅŸla</h2>
+        <div class="grid grid-3 gap-8">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>EÄŸitmeni SeÃ§</h3>
+                <p>Binlerce profil arasÄ±ndan sana en uygun olanÄ± geliÅŸmiÅŸ filtrelerle bul.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>TanÄ±ÅŸma MesajÄ± At</h3>
+                <p>Ä°lana Ã¼cretsiz baÅŸvur ya da jetonunla Ã¶ÄŸretmene direkt teklif gÃ¶nder.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>EÄŸitime BaÅŸla</h3>
+                <p>Ã–ÄŸretmeninle detaylarÄ± konuÅŸ ve hedefine doÄŸru ilk adÄ±mÄ± at!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Ä°statistikler -->
+<section class="section" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; padding: 4rem 0;">
+    <div class="container">
+        <div class="grid grid-4 gap-8 text-center">
+            <div class="stat-box">
+                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem;">1,200+</div>
+                <div style="opacity: 0.85; font-weight: 500;">EÄŸitmen</div>
+            </div>
+            <div class="stat-box">
+                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem;">3,500+</div>
+                <div style="opacity: 0.85; font-weight: 500;">Aktif Ä°lan</div>
+            </div>
+            <div class="stat-box">
+                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem;">50+</div>
+                <div style="opacity: 0.85; font-weight: 500;">BranÅŸ</div>
+            </div>
+            <div class="stat-box">
+                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem;">8,000+</div>
+                <div style="opacity: 0.85; font-weight: 500;">Mutlu Ã–ÄŸrenci</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. CTA -->
+<div class="container mb-12">
+    <section class="cta-section glass-dark animate-slide-up">
+        <h2>Ã–ÄŸretmen misiniz?</h2>
+        <p>Hemen Ã¼cretsiz kayÄ±t olun, tecrÃ¼benizi binlerce Ã¶ÄŸrenciyle paylaÅŸmaya baÅŸlayÄ±n.</p>
+        <div class="flex justify-center gap-4">
+            <a href="/kayit" class="btn btn-primary btn-lg">Åimdi KayÄ±t Ol</a>
+            <a href="/nasil-calisir" class="btn btn-outline btn-lg" style="color: white; border-color: rgba(255,255,255,0.3)">NasÄ±l Ã‡alÄ±ÅŸÄ±r?</a>
+        </div>
+    </section>
+</div>
+
+@using Microsoft.JSInterop
+@code {
+    [Inject] private NavigationManager NavManager { get; set; } = default!;
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    
+    private List<ListingDto> vitrinListings = new();
+    private string searchQuery = string.Empty;
+
+    // Mega filter
+    private string filterBranch = "";
+    private string filterCity = "";
+    private int filterMaxPrice = 2000;
+    private List<BranchDto> branches = new();
+    private List<CityDto> cities = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try { vitrinListings = await ListingService.GetVitrinListingsAsync(); }
+        catch { }
+
+        try
+        {
+            var b = await Http.GetFromJsonAsync<List<BranchDto>>("api/branches");
+            if (b != null) branches = b;
+        }
+        catch { }
+
+        try
+        {
+            var c = await Http.GetFromJsonAsync<List<CityDto>>("api/cities");
+            if (c != null) cities = c;
+        }
+        catch { }
+    }
+
+    private async Task ExecuteSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+            NavManager.NavigateTo($"/arama?q={Uri.EscapeDataString(searchQuery)}");
+        else
+            NavManager.NavigateTo("/arama");
+    }
+
+    private void ExecuteMegaSearch()
+    {
+        var parts = new List<string>();
+        if (!string.IsNullOrEmpty(filterBranch)) parts.Add($"branch={Uri.EscapeDataString(filterBranch)}");
+        if (!string.IsNullOrEmpty(filterCity))   parts.Add($"city={Uri.EscapeDataString(filterCity)}");
+        if (filterMaxPrice < 2000)               parts.Add($"maxPrice={filterMaxPrice}");
+        var url = "/arama" + (parts.Any() ? "?" + string.Join("&", parts) : "");
+        NavManager.NavigateTo(url);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") await ExecuteSearch();
+    }
+}

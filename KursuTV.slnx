@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KursuTV.API/KursuTV.API.csproj" />
+    <Project Path="src/KursuTV.App/KursuTV.App.csproj" />
+    <Project Path="src/KursuTV.Business/KursuTV.Business.csproj" />
+    <Project Path="src/KursuTV.Data/KursuTV.Data.csproj" />
+    <Project Path="src/KursuTV.SharedUI/KursuTV.SharedUI.csproj" />
+    <Project Path="src/KursuTV.Web/KursuTV.Web.csproj" />
+    <Project Path="src/KursuTV.Worker/KursuTV.Worker.csproj" />
+  </Folder>
+</Solution>

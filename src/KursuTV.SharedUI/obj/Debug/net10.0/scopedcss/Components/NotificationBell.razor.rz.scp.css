@@ -1,0 +1,197 @@
+/* ── Bildirim Çanı ── */
+.notif-bell-wrapper[b-zxganm30nj] {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.notif-bell-btn[b-zxganm30nj] {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+    color: var(--color-text-primary);
+}
+
+.notif-bell-btn:hover[b-zxganm30nj] {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+/* Okunmamış sayı badge */
+.notif-badge[b-zxganm30nj] {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: var(--color-primary, #FA626B);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+    border: 2px solid white;
+}
+
+/* ── Dropdown ── */
+.notif-dropdown[b-zxganm30nj] {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: 340px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    z-index: 9999;
+    overflow: hidden;
+    animation: notifDropIn-b-zxganm30nj 0.18s ease-out;
+}
+
+@keyframes notifDropIn-b-zxganm30nj {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.notif-dropdown-header[b-zxganm30nj] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.notif-dropdown-header span[b-zxganm30nj] {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text-primary, #1e293b);
+}
+
+.notif-read-all[b-zxganm30nj] {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--color-primary, #FA626B);
+    font-weight: 600;
+    padding: 0;
+    transition: opacity 0.2s;
+}
+
+.notif-read-all:hover[b-zxganm30nj] {
+    opacity: 0.75;
+}
+
+/* Bildirim öğesi */
+.notif-item[b-zxganm30nj] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.notif-item:last-of-type[b-zxganm30nj] {
+    border-bottom: none;
+}
+
+.notif-item:hover[b-zxganm30nj] {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.notif-item.unread[b-zxganm30nj] {
+    background: rgba(var(--color-primary-rgb, 250, 98, 107), 0.04);
+}
+
+.notif-item.unread:hover[b-zxganm30nj] {
+    background: rgba(var(--color-primary-rgb, 250, 98, 107), 0.08);
+}
+
+.notif-icon[b-zxganm30nj] {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+}
+
+.notif-content[b-zxganm30nj] {
+    flex: 1;
+    min-width: 0;
+}
+
+.notif-title[b-zxganm30nj] {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary, #1e293b);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notif-msg[b-zxganm30nj] {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary, #64748b);
+    margin-top: 0.15rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notif-time[b-zxganm30nj] {
+    font-size: 0.72rem;
+    color: var(--color-text-muted, #94a3b8);
+    margin-top: 0.25rem;
+}
+
+/* Boş durum */
+.notif-empty[b-zxganm30nj] {
+    padding: 2rem 1.25rem;
+    text-align: center;
+    color: var(--color-text-muted, #94a3b8);
+    font-size: 0.875rem;
+}
+
+/* Tümünü gör linki */
+.notif-see-all[b-zxganm30nj] {
+    display: block;
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary, #FA626B);
+    text-decoration: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    transition: background 0.15s ease;
+}
+
+.notif-see-all:hover[b-zxganm30nj] {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+/* Mobil */
+@media (max-width: 480px) {
+    .notif-dropdown[b-zxganm30nj] {
+        width: calc(100vw - 2rem);
+        right: -1rem;
+    }
+}

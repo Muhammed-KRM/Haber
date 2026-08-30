@@ -1,0 +1,207 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows,browser
+build_property.RootNamespace = OzelDers.SharedUI
+build_property.RootNamespace = OzelDers.SharedUI
+build_property.ProjectDir = d:\OZELDERS\src\OzelDers.SharedUI\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = d:\OZELDERS\src\OzelDers.SharedUI
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/BanWarningPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xCYW5XYXJuaW5nUG9wdXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/StarRating.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdGFyUmF0aW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/AdminListings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRtaW5MaXN0aW5ncy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/AdminSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRtaW5TZXR0aW5ncy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/AdminUsers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRtaW5Vc2Vycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/Violations.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVmlvbGF0aW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Auth/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Auth/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxSZWdpc3Rlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/FakePayment.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmFrZVBheW1lbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/CerezPolitikasi.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXENlcmV6UG9saXRpa2FzaS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/Gizlilik.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEdpemxpbGlrLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/IptalIade.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXElwdGFsSWFkZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/KullanimKosullari.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEt1bGxhbmltS29zdWxsYXJpLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/KVKK.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEtWS0sucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Static/MesafeliSatis.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXE1lc2FmZWxpU2F0aXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Um91dGVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/Layout/CookieConsent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcQ29va2llQ29uc2VudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ep4cieaqb2
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-6rncms9sw6
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-tcmtvf6aiw
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/ListingCard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMaXN0aW5nQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-yc6sbd6l2u
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/NotificationBell.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xOb3RpZmljYXRpb25CZWxsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-zxganm30nj
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/OnboardingWizard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xPbmJvYXJkaW5nV2l6YXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-ubq2k6bvfh
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/PageHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlSGVhZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-5og437cm48
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/Pagination.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdpbmF0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-erld6obdui
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Components/SearchBar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTZWFyY2hCYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-fwm1su5hp6
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/AdminDashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRtaW5EYXNoYm9hcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-b8ao1aj9i3
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Admin/Reports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVwb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-tekrbazz3f
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/CategoryLanding.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcnlMYW5kaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-fy4a5dezqu
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-i2b8eh3tg3
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/ListingDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGluZ0RldGFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-o5z11phkn3
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Marketing/Hakkimizda.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFya2V0aW5nXEhha2tpbWl6ZGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-kj84fnqo7l
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Marketing/NasilCalisir.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFya2V0aW5nXE5hc2lsQ2FsaXNpci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-wd1jkul9fb
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Marketing/SSS.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFya2V0aW5nXFNTUy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vs80mheb7n
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/Search.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VhcmNoLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-e4xkt70e2x
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/SEO/BranchDirectory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU0VPXEJyYW5jaERpcmVjdG9yeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-hkeypnqsj3
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/SEO/CityBranchDirectory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU0VPXENpdHlCcmFuY2hEaXJlY3RvcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ilpistqwlw
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/SEO/CityDirectory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU0VPXENpdHlEaXJlY3RvcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-586igwxfki
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/CreateListing.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXENyZWF0ZUxpc3RpbmcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ax96drk0vv
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXERhc2hib2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-qnw1deewoo
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/EditListing.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXEVkaXRMaXN0aW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-prboj5utrx
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/Messages.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXE1lc3NhZ2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-eyzi05zuvs
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/MyListings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXE15TGlzdGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-31eay2v7dy
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/Notifications.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXE5vdGlmaWNhdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-6vim1dgmqu
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/ProfileSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXFByb2ZpbGVTZXR0aW5ncy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-x4xdq6pgw5
+
+[d:/OZELDERS/src/OzelDers.SharedUI/Pages/UserPanel/Wallet.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhbmVsXFdhbGxldC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-iqq4o9rzbk

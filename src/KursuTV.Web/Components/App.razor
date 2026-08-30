@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    
+    <!-- Google Fonts: Inter (Body) & Plus Jakarta Sans (Heading) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- KursuTV SharedUI TasarÄ±m Sistemi -->
+    <link rel="stylesheet" href="_content/KursuTV.SharedUI/css/app.css" />
+    <link rel="stylesheet" href="KursuTV.Web.styles.css" />
+    
+    <!-- SweetAlert2 â€” Local -->
+    <link rel="stylesheet" href="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.min.css" />
+    
+    <style>
+        #blazor-error-ui {
+            background: #fff3cd;
+            border-top: 2px solid #ffc107;
+            bottom: 0; left: 0; right: 0;
+            padding: 0.75rem 1.5rem;
+            position: fixed;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 0.9375rem;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+        #blazor-error-ui .reload {
+            background: #1e293b; color: white;
+            padding: 0.4rem 1rem; border-radius: 6px;
+            text-decoration: none; font-weight: 600;
+        }
+        #blazor-error-ui .dismiss { cursor: pointer; margin-left: auto; font-size: 1.1rem; }
+    </style>
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+</head>
+<body>
+    <KursuTV.SharedUI.Routes @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+    
+    <!-- blazor-error-ui: BaÄŸlantÄ± kopukluÄŸu bildirimi -->
+    <div id="blazor-error-ui" data-nosnippet>
+        <span>BaÄŸlantÄ± kesildi.</span>
+        <a href="." class="reload">SayfayÄ± Yenile</a>
+        <span class="dismiss">âœ•</span>
+    </div>
+
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/KursuTV.SharedUI/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="_content/KursuTV.SharedUI/js/interop.js"></script></body>
+</html>

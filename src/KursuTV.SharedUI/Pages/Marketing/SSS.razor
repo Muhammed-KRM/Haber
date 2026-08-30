@@ -1,0 +1,207 @@
+﻿@page "/sss"
+@page "/sikca-sorulan-sorular"
+
+<PageTitle>SÄ±kÃ§a Sorulan Sorular | KursuTV.com</PageTitle>
+
+<section class="section faq-page">
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero-section">
+            <h1>â“ SÄ±kÃ§a Sorulan Sorular</h1>
+            <p class="hero-subtitle">Merak ettiklerinizin yanÄ±tlarÄ± burada</p>
+        </div>
+
+        <!-- Kategoriler -->
+        <div class="categories">
+            <button class="category-btn @(activeCategory == "genel" ? "active" : "")" 
+                    @onclick='() => activeCategory = "genel"'>
+                ğŸ  Genel
+            </button>
+            <button class="category-btn @(activeCategory == "ogretmen" ? "active" : "")" 
+                    @onclick='() => activeCategory = "ogretmen"'>
+                ğŸ‘¨â€ğŸ« Ã–ÄŸretmenler Ä°Ã§in
+            </button>
+            <button class="category-btn @(activeCategory == "ogrenci" ? "active" : "")" 
+                    @onclick='() => activeCategory = "ogrenci"'>
+                ğŸ‘¨â€ğŸ“ Ã–ÄŸrenciler Ä°Ã§in
+            </button>
+            <button class="category-btn @(activeCategory == "odeme" ? "active" : "")" 
+                    @onclick='() => activeCategory = "odeme"'>
+                ğŸ’° Ã–deme & FiyatlandÄ±rma
+            </button>
+            <button class="category-btn @(activeCategory == "guvenlik" ? "active" : "")" 
+                    @onclick='() => activeCategory = "guvenlik"'>
+                ğŸ”’ GÃ¼venlik
+            </button>
+        </div>
+
+        <!-- Genel Sorular -->
+        @if (activeCategory == "genel")
+        {
+            <div class="faq-section">
+                <h2>ğŸ  Genel Sorular</h2>
+                
+                <div class="faq-item card">
+                    <h3>KursuTV.com nedir?</h3>
+                    <p>KursuTV.com, Ã¶zel ders vermek isteyen Ã¶ÄŸretmenler ile Ã¶zel ders almak isteyen Ã¶ÄŸrencileri bir araya getiren TÃ¼rkiye'nin en gÃ¼venilir platformudur. Komisyonsuz ve ÅŸeffaf bir sistem sunuyoruz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>KayÄ±t olmak Ã¼cretli mi?</h3>
+                    <p>HayÄ±r, kayÄ±t olmak tamamen Ã¼cretsizdir. Hem Ã¶ÄŸretmenler hem de Ã¶ÄŸrenciler hiÃ§bir Ã¼cret Ã¶demeden platformumuza katÄ±labilir.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>NasÄ±l Ã§alÄ±ÅŸÄ±r?</h3>
+                    <p>Ã–ÄŸrenciler arama yaparak Ã¶ÄŸretmen bulur ve Ã¼cretsiz mesaj gÃ¶nderir. Ã–ÄŸretmenler gelen mesajlarÄ± 1 jeton ile aÃ§ar. Mesaj aÃ§Ä±ldÄ±ktan sonra tÃ¼m sohbet Ã¼cretsizdir. Ders ve Ã¶deme detaylarÄ± Ã¶ÄŸretmen ile Ã¶ÄŸrenci arasÄ±nda belirlenir.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Hangi branÅŸlarda ders bulabilirim?</h3>
+                    <p>Matematik, Fizik, Kimya, Ä°ngilizce, TÃ¼rkÃ§e gibi akademik derslerden mÃ¼zik, spor, sanat gibi alanlara kadar 50'den fazla branÅŸta Ã¶ÄŸretmen bulabilirsiniz.</p>
+                </div>
+            </div>
+        }
+
+        <!-- Ã–ÄŸretmen SorularÄ± -->
+        @if (activeCategory == "ogretmen")
+        {
+            <div class="faq-section">
+                <h2>ğŸ‘¨â€ğŸ« Ã–ÄŸretmenler Ä°Ã§in</h2>
+                
+                <div class="faq-item card">
+                    <h3>Komisyon alÄ±yor musunuz?</h3>
+                    <p>HayÄ±r! KursuTV.com Ã¶ÄŸretmenlerden hiÃ§bir komisyon almaz. TÃ¼m kazancÄ±nÄ±z size aittir. Sadece mesajlaÅŸma iÃ§in kullanÄ±lan jeton sistemi mevcuttur.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Jeton sistemi nasÄ±l Ã§alÄ±ÅŸÄ±r?</h3>
+                    <p>Yeni Ã¶ÄŸretmenlere 3 Ã¼cretsiz jeton hediye ediyoruz. Ä°lanÄ±nÄ±za gelen mesajlarÄ± aÃ§mak iÃ§in 1 jeton kullanÄ±rsÄ±nÄ±z. Mesaj aÃ§Ä±ldÄ±ktan sonra o Ã¶ÄŸrenci ile tÃ¼m sohbet Ã¼cretsizdir. Ä°htiyaÃ§ duyduÄŸunuzda paket halinde jeton satÄ±n alabilirsiniz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Jeton paketleri ve fiyatlarÄ± nedir?</h3>
+                    <ul>
+                        <li><strong>BaÅŸlangÄ±Ã§:</strong> 5 jeton - 99 TL</li>
+                        <li><strong>PopÃ¼ler:</strong> 10 jeton - 149 TL (En avantajlÄ±)</li>
+                        <li><strong>Profesyonel:</strong> 25 jeton - 299 TL</li>
+                        <li><strong>Kurumsal:</strong> 50 jeton - 499 TL</li>
+                    </ul>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Vitrin nedir?</h3>
+                    <p>Vitrin, ilanÄ±nÄ±zÄ± arama sonuÃ§larÄ±nda Ã¼st sÄ±ralara Ã§Ä±karan ve Ã¶ne Ã§Ä±karan premium Ã¶zelliktir. HaftalÄ±k (79 TL), AylÄ±k (249 TL) ve Premium (449 TL) paketler mevcuttur.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ä°lanÄ±mÄ± nasÄ±l oluÅŸtururum?</h3>
+                    <p>KayÄ±t olduktan sonra "Ä°lan OluÅŸtur" butonuna tÄ±klayÄ±n. BranÅŸÄ±nÄ±zÄ±, deneyimlerinizi, saatlik Ã¼cretinizi ve ders verme ÅŸeklinizi (online/yÃ¼z yÃ¼ze) belirtin. FotoÄŸraf ekleyerek profilinizi gÃ¼Ã§lendirebilirsiniz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ã–demeler nasÄ±l yapÄ±lÄ±r?</h3>
+                    <p>Ders Ã¼creti Ã¶ÄŸrenci ile doÄŸrudan sizin aranÄ±zda belirlenir ve Ã¶denir. Platform bu sÃ¼rece dahil olmaz. Sadece jeton ve vitrin Ã¶demeleri platform Ã¼zerinden yapÄ±lÄ±r.</p>
+                </div>
+            </div>
+        }
+
+        <!-- Ã–ÄŸrenci SorularÄ± -->
+        @if (activeCategory == "ogrenci")
+        {
+            <div class="faq-section">
+                <h2>ğŸ‘¨â€ğŸ“ Ã–ÄŸrenciler Ä°Ã§in</h2>
+                
+                <div class="faq-item card">
+                    <h3>Ã–ÄŸretmenlere mesaj gÃ¶ndermek Ã¼cretli mi?</h3>
+                    <p>HayÄ±r, Ã¶ÄŸrenciler olarak Ã¶ÄŸretmenlere Ã¼cretsiz mesaj gÃ¶nderebilirsiniz. Ã–ÄŸretmen mesajÄ±nÄ±zÄ± aÃ§tÄ±ÄŸÄ±nda size yanÄ±t verecektir.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>NasÄ±l Ã¶ÄŸretmen bulurum?</h3>
+                    <p>Ana sayfadaki arama kutusundan branÅŸ, ÅŸehir ve bÃ¼tÃ§enize gÃ¶re arama yapabilirsiniz. Filtreleri kullanarak ders tÃ¼rÃ¼ (online/yÃ¼z yÃ¼ze), fiyat aralÄ±ÄŸÄ± ve diÄŸer kriterlere gÃ¶re sonuÃ§larÄ± daraltabilirsiniz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ã–ÄŸretmen yorumlarÄ± gÃ¼venilir mi?</h3>
+                    <p>Evet, sadece gerÃ§ekten ders almÄ±ÅŸ Ã¶ÄŸrenciler yorum yapabilir. TÃ¼m yorumlar moderasyon sÃ¼recinden geÃ§er.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ä°letiÅŸim bilgilerim paylaÅŸÄ±lÄ±r mÄ±?</h3>
+                    <p>HayÄ±r, telefon numaranÄ±z ve e-posta adresiniz gizli tutulur. Ã–ÄŸretmen ile iletiÅŸim platform Ã¼zerinden mesajlaÅŸma sistemi ile saÄŸlanÄ±r.</p>
+                </div>
+            </div>
+        }
+
+        <!-- Ã–deme SorularÄ± -->
+        @if (activeCategory == "odeme")
+        {
+            <div class="faq-section">
+                <h2>ğŸ’° Ã–deme & FiyatlandÄ±rma</h2>
+                
+                <div class="faq-item card">
+                    <h3>Hangi Ã¶deme yÃ¶ntemlerini kabul ediyorsunuz?</h3>
+                    <p>Kredi kartÄ± ve banka kartÄ± ile Ã¶deme yapabilirsiniz. TÃ¼m Ã¶demeler 3D Secure gÃ¼vencesi altÄ±ndadÄ±r.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>JetonlarÄ±n kullanÄ±m sÃ¼resi var mÄ±?</h3>
+                    <p>HayÄ±r, satÄ±n aldÄ±ÄŸÄ±nÄ±z jetonlarÄ±n kullanÄ±m sÃ¼resi yoktur. Ä°stediÄŸiniz zaman kullanabilirsiniz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ä°ade politikanÄ±z nedir?</h3>
+                    <p>SatÄ±n alÄ±nan jetonlar ve vitrin paketleri dijital Ã¼rÃ¼n olduÄŸu iÃ§in iade edilemez. Ancak teknik bir sorun yaÅŸarsanÄ±z destek ekibimiz size yardÄ±mcÄ± olacaktÄ±r.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Fatura alabilir miyim?</h3>
+                    <p>Evet, tÃ¼m Ã¶demeleriniz iÃ§in e-fatura dÃ¼zenlenir ve hesabÄ±nÄ±zdan indirebilirsiniz.</p>
+                </div>
+            </div>
+        }
+
+        <!-- GÃ¼venlik SorularÄ± -->
+        @if (activeCategory == "guvenlik")
+        {
+            <div class="faq-section">
+                <h2>ğŸ”’ GÃ¼venlik</h2>
+                
+                <div class="faq-item card">
+                    <h3>KiÅŸisel verilerim gÃ¼vende mi?</h3>
+                    <p>Evet, tÃ¼m kiÅŸisel verileriniz AES-256 ÅŸifreleme ile korunur. KVKK (KiÅŸisel Verilerin KorunmasÄ± Kanunu) uyumlu Ã§alÄ±ÅŸÄ±yoruz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>Ã–deme bilgilerim saklanÄ±r mÄ±?</h3>
+                    <p>HayÄ±r, kredi kartÄ± bilgileriniz sistemimizde saklanmaz. Ã–demeler gÃ¼venli Ã¶deme altyapÄ±sÄ± Ã¼zerinden gerÃ§ekleÅŸir.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>DolandÄ±rÄ±cÄ±lÄ±ÄŸa karÅŸÄ± ne yapÄ±yorsunuz?</h3>
+                    <p>TÃ¼m ilanlar moderasyon sÃ¼recinden geÃ§er. ÅÃ¼pheli aktiviteler tespit edildiÄŸinde hesaplar askÄ±ya alÄ±nÄ±r. KullanÄ±cÄ±larÄ±mÄ±zdan gelen ÅŸikayetleri ciddiye alÄ±yoruz.</p>
+                </div>
+
+                <div class="faq-item card">
+                    <h3>HesabÄ±mÄ± nasÄ±l silebilirim?</h3>
+                    <p>Profil ayarlarÄ±ndan "HesabÄ± Sil" seÃ§eneÄŸini kullanabilirsiniz. HesabÄ±nÄ±z ve tÃ¼m verileriniz kalÄ±cÄ± olarak silinir.</p>
+                </div>
+            </div>
+        }
+
+        <!-- Ä°letiÅŸim CTA -->
+        <div class="contact-cta card">
+            <h2>Sorunuz mu var?</h2>
+            <p>AradÄ±ÄŸÄ±nÄ±z soruyu bulamadÄ±nÄ±z mÄ±? Destek ekibimiz size yardÄ±mcÄ± olmaktan mutluluk duyar.</p>
+            <div class="cta-buttons">
+                <a href="mailto:destek@kursutv.com" class="btn btn-primary">ğŸ“§ Bize YazÄ±n</a>
+                <a href="/hakkimizda" class="btn btn-secondary">ğŸ“ Ä°letiÅŸim Bilgileri</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private string activeCategory = "genel";
+}

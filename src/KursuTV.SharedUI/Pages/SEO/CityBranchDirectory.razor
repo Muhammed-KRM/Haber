@@ -1,0 +1,56 @@
+﻿@page "/sehirler/{City}/{Branch}"
+@inject KursuTV.Business.Interfaces.IListingService ListingService
+
+<PageTitle>@FormattedCity @FormattedBranch Ã–zel Ders SeÃ§enekleri | KursuTV.com</PageTitle>
+<HeadContent>
+    <meta name="description" content="@FormattedCity bÃ¶lgesinde deneyimli @FormattedBranch Ã¶zel ders eÄŸitmenlerini inceleyin. SeÃ§kin profillere hemen ulaÅŸÄ±n." />
+    <meta property="og:title" content="@FormattedCity @FormattedBranch Ã–zel Ders" />
+</HeadContent>
+
+<section class="city-branch-hero">
+    <div class="container text-center">
+        <!-- Vitrin Badge -->
+        <div class="top-badge animate-fade-in">ğŸ“Œ Hedefe Ã–zel Listeleme</div>
+        
+        <h1 class="hero-title animate-slide-up">
+            <span class="text-secondary">@FormattedCity</span> bÃ¶lgesinde <br />
+            <span class="text-primary">@FormattedBranch</span> Dersleri
+        </h1>
+        <p class="hero-subtitle animate-fade-in">
+            Hedeflerinize ulaÅŸmanÄ±zÄ± saÄŸlayacak doÄŸru kiÅŸiyi binlerce filtre eÅŸleÅŸmesiyle bulduk.
+        </p>
+    </div>
+</section>
+
+<section class="section detail-results">
+    <div class="container">
+        <div class="grid grid-3">
+            @if (listings.Any())
+            {
+                @foreach (var listing in listings)
+                {
+                    <KursuTV.SharedUI.Components.ListingCard Listing="listing" />
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public string City { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Branch { get; set; } = string.Empty;
+
+    public string FormattedCity => char.ToUpper(City[0]) + City.Substring(1).Replace("-", " ");
+    public string FormattedBranch => char.ToUpper(Branch[0]) + Branch.Substring(1).Replace("-", " ");
+
+    private List<KursuTV.Business.DTOs.ListingDto> listings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var searchResult = await ListingService.SearchAsync(new KursuTV.Business.DTOs.SearchFilterDto { City = City, Branch = Branch });
+        listings = searchResult.Items.ToList();
+    }
+}

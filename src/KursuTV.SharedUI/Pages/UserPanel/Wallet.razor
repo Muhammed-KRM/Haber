@@ -1,0 +1,236 @@
+﻿@page "/panel/jetonlarim"
+@using System.Net.Http.Json
+@using KursuTV.Business.DTOs
+@using KursuTV.Business.Interfaces
+@inject ITokenService TokenService
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Jeton CÃ¼zdanÄ±m | KursuTV.com</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <section class="section wallet-page">
+            <div class="container">
+                <PageHeader Title="Jeton CÃ¼zdanÄ±m" Subtitle="Jeton bakiyenizi yÃ¶netin ve paket satÄ±n alÄ±n" BackUrl="/panel/dashboard" />
+                <div class="balance-hero card">
+                    <div class="balance-content">
+                        <h1>Jeton Bakiyeniz</h1>
+                        <div class="balance-display">
+                            <span class="balance-icon">ğŸª™</span>
+                            <span class="balance-number">@currentBalance</span>
+                            <span class="balance-label">Jeton</span>
+                        </div>
+                        <p class="balance-hint">Her jeton ile bir mesaj kutusunun kilidini aÃ§abilirsiniz</p>
+                    </div>
+                </div>
+
+                <!-- Jeton Paketleri -->
+                <div class="section-header">
+                    <h2>Jeton Paketleri</h2>
+                    <p class="text-muted">Ä°htiyacÄ±nÄ±za uygun paketi seÃ§in</p>
+                </div>
+
+                <div class="packages-grid">
+                    @foreach (var package in packages)
+                    {
+                        <div class="package-card card @(package.IsPopular ? "popular" : "")">
+                            @if (package.IsPopular)
+                            {
+                                <div class="popular-badge">â­ En Ã‡ok Tercih Edilen</div>
+                            }
+                            
+                            <div class="package-header">
+                                <h3 class="package-name">@package.Name</h3>
+                                <div class="package-icon">@package.Icon</div>
+                            </div>
+
+                            <div class="package-details">
+                                <div class="token-amount">
+                                    <span class="token-number">@package.TokenCount</span>
+                                    <span class="token-text">Jeton</span>
+                                </div>
+
+                                <div class="price-info">
+                                    <span class="price-amount">@package.Price TL</span>
+                                    <span class="unit-price">(@((package.Price / (decimal)package.TokenCount).ToString("F2")) TL/jeton)</span>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(package.Badge))
+                                {
+                                    <div class="package-badge">@package.Badge</div>
+                                }
+                            </div>
+
+                            <button class="btn btn-primary" @onclick="() => PurchasePackage(package.Id)" disabled="@isPurchasing">
+                                @if (isPurchasing && selectedPackageId == package.Id)
+                                {
+                                    <span>Ä°ÅŸleniyor...</span>
+                                }
+                                else
+                                {
+                                    <span>SatÄ±n Al</span>
+                                }
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                <!-- Harcama GeÃ§miÅŸi -->
+                <div class="section-header">
+                    <h2>Harcama GeÃ§miÅŸi</h2>
+                    <p class="text-muted">Jeton alÄ±m ve harcamalarÄ±nÄ±z</p>
+                </div>
+
+                @if (!transactions.Any())
+                {
+                    <div class="empty-state card">
+                        <div class="empty-icon">ğŸ“Š</div>
+                        <p>HenÃ¼z iÅŸlem geÃ§miÅŸiniz bulunmuyor</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="transactions-table card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tarih</th>
+                                    <th>Ä°ÅŸlem</th>
+                                    <th>Miktar</th>
+                                    <th>Bakiye</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var tx in transactions)
+                                {
+                                    <tr>
+                                        <td class="date-cell">@tx.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td class="description-cell">
+                                            <span class="tx-icon">@(tx.Amount > 0 ? "ğŸ’°" : "ğŸ“¤")</span>
+                                            <span>@tx.Description</span>
+                                        </td>
+                                        <td class="amount-cell @(tx.Amount > 0 ? "positive" : "negative")">
+                                            @(tx.Amount > 0 ? "+" : "")@tx.Amount
+                                        </td>
+                                        <td class="balance-cell">@tx.BalanceAfter</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <!-- Bilgilendirme -->
+                <div class="info-panel card">
+                    <h3>ğŸ’¡ Jeton Sistemi HakkÄ±nda</h3>
+                    <ul>
+                        <li><strong>Mesaj Kilidi AÃ§ma:</strong> Ä°lanÄ±nÄ±za gelen bir mesajÄ± okumak iÃ§in 1 jeton harcanÄ±r.</li>
+                        <li><strong>Ãœcretsiz YanÄ±tlar:</strong> Bir mesajÄ± aÃ§tÄ±ktan sonra tÃ¼m yanÄ±tlar Ã¼cretsizdir.</li>
+                        <li><strong>SÃ¼resi Dolmaz:</strong> JetonlarÄ±nÄ±zÄ±n kullanÄ±m sÃ¼resi yoktur.</li>
+                        <li><strong>GÃ¼venli Ã–deme:</strong> TÃ¼m Ã¶demeler 3D Secure ile gÃ¼vence altÄ±ndadÄ±r.</li>
+                        <li><strong>HoÅŸ Geldin Bonusu:</strong> Yeni Ã¶ÄŸretmenler 3 Ã¼cretsiz jeton kazanÄ±r.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container section text-center flex-center py-20" style="min-height: 50vh;">
+            <div class="card glass" style="max-width: 500px; margin: 0 auto; padding: 3rem;">
+                <h3 style="color: var(--color-secondary); margin-bottom: 1rem;">LÃ¼tfen Bekleyin veya GiriÅŸ YapÄ±n</h3>
+                <p class="text-muted mb-8">GÃ¼venlik kontrolÃ¼ saÄŸlanÄ±yor. LÃ¼tfen giriÅŸ yaptÄ±ÄŸÄ±nÄ±zÄ± doÄŸrulayÄ±n.</p>
+                <a href="/giris" class="btn btn-primary" style="width: 100%;">GiriÅŸ Yap SayfasÄ±na Git</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private int currentBalance = 0;
+    private List<TokenPackageDto> packages = new();
+    private List<TokenTransactionDto> transactions = new();
+    private bool isPurchasing = false;
+    private int? selectedPackageId = null;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadBalance();
+            await LoadPackages();
+            await LoadTransactions();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadBalance()
+    {
+        try
+        {
+            currentBalance = await TokenService.GetBalanceAsync(Guid.Empty);
+        }
+        catch
+        {
+            currentBalance = 0;
+        }
+    }
+
+    private async Task LoadPackages()
+    {
+        try 
+        {
+            packages = await TokenService.GetPackagesAsync();
+        }
+        catch 
+        {
+            packages = new List<TokenPackageDto>();
+        }
+    }
+
+    private async Task LoadTransactions()
+    {
+        try
+        {
+            transactions = await TokenService.GetTransactionHistoryAsync(Guid.Empty);
+        }
+        catch
+        {
+            transactions = new List<TokenTransactionDto>();
+        }
+    }
+
+    private async Task PurchasePackage(int packageId)
+    {
+        isPurchasing = true;
+        selectedPackageId = packageId;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/Tokens/purchase", new { PackageId = packageId });
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<System.Text.Json.JsonElement>();
+                if (result.TryGetProperty("paymentUrl", out var urlElement))
+                {
+                    Navigation.NavigateTo(urlElement.GetString() ?? "#", forceLoad: true);
+                }
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("kursutv.showSwal", "error", "Hata", "Ã–deme baÅŸlatÄ±lamadÄ±.", 0);
+            }
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("console.error", "Purchase error: " + ex.Message);
+        }
+        finally
+        {
+            isPurchasing = false;
+            selectedPackageId = null;
+        }
+    }
+
+}

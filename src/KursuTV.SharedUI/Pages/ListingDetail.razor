@@ -1,0 +1,424 @@
+﻿@page "/ilan/{slug}"
+@inject IListingService ListingService
+@inject IMessageService MessageService
+@inject IReviewService ReviewService
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>@(listing?.Title ?? "Ä°lan DetayÄ±") | KursuTV.com</PageTitle>
+
+@if (isLoading)
+{
+    <section class="section">
+        <div class="container">
+            <div class="skeleton" style="height: 400px; margin-bottom: 2rem;"></div>
+            <div class="skeleton" style="height: 200px;"></div>
+        </div>
+    </section>
+}
+else if (listing == null)
+{
+    <section class="section">
+        <div class="container text-center">
+            <h2>Ä°lan BulunamadÄ±</h2>
+            <p class="text-muted">AradÄ±ÄŸÄ±nÄ±z ilan mevcut deÄŸil veya kaldÄ±rÄ±lmÄ±ÅŸ.</p>
+            <a href="/arama" class="btn btn-primary">Aramaya DÃ¶n</a>
+        </div>
+    </section>
+}
+else
+{
+    <!-- Hero Section - Ã–ÄŸretmen Bilgisi -->
+    <section class="listing-hero">
+        <div class="container">
+            <PageHeader Title="@listing.Title" ShowBack="true" />
+            <div class="hero-content">
+                <div class="teacher-profile">
+                    <div class="teacher-avatar-large">
+                        @if (!string.IsNullOrEmpty(listing.OwnerImageUrl))
+                        {
+                            <img src="@listing.OwnerImageUrl" alt="@listing.OwnerName" />
+                        }
+                        else
+                        {
+                            <span class="avatar-placeholder-large">@listing.OwnerName[..1]</span>
+                        }
+                    </div>
+                    <div class="teacher-info">
+                        <h1>@listing.OwnerName</h1>
+                        <div class="rating-large">
+                            <StarRating Rating="@listing.AverageRating" />
+                            <span class="rating-text">@listing.AverageRating.ToString("F1") (@listing.ReviewCount yorum)</span>
+                        </div>
+                        <div class="location">
+                            <span class="icon">ğŸ“</span>
+                            <span>@listing.DistrictName, @listing.CityName</span>
+                        </div>
+                    </div>
+                </div>
+                
+                @if (listing.IsVitrin)
+                {
+                    <span class="badge badge-vitrin-large">â­ Vitrin Ä°lan</span>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Ana Ä°Ã§erik -->
+    <section class="section">
+        <div class="container">
+            <div class="listing-grid">
+                <!-- Sol Kolon - Ä°lan DetaylarÄ± -->
+                <div class="listing-main">
+                    <div class="card">
+                        <h2>@listing.Title</h2>
+                        <div class="meta-tags">
+                            <span class="badge badge-primary">@listing.BranchName</span>
+                            <span class="badge">@listing.LessonType</span>
+                        </div>
+                        
+                        <div class="description">
+                            <h3>Ders HakkÄ±nda</h3>
+                            <p>@listing.Description</p>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(experience))
+                        {
+                            <div class="experience">
+                                <h3>Deneyim</h3>
+                                <p>@experience</p>
+                            </div>
+                        }
+
+                        @if (images?.Any() == true)
+                        {
+                            <div class="gallery">
+                                <h3>FotoÄŸraflar</h3>
+                                <div class="gallery-grid">
+                                    @foreach (var imageUrl in images)
+                                    {
+                                        <img src="@imageUrl" alt="Ders fotoÄŸrafÄ±" class="gallery-image" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- SaÄŸ Kolon - Ä°letiÅŸim KartÄ± -->
+                <div class="listing-sidebar">
+                    <div class="card contact-card">
+                        <div class="price-section">
+                            <span class="price-label">Ders Ãœcreti</span>
+                            <span class="price-value">@listing.HourlyPrice TL</span>
+                            <span class="price-unit">/ saat</span>
+                        </div>
+
+                        <AuthorizeView>
+                            <Authorized>
+                                <button class="btn btn-primary btn-full" style="margin-bottom: 0.5rem;" @onclick="SendMessage">
+                                    ğŸ’¬ Ä°lana BaÅŸvur (Ãœcretsiz)
+                                </button>
+                                <button class="btn btn-outline-primary btn-full" style="border: 2px solid var(--color-accent); color: var(--color-accent); font-weight: 600;" @onclick="SendOfferWithToken">
+                                    ğŸ’ Direkt Teklif Ver (1 Jeton)
+                                </button>
+                                <p class="text-muted text-center text-sm" style="margin-top: 0.5rem;">Ä°lk baÅŸvuru mesajÄ± Ã¼cretsizdir</p>
+                            </Authorized>
+                            <NotAuthorized>
+                                <a href="/giris?returnUrl=@Navigation.Uri" class="btn btn-primary btn-full">
+                                    Ä°letiÅŸime GeÃ§mek Ä°Ã§in GiriÅŸ Yap
+                                </a>
+                            </NotAuthorized>
+                        </AuthorizeView>
+
+                        <div class="listing-features">
+                            <div class="feature-item">
+                                <span class="feature-icon">ğŸ“</span>
+                                <span>@listing.BranchName</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">ğŸ“</span>
+                                <span>@listing.LessonType</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">â°</span>
+                                <span>Esnek Saatler</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GÃ¼venlik Notu -->
+                    <div class="card safety-card">
+                        <h4>ğŸ›¡ï¸ GÃ¼venli Ä°letiÅŸim</h4>
+                        <p class="text-sm text-muted">
+                            TÃ¼m mesajlaÅŸmalar platform Ã¼zerinden yapÄ±lÄ±r. 
+                            KiÅŸisel bilgilerinizi paylaÅŸmadan gÃ¼venle iletiÅŸim kurun.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Yorumlar BÃ¶lÃ¼mÃ¼ -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">
+                    â­ DeÄŸerlendirmeler
+                    <span class="text-muted" style="font-size: 0.9rem; font-weight: 400;">
+                        (@reviews.Count yorum Â· @listing.AverageRating.ToString("F1") ortalama)
+                    </span>
+                </h3>
+
+                <!-- Yorum Yazma Formu -->
+                <AuthorizeView>
+                    <Authorized>
+                        @if (!hasReviewed)
+                        {
+                            <div class="review-form card" style="background: var(--color-bg-secondary, #f8f9fa); margin-bottom: 2rem; padding: 1.5rem; border-radius: 12px;">
+                                <h4 style="margin-bottom: 1rem;">DeÄŸerlendirme Yaz</h4>
+                                
+                                <div class="review-ratings" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                    <div>
+                                        <label class="form-label">Profesyonellik</label>
+                                        <StarRating Rating="@newReview.ProfessionalismRating" OnRatingChanged="r => newReview.ProfessionalismRating = r" ShowValue="true" />
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Ä°letiÅŸim</label>
+                                        <StarRating Rating="@newReview.CommunicationRating" OnRatingChanged="r => newReview.CommunicationRating = r" ShowValue="true" />
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Fiyat/Performans</label>
+                                        <StarRating Rating="@newReview.ValueRating" OnRatingChanged="r => newReview.ValueRating = r" ShowValue="true" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label class="form-label">Yorumunuz</label>
+                                    <textarea class="form-control" rows="3" placeholder="Deneyiminizi paylaÅŸÄ±n..." 
+                                              @bind="newReview.ReviewText" style="resize: vertical;"></textarea>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(reviewError))
+                                {
+                                    <div class="alert alert-danger" style="margin-bottom: 1rem;">@reviewError</div>
+                                }
+
+                                <button class="btn btn-primary" @onclick="SubmitReview" disabled="@isSubmittingReview">
+                                    @if (isSubmittingReview) { <span>GÃ¶nderiliyor...</span> } else { <span>DeÄŸerlendirmeyi GÃ¶nder</span> }
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-success" style="margin-bottom: 1.5rem;">
+                                âœ… Bu ilan iÃ§in deÄŸerlendirmenizi zaten gÃ¶nderdiniz.
+                            </div>
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+                            DeÄŸerlendirme yazmak iÃ§in <a href="/giris">giriÅŸ yapÄ±n</a>.
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+                <!-- Yorum Listesi -->
+                @if (isLoadingReviews)
+                {
+                    <div class="skeleton" style="height: 80px; margin-bottom: 1rem;"></div>
+                    <div class="skeleton" style="height: 80px;"></div>
+                }
+                else if (!reviews.Any())
+                {
+                    <div class="text-center text-muted" style="padding: 2rem;">
+                        <p>HenÃ¼z deÄŸerlendirme yok. Ä°lk deÄŸerlendirmeyi siz yapÄ±n!</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var review in reviews)
+                    {
+                        <div class="review-item" style="border-bottom: 1px solid var(--color-border, #e5e7eb); padding: 1.25rem 0; display: flex; gap: 1rem;">
+                            <div class="reviewer-avatar" style="width: 44px; height: 44px; border-radius: 50%; background: var(--color-primary, #6366f1); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                @if (!string.IsNullOrEmpty(review.ReviewerImageUrl))
+                                {
+                                    <img src="@review.ReviewerImageUrl" alt="@review.ReviewerName" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    @(string.IsNullOrEmpty(review.ReviewerName) ? "?" : review.ReviewerName[..1])
+                                }
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                    <strong>@review.ReviewerName</strong>
+                                    <span class="text-muted" style="font-size: 0.8rem;">@review.CreatedAt.ToString("dd MMM yyyy")</span>
+                                </div>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <StarRating Rating="@review.AverageRating" ShowValue="true" />
+                                    <span class="text-muted" style="font-size: 0.8rem; margin-left: 0.5rem;">
+                                        Profesyonellik: @review.ProfessionalismRating Â· Ä°letiÅŸim: @review.CommunicationRating Â· Fiyat: @review.ValueRating
+                                    </span>
+                                </div>
+                                <p style="margin: 0; color: var(--color-text, #374151);">@review.Content</p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter] public string Slug { get; set; } = string.Empty;
+    
+    private ListingDto? listing;
+    private bool isLoading = true;
+    private string? experience;
+    private List<string>? images;
+
+    // Yorum sistemi
+    private List<ReviewDto> reviews = new();
+    private bool isLoadingReviews = true;
+    private bool hasReviewed = false;
+    private bool isSubmittingReview = false;
+    private string? reviewError;
+    private ReviewCreateDto newReview = new() { ProfessionalismRating = 5, CommunicationRating = 5, ValueRating = 5 };
+    private Guid currentUserId = Guid.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadListing();
+        await LoadCurrentUser();
+    }
+
+    private async Task LoadCurrentUser()
+    {
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            if (user.Identity?.IsAuthenticated == true)
+            {
+                var idClaim = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (Guid.TryParse(idClaim, out var uid))
+                    currentUserId = uid;
+            }
+        }
+        catch { }
+    }
+
+    private async Task LoadListing()
+    {
+        isLoading = true;
+        try
+        {
+            listing = await ListingService.GetBySlugAsync(Slug);
+            if (listing != null)
+            {
+                experience = "5+ yÄ±l deneyim"; // API'den gelecek
+                images = listing.ImageUrls?.ToList();
+                newReview.ListingId = listing.Id;
+                await LoadReviews();
+            }
+        }
+        catch { }
+        isLoading = false;
+    }
+
+    private async Task LoadReviews()
+    {
+        isLoadingReviews = true;
+        try
+        {
+            if (listing != null)
+            {
+                reviews = await ReviewService.GetByListingAsync(listing.Id);
+                hasReviewed = currentUserId != Guid.Empty && reviews.Any(r => r.ReviewerId == currentUserId);
+            }
+        }
+        catch { }
+        isLoadingReviews = false;
+    }
+
+    private async Task SubmitReview()
+    {
+        if (newReview.ProfessionalismRating == 0 || newReview.CommunicationRating == 0 || newReview.ValueRating == 0)
+        {
+            reviewError = "LÃ¼tfen tÃ¼m kategoriler iÃ§in puan verin.";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(newReview.ReviewText) || newReview.ReviewText.Length < 10)
+        {
+            reviewError = "Yorum en az 10 karakter olmalÄ±dÄ±r.";
+            return;
+        }
+
+        isSubmittingReview = true;
+        reviewError = null;
+        try
+        {
+            await ReviewService.CreateAsync(newReview, currentUserId);
+            await LoadReviews();
+            newReview = new ReviewCreateDto { ListingId = listing!.Id, ProfessionalismRating = 5, CommunicationRating = 5, ValueRating = 5, ReviewText = "" };
+            await JS.InvokeVoidAsync("Swal.fire", "TeÅŸekkÃ¼rler!", "DeÄŸerlendirmeniz baÅŸarÄ±yla gÃ¶nderildi.", "success");
+        }
+        catch (Exception ex)
+        {
+            reviewError = ex.Message.Contains("kendi") ? "Kendi ilanÄ±nÄ±za yorum yapamazsÄ±nÄ±z." : "Yorum gÃ¶nderilemedi. LÃ¼tfen tekrar deneyin.";
+        }
+        isSubmittingReview = false;
+    }
+
+    private async Task SendMessage()
+    {
+        Navigation.NavigateTo($"/panel/mesajlarim?newMessage={listing?.OwnerId}");
+    }
+
+    private async Task SendOfferWithToken()
+    {
+        bool confirmed = false;
+        try 
+        {
+            var result = await JS.InvokeAsync<System.Text.Json.JsonElement>("Swal.fire", new
+            {
+                title = "Direkt Teklif GÃ¶nder",
+                text = "Bu kiÅŸiye 1 Jeton harcayarak direkt teklif gÃ¶ndermek istiyor musunuz? MesajÄ±nÄ±z karÅŸÄ± tarafa direkt aÃ§Ä±k (okunabilir) olarak ulaÅŸÄ±r.",
+                icon = "question",
+                showCancelButton = true,
+                confirmButtonColor = "#F59E0B",
+                confirmButtonText = "Evet, 1 Jeton Harca",
+                cancelButtonText = "Ä°ptal"
+            });
+            confirmed = result.GetProperty("isConfirmed").GetBoolean();
+        }
+        catch { confirmed = true; }
+
+        if (confirmed && listing != null)
+        {
+            try
+            {
+                var dto = new KursuTV.Business.DTOs.MessageSendDto
+                {
+                    ReceiverId = listing.OwnerId,
+                    ListingId = listing.Id,
+                    Content = "Merhaba! Ä°lanÄ±nÄ±zÄ± inceledim ve size hizmetlerimle ilgili direkt teklif sunmak istiyorum. Ä°lgilenirseniz detaylarÄ± gÃ¶rÃ¼ÅŸebiliriz.",
+                    IsDirectOffer = true
+                };
+                
+                await MessageService.SendMessageAsync(dto, Guid.Empty);
+                await JS.InvokeVoidAsync("Swal.fire", "BaÅŸarÄ±lÄ±", "Teklifiniz baÅŸarÄ±yla iletildi!", "success");
+                Navigation.NavigateTo("/panel/mesajlarim");
+            }
+            catch (Exception ex)
+            {
+                await JS.InvokeVoidAsync("Swal.fire", "Hata", ex.Message, "error");
+            }
+        }
+    }
+}

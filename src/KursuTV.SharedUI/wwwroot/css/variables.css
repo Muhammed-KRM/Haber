@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Primary Colors (Daha canlı ve premium ton) */
+    --color-primary: #FA626B;       /* Canlı Mercan / Büyüleyici Şeftali */
+    --color-primary-hover: #E35961;
+    --color-primary-light: #FFF0F1;
+    --color-primary-glow: rgba(250, 98, 107, 0.4);
+
+    /* Secondary (30% Ana Renk - Disiplin ve Güven) */
+    --color-secondary: #1E293B;     /* Gece Mavisi / Koyu Indigo - Başlıklar, Kart gölgeleri */
+    --color-secondary-hover: #0F172A;
+
+    /* Accent & Status */
+    --color-accent: #F59E0B;        /* Amber — Vitrin Yıldızı ve Dopingler */
+    --color-accent-hover: #D97706;
+    --color-success: #10B981;
+    --color-danger: #EF4444;
+    --color-warning: #F59E0B;
+    --color-info: #3B82F6;
+
+    /* Surfaces & Backgrounds (60% Zemin - Nefes Alma Alanı) */
+    --color-surface: #FFFFFF;       /* Beyaz - Kartlar, İçerik */
+    --color-background: #F8F9FA;    /* İnci Grisi - Sitenin en arka planı */
+    --color-border: #E2E8F0;
+    --color-glass-bg: rgba(255, 255, 255, 0.7); /* Glassmorphism paneller için */
+
+    /* Text */
+    --color-text-primary: #1E293B;  /* Siyah değil, Koyu Indigo - Daha okunaklı */
+    --color-text-secondary: #64748B;
+    --color-text-muted: #94A3B8;
+    --color-text-inverse: #FFFFFF;
+    --color-light: #F8F9FA;         /* Açık zemin — cookie bar ve koyu arka planlardaki metinler için */
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    /* Border Radius (Friendly & Modern) */
+    --radius-sm: 0.5rem;   /* Eski md'yi sm yaptık, köşeler daha yumaşadı */
+    --radius-md: 1rem;     /* 16px - Temel kartlar */
+    --radius-lg: 1.5rem;   /* 24px - Geniş hero section'lar veya formlar */
+    --radius-xl: 2rem;     /* 32px - Ekstra oval köşeler */
+    --radius-full: 9999px;
+
+    /* Shadows (Deep and Soft) */
+    --shadow-sm: 0 2px 4px rgba(30, 41, 59, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(30, 41, 59, 0.05); /* Yumaşak, indigo taba gölgeler */
+    --shadow-lg: 0 20px 25px -5px rgba(30, 41, 59, 0.06);
+    --shadow-hover: 0 25px 30px -5px rgba(30, 41, 59, 0.08); /* Hover kalkma (yükselme) efekti */
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07); /* Glassmorphism gölgesi */
+
+    /* Font (Google Fonts) */
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Transition */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Container */
+    --container-max: 1200px;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"], body.dark {
+    --color-surface: #1E293B;
+    --color-background: #0F172A;
+    --color-border: #334155;
+    --color-glass-bg: rgba(30, 41, 59, 0.7);
+
+    --color-text-primary: #F8FAFC;
+    --color-text-secondary: #94A3B8;
+    --color-text-muted: #64748B;
+    --color-text-inverse: #0F172A;
+    --color-light: #1E293B;
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 25px 30px -5px rgba(0, 0, 0, 0.6);
+}
