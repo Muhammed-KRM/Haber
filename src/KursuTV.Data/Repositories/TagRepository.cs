@@ -60,6 +60,11 @@ public class TagRepository : GenericRepository<Tag>, ITagRepository
             }
         }
 
+        if (result.Any(t => t.Id == 0))
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         return result;
     }
 

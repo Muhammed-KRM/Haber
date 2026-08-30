@@ -55,13 +55,7 @@
                 <button 
                     @onclick="() => SelectHeadline(idx)"
                     class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-black text-xs transition-all duration-200 flex items-center justify-center shrink-0"
-                    class:bg-red-600="@(activeIndex == idx)"
-                    class:text-white="@(activeIndex == idx)"
-                    class:shadow-md="@(activeIndex == idx)"
-                    class:bg-slate-800="@(activeIndex != idx)"
-                    class:text-slate-300="@(activeIndex != idx)"
-                    class:hover:bg-slate-700="@(activeIndex != idx)"
-                    style="@(activeIndex == idx ? "background-color: #dc2626; color: white;" : "background-color: #1e293b; color: #cbd5e1;")"
+                    style="@(activeIndex == idx ? "background-color: #dc2626; color: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" : "background-color: #1e293b; color: #cbd5e1;")"
                 >
                     @(idx + 1)
                 </button>

@@ -16,7 +16,7 @@
         <!-- Yazı Başlığı -->
         <a href="/haber/@CurrentAuthor.ArticleSlug" class="block group">
             <h3 class="text-lg sm:text-xl font-extrabold text-white group-hover:text-red-100 transition-colors leading-tight line-clamp-3">
-                {{ CurrentAuthor.ArticleTitle }}
+                @CurrentAuthor.ArticleTitle
             </h3>
         </a>
     </div>
@@ -24,7 +24,7 @@
     <!-- Yazar Profil & Fotoğraf Alanı -->
     <div class="mt-6 pt-4 border-t border-white/15 flex items-center justify-between">
         <div>
-            <h4 class="text-sm font-bold text-white leading-none">{{ CurrentAuthor.AuthorName }}</h4>
+            <h4 class="text-sm font-bold text-white leading-none">@CurrentAuthor.AuthorName</h4>
             <span class="text-[11px] text-red-200 font-medium mt-0.5 block">Kürsü TV Başyazarı</span>
         </div>
 

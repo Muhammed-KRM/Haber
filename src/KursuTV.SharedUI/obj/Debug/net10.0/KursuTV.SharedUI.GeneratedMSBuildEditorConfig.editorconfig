@@ -86,12 +86,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEdpemxpbGlrLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Haber/KursuTV/src/KursuTV.SharedUI/Pages/Static/Iletisim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXElsZXRpc2ltLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Haber/KursuTV/src/KursuTV.SharedUI/Pages/Static/IptalIade.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXElwdGFsSWFkZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Haber/KursuTV/src/KursuTV.SharedUI/Pages/Static/KullanimKosullari.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEt1bGxhbmltS29zdWxsYXJpLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Haber/KursuTV/src/KursuTV.SharedUI/Pages/Static/Kunye.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGljXEt1bnllLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Haber/KursuTV/src/KursuTV.SharedUI/Pages/Static/KVKK.razor]

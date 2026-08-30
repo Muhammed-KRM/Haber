@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KursuTV.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b160126c189d4b30c7aa186d51abc4937b3d8d6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99c035bd29de04048cd0d6f41af03fa8eddcb4aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("KursuTV.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KursuTV.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -137,7 +137,7 @@ public class NewsController : ControllerBase
     {
         var userId = GetCurrentUserId();
         var newsId = await _newsService.CreateNewsAsync(dto, userId, cancellationToken);
-        return CreatedAtAction(nameof(GetByIdForEdit), new { id = newsId }, new { id = newsId });
+        return StatusCode(StatusCodes.Status201Created, new { id = newsId });
     }
 
     /// <summary>

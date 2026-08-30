@@ -1,4 +1,4 @@
-﻿using KursuTV.Business;
+using KursuTV.Business;
 using KursuTV.Data;
 using KursuTV.Web.Components;
 using KursuTV.Web.States;
@@ -6,7 +6,7 @@ using KursuTV.Web.States;
 var builder = WebApplication.CreateBuilder(args);
 
 // === 1. API SERVÄ°SLERÄ° VE BAÄIMLILIKLAR ===
-var apiBaseAddress = builder.Environment.IsDevelopment() ? "http://localhost:5074/" : "http://api:8080/";
+var apiBaseAddress = builder.Environment.IsDevelopment() ? "http://localhost:5000/" : "http://api:8080/";
 
 // AuthTokenHandler â†’ HttpClient pipeline'Ä±na enjekte
 builder.Services.AddScoped<AuthTokenHandler>();

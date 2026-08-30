@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "QrMenu.Frontend": {
+    "KursuTV.Admin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -81,12 +81,15 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4201
+          },
           "configurations": {
             "production": {
-              "buildTarget": "QrMenu.Frontend:build:production"
+              "buildTarget": "KursuTV.Admin:build:production"
             },
             "development": {
-              "buildTarget": "QrMenu.Frontend:build:development"
+              "buildTarget": "KursuTV.Admin:build:development"
             }
           },
           "defaultConfiguration": "development"
