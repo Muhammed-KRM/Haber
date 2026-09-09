@@ -35,6 +35,14 @@
                 ✓ Yorumunuz moderatör onayına iletildi. Kontrol edildikten sonra yayına alınacaktır.
             </div>
         }
+        
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-lg font-medium flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center font-bold">!</span>
+                @errorMessage
+            </div>
+        }
 
         <div class="flex justify-end">
             <button 
@@ -87,21 +95,35 @@
     private string commentContent = "";
     private bool isSubmitting = false;
     private bool isSubmitted = false;
+    private string errorMessage = "";
 
     private async Task SubmitComment()
     {
         if (string.IsNullOrWhiteSpace(commentContent) || string.IsNullOrWhiteSpace(guestName)) return;
 
         isSubmitting = true;
-        var dto = new CreateCommentDto(NewsId, commentContent.Trim(), guestName.Trim(), null);
-        var success = await CommentApi.AddCommentAsync(dto);
+        errorMessage = "";
+        isSubmitted = false;
+
+        var dto = new CreateCommentDto 
+        { 
+            NewsId = NewsId, 
+            Content = commentContent.Trim(), 
+            GuestName = guestName.Trim(), 
+            ParentCommentId = null 
+        };
+        var result = await CommentApi.AddCommentAsync(dto);
         isSubmitting = false;
 
-        if (success)
+        if (result.Success)
         {
             isSubmitted = true;
             commentContent = "";
             guestName = "";
+        }
+        else
+        {
+            errorMessage = result.ErrorMessage;
         }
     }
 }

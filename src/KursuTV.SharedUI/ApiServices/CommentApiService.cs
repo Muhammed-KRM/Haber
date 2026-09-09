@@ -24,16 +24,24 @@ public class CommentApiService
         }
     }
 
-    public async Task<bool> AddCommentAsync(CreateCommentDto dto)
+    public async Task<(bool Success, string ErrorMessage)> AddCommentAsync(CreateCommentDto dto)
     {
         try
         {
             var res = await _http.PostAsJsonAsync("api/comments", dto);
-            return res.IsSuccessStatusCode;
+            if (res.IsSuccessStatusCode)
+                return (true, string.Empty);
+
+            var errorResponse = await res.Content.ReadFromJsonAsync<System.Text.Json.JsonElement>();
+            if (errorResponse.ValueKind != System.Text.Json.JsonValueKind.Undefined && errorResponse.TryGetProperty("detail", out var detail))
+            {
+                return (false, detail.GetString() ?? "Yorum gönderilemedi.");
+            }
+            return (false, "Yorum gönderilemedi.");
         }
         catch
         {
-            return false;
+            return (false, "Beklenmeyen bir hata oluştu.");
         }
     }
 }

@@ -12,15 +12,18 @@ public class CommentManager : ICommentService
 {
     private readonly ICommentRepository _commentRepository;
     private readonly ICacheService _cacheService;
+    private readonly IAiModerationService _aiModerationService;
     private readonly ILogger<CommentManager> _logger;
 
     public CommentManager(
         ICommentRepository commentRepository,
         ICacheService cacheService,
+        IAiModerationService aiModerationService,
         ILogger<CommentManager> logger)
     {
         _commentRepository = commentRepository;
         _cacheService = cacheService;
+        _aiModerationService = aiModerationService;
         _logger = logger;
     }
 
@@ -52,6 +55,14 @@ public class CommentManager : ICommentService
 
     public async Task<Guid> AddCommentAsync(CreateCommentDto dto, Guid? currentUserId, CancellationToken cancellationToken = default)
     {
+        // 1. AI Moderasyon Kontrolü
+        var moderationResult = await _aiModerationService.AnalyzeContentAsync(dto.Content, cancellationToken);
+        if (!moderationResult.IsSafe)
+        {
+            _logger.LogWarning("AI tarafından yorum reddedildi. Sebep: {Reason}", moderationResult.Reason);
+            throw new BusinessException($"Yorumunuz reddedildi: {moderationResult.Reason}");
+        }
+
         var comment = new Comment
         {
             Id = Guid.NewGuid(),

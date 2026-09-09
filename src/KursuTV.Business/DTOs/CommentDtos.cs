@@ -2,12 +2,13 @@ using KursuTV.Data.Enums;
 
 namespace KursuTV.Business.DTOs;
 
-public record CreateCommentDto(
-    Guid NewsId,
-    string Content,
-    string? GuestName,
-    Guid? ParentCommentId
-);
+public class CreateCommentDto
+{
+    public Guid NewsId { get; set; }
+    public string Content { get; set; } = string.Empty;
+    public string? GuestName { get; set; }
+    public Guid? ParentCommentId { get; set; }
+}
 
 public record CommentDto(
     Guid Id,

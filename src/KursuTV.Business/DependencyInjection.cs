@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<ITagService, TagManager>();
         services.AddScoped<IMediaService, MediaManager>();
         services.AddScoped<ICommentService, CommentManager>();
+        services.AddHttpClient<IAiModerationService, GeminiModerationService>();
         services.AddScoped<IDashboardService, DashboardManager>();
 
         // Kimlik & Kullanıcı Yönetimi
