@@ -104,6 +104,7 @@ public class CommentManager : ICommentService
     public async Task ModerateCommentAsync(Guid commentId, CommentStatus status, CancellationToken cancellationToken = default)
     {
         await _commentRepository.UpdateCommentStatusAsync(commentId, status, cancellationToken);
+        await _cacheService.RemoveByPatternAsync("news:*");
         _logger.LogInformation("Yorum durumu güncellendi: {CommentId} -> {Status}", commentId, status);
     }
 
@@ -117,6 +118,7 @@ public class CommentManager : ICommentService
 
         _commentRepository.Delete(comment);
         await _commentRepository.SaveChangesAsync();
+        await _cacheService.RemoveByPatternAsync("news:*");
         _logger.LogInformation("Yorum silindi: {CommentId}", commentId);
     }
 }

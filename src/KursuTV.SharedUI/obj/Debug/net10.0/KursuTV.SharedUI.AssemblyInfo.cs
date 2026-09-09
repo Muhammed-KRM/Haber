@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KursuTV.SharedUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cfa094da78f3cad85b80965873709cb0f0db728")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd2e79859c1652abaf9ac1bc6d4856c37a19222b")]
 [assembly: System.Reflection.AssemblyProductAttribute("KursuTV.SharedUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KursuTV.SharedUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

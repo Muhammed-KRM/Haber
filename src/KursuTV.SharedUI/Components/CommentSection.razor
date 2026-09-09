@@ -10,51 +10,59 @@
     </div>
 
     <!-- Yorum Yazma Formu -->
-    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
-        <h4 class="text-xs font-bold text-slate-800">Görüşünüzü Paylaşın</h4>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input 
-                type="text" 
-                @bind="guestName" 
-                placeholder="Adınız Soyadınız *" 
-                class="px-3.5 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
-            />
-        </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                <h4 class="text-xs font-bold text-slate-800">Görüşünüzü Paylaşın</h4>
+                
+                <textarea 
+                    @bind="commentContent" 
+                    rows="3"
+                    placeholder="Bu haber hakkındaki yorumunuz... (Maksimum 2000 karakter)"
+                    class="w-full px-3.5 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 resize-none"
+                ></textarea>
 
-        <textarea 
-            @bind="commentContent" 
-            rows="3"
-            placeholder="Bu haber hakkındaki yorumunuz... (Maksimum 2000 karakter)"
-            class="w-full px-3.5 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 resize-none"
-        ></textarea>
+                @if (isSubmitted)
+                {
+                    <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg font-medium">
+                        ✓ Yorumunuz moderatör onayına iletildi. Kontrol edildikten sonra yayına alınacaktır.
+                    </div>
+                }
+                
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-lg font-medium flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center font-bold">!</span>
+                        @errorMessage
+                    </div>
+                }
 
-        @if (isSubmitted)
-        {
-            <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg font-medium">
-                ✓ Yorumunuz moderatör onayına iletildi. Kontrol edildikten sonra yayına alınacaktır.
+                <div class="flex justify-end">
+                    <button 
+                        type="button" 
+                        @onclick="SubmitComment"
+                        disabled="@(isSubmitting || string.IsNullOrWhiteSpace(commentContent))"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                        @(isSubmitting ? "Gönderiliyor..." : "Yorumu Gönder")
+                    </button>
+                </div>
             </div>
-        }
-        
-        @if (!string.IsNullOrEmpty(errorMessage))
-        {
-            <div class="p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-lg font-medium flex items-center gap-2">
-                <span class="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center font-bold">!</span>
-                @errorMessage
+        </Authorized>
+        <NotAuthorized>
+            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 flex flex-col items-center justify-center space-y-3 text-center">
+                <div class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-300 mb-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                </div>
+                <h4 class="text-sm font-bold text-slate-800">Yorum yapabilmek için giriş yapmalısınız</h4>
+                <p class="text-xs text-slate-500 mb-2">Siz de tartışmaya katılın ve görüşlerinizi binlerce okurumuzla paylaşın.</p>
+                <div class="flex gap-3">
+                    <a href="/giris" class="px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-red-700 transition-colors">Giriş Yap</a>
+                    <a href="/kayit" class="px-4 py-2 bg-white text-red-700 border border-slate-200 text-xs font-bold rounded-lg hover:bg-slate-50 transition-colors">Ücretsiz Kayıt Ol</a>
+                </div>
             </div>
-        }
-
-        <div class="flex justify-end">
-            <button 
-                type="button" 
-                @onclick="SubmitComment"
-                disabled="@(isSubmitting || string.IsNullOrWhiteSpace(commentContent) || string.IsNullOrWhiteSpace(guestName))"
-                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-                @(isSubmitting ? "Gönderiliyor..." : "Yorumu Gönder")
-            </button>
-        </div>
-    </div>
+        </NotAuthorized>
+    </AuthorizeView>
 
     <!-- Onaylı Yorumlar Listesi -->
     <div class="space-y-4">
@@ -91,7 +99,9 @@
     [Parameter]
     public List<CommentDto> Comments { get; set; } = new();
 
-    private string guestName = "";
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthStateTask { get; set; } = default!;
+
     private string commentContent = "";
     private bool isSubmitting = false;
     private bool isSubmitted = false;
@@ -99,7 +109,10 @@
 
     private async Task SubmitComment()
     {
-        if (string.IsNullOrWhiteSpace(commentContent) || string.IsNullOrWhiteSpace(guestName)) return;
+        if (string.IsNullOrWhiteSpace(commentContent)) return;
+
+        var authState = await AuthStateTask;
+        if (!authState.User.Identity?.IsAuthenticated ?? true) return;
 
         isSubmitting = true;
         errorMessage = "";
@@ -109,7 +122,7 @@
         { 
             NewsId = NewsId, 
             Content = commentContent.Trim(), 
-            GuestName = guestName.Trim(), 
+            GuestName = authState.User.Identity?.Name ?? "Kullanıcı", 
             ParentCommentId = null 
         };
         var result = await CommentApi.AddCommentAsync(dto);
@@ -119,7 +132,6 @@
         {
             isSubmitted = true;
             commentContent = "";
-            guestName = "";
         }
         else
         {

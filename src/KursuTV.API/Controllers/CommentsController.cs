@@ -26,6 +26,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Guid>> AddComment([FromBody] CreateCommentDto dto, CancellationToken cancellationToken = default)
     {
         var userId = GetCurrentUserId();

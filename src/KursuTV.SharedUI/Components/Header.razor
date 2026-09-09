@@ -1,12 +1,16 @@
 @using KursuTV.Business.DTOs
+@using KursuTV.SharedUI.Services
+@using KursuTV.Business.Interfaces
 @inject NavigationManager Nav
 @inject CategoryApiService CategoryApi
 @inject FinanceApiService FinanceApi
+@inject HistoryService History
+@inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthStateProvider
 
 <!-- ÜST PİYASA & DÖVİZ BANDI -->
 <div class="bg-slate-900 text-slate-300 text-[11px] py-1.5 px-4 border-b border-slate-800 font-sans">
-    <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar gap-6">
-        <div class="flex items-center gap-6 shrink-0 font-medium">
+    <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar gap-6 whitespace-nowrap">
+        <div class="flex items-center gap-6 shrink-0 font-medium whitespace-nowrap">
             @if (rates.Count > 0)
             {
                 @foreach (var rate in rates)
@@ -39,18 +43,31 @@
     <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <!-- Logo & Canlı Haber Markası -->
         <div class="flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 group">
-                <span class="font-black text-3xl sm:text-4xl tracking-tighter text-white uppercase drop-shadow-sm">
-                    KÜRSÜ<span class="text-red-200">TV</span>
-                </span>
-                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse" title="Canlı Yayın"></span>
-            </a>
+            <div class="flex items-center gap-2">
+                <!-- Mobil Geri Butonu -->
+                @if (Nav.Uri != Nav.BaseUri)
+                {
+                    <button @onclick="GoBack" class="md:hidden p-1.5 -ml-2 mr-1 text-white/80 hover:text-white transition-colors" title="Geri">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                }
+
+                <a href="/" class="flex items-center gap-2 group">
+                    <span class="font-black text-3xl sm:text-4xl tracking-tighter text-white uppercase drop-shadow-sm">
+                        KÜRSÜ<span class="text-red-200">TV</span>
+                    </span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse" title="Canlı Yayın"></span>
+                </a>
+            </div>
 
             <!-- Mobil Arama / Menü Butonu -->
-            <div class="md:hidden flex items-center gap-2">
+            <div class="md:hidden flex items-center gap-1">
                 <a href="/ara" class="p-2 text-white/80 hover:text-white">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </a>
+                <button @onclick="ToggleMobileMenu" class="p-2 text-white/80 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
             </div>
         </div>
 
@@ -73,8 +90,8 @@
             <a href="/yazarlar" class="hover:text-red-100 transition-colors py-1 text-yellow-200">YAZARLAR</a>
         </nav>
 
-        <!-- ARAMA ÇUBUĞU & SOSYAL İKONLAR -->
-        <div class="hidden lg:flex items-center gap-3">
+        <!-- ARAMA ÇUBUĞU -->
+        <div class="hidden lg:flex items-center gap-4">
             <form action="/ara" method="get" class="relative">
                 <input 
                     type="text" 
@@ -88,6 +105,39 @@
             </form>
         </div>
     </div>
+
+    <!-- Mobil Menü Dropdown -->
+    @if (isMobileMenuOpen)
+    {
+        <div class="md:hidden bg-red-900 border-t border-white/10 px-4 py-3 space-y-2">
+            @if (mainCategories.Count > 0)
+            {
+                @foreach (var cat in mainCategories)
+                {
+                    <a href="/kategori/@cat.Slug" @onclick="CloseMobileMenu" class="block py-2 text-white font-bold border-b border-white/5">@cat.Name.ToUpper()</a>
+                }
+            }
+            <a href="/yazarlar" @onclick="CloseMobileMenu" class="block py-2 text-yellow-200 font-bold border-b border-white/5">YAZARLAR</a>
+            <a href="/iletisim" @onclick="CloseMobileMenu" class="block py-2 text-white font-bold">İLETİŞİM</a>
+            
+            <div class="pt-2 mt-2 border-t border-white/10">
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="flex items-center justify-between">
+                            <span class="text-white text-sm font-bold">@context.User.Identity?.Name</span>
+                            <button @onclick="Logout" class="text-red-200 hover:text-white text-xs font-bold px-2 py-1 bg-white/10 rounded">Çıkış</button>
+                        </div>
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="flex items-center gap-3">
+                            <a href="/giris" class="text-white text-sm font-bold hover:underline">Giriş Yap</a>
+                            <a href="/kayit" class="px-3 py-1 bg-white text-red-800 text-sm font-bold rounded-lg shadow-sm">Kayıt Ol</a>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    }
 
     <!-- ALT KATEGORİ ŞERİDİ -->
     <div class="bg-red-800/50 border-t border-white/10 px-4 py-1.5 text-xs font-medium text-white/90">
@@ -120,6 +170,29 @@
             <div class="flex items-center gap-3 shrink-0">
                 <a href="https://youtube.com" target="_blank" class="hover:text-white" title="YouTube"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
                 <a href="https://x.com" target="_blank" class="hover:text-white" title="X"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+
+                <div class="w-px h-3 bg-white/20 mx-0.5"></div>
+
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="relative group">
+                            <button class="flex items-center gap-1.5 text-white hover:text-red-100 transition-colors text-xs font-semibold">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <span>@context.User.Identity?.Name</span>
+                            </button>
+                            <div class="absolute right-0 mt-1 w-28 bg-white rounded shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+                                <button @onclick="Logout" class="w-full text-left px-3 py-1.5 text-xs text-red-600 font-bold hover:bg-slate-50">Çıkış Yap</button>
+                            </div>
+                        </div>
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="flex items-center gap-2">
+                            <a href="/giris" class="hover:text-white transition-colors">Giriş Yap</a>
+                            <span>&bull;</span>
+                            <a href="/kayit" class="px-2 py-0.5 bg-white text-red-700 hover:bg-red-50 text-[11px] font-bold rounded transition-colors shadow-sm">Kayıt Ol</a>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         </div>
     </div>
@@ -129,6 +202,21 @@
     private List<CategoryDto> mainCategories = new();
     private List<CategoryDto> subCategories = new();
     private List<MarketRateDto> rates = new();
+    
+    private bool isMobileMenuOpen = false;
+
+    private void ToggleMobileMenu() => isMobileMenuOpen = !isMobileMenuOpen;
+    private void CloseMobileMenu() => isMobileMenuOpen = false;
+    private async Task GoBack() => await History.GoBackAsync();
+
+    private async Task Logout()
+    {
+        if (AuthStateProvider is ICustomAuthStateProvider stateProvider)
+        {
+            await stateProvider.LogOutAsync();
+            Nav.NavigateTo("/", forceLoad: true);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

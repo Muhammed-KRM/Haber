@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddScoped<AuthApiService>();
         services.AddScoped<UserApiService>();
         services.AddScoped<FinanceApiService>();
+        services.AddScoped<KursuTV.SharedUI.Services.HistoryService>();
         
         return services;
     }
