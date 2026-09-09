@@ -1,60 +1,81 @@
 @using KursuTV.Business.DTOs
+@inject NewsApiService NewsApi
 
-<div class="bg-gradient-to-br from-red-800 via-rose-700 to-red-900 rounded-2xl p-5 text-white shadow-xl flex flex-col justify-between h-full relative overflow-hidden select-none">
-    <!-- Arka plan hafif amblem -->
-    <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+@if (articles.Count > 0)
+{
+    <div class="bg-gradient-to-br from-red-800 via-rose-700 to-red-900 rounded-2xl p-5 text-white shadow-xl flex flex-col justify-between h-full relative overflow-hidden select-none">
+        <!-- Arka plan hafif amblem -->
+        <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
-    <div class="space-y-4">
-        <!-- Başlık Rozeti -->
-        <div class="flex items-center justify-between">
-            <span class="text-[10px] font-black uppercase tracking-widest text-red-200 bg-red-950/40 px-2 py-0.5 rounded border border-white/10">
-                KÖŞE YAZISI
-            </span>
-            <span class="text-xs text-white/80 font-medium">@CurrentAuthor.Date</span>
+        <div class="space-y-4">
+            <!-- Başlık Rozeti -->
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-black uppercase tracking-widest text-red-200 bg-red-950/40 px-2 py-0.5 rounded border border-white/10">
+                    KÖŞE YAZISI
+                </span>
+                <span class="text-xs text-white/80 font-medium">@CurrentAuthor.Date</span>
+            </div>
+
+            <!-- Yazı Başlığı -->
+            <a href="/haber/@CurrentAuthor.ArticleSlug" class="block group">
+                <h3 class="text-lg sm:text-xl font-extrabold text-white group-hover:text-red-100 transition-colors leading-tight line-clamp-3">
+                    @CurrentAuthor.ArticleTitle
+                </h3>
+            </a>
         </div>
 
-        <!-- Yazı Başlığı -->
-        <a href="/haber/@CurrentAuthor.ArticleSlug" class="block group">
-            <h3 class="text-lg sm:text-xl font-extrabold text-white group-hover:text-red-100 transition-colors leading-tight line-clamp-3">
-                @CurrentAuthor.ArticleTitle
-            </h3>
-        </a>
-    </div>
+        <!-- Yazar Profil & Fotoğraf Alanı -->
+        <div class="mt-6 pt-4 border-t border-white/15 flex items-center justify-between">
+            <div>
+                <h4 class="text-sm font-bold text-white leading-none">@CurrentAuthor.AuthorName</h4>
+                <span class="text-[11px] text-red-200 font-medium mt-0.5 block">Kürsü TV Köşe Yazarı</span>
+            </div>
 
-    <!-- Yazar Profil & Fotoğraf Alanı -->
-    <div class="mt-6 pt-4 border-t border-white/15 flex items-center justify-between">
-        <div>
-            <h4 class="text-sm font-bold text-white leading-none">@CurrentAuthor.AuthorName</h4>
-            <span class="text-[11px] text-red-200 font-medium mt-0.5 block">Kürsü TV Başyazarı</span>
+            <div class="w-14 h-14 rounded-full border-2 border-white/60 shadow-lg overflow-hidden bg-slate-900 shrink-0 flex items-center justify-center">
+                @if (!string.IsNullOrEmpty(CurrentAuthor.ProfileImageUrl) && !CurrentAuthor.ProfileImageUrl.Contains("default-avatar"))
+                {
+                    <img 
+                        src="@CurrentAuthor.ProfileImageUrl" 
+                        alt="@CurrentAuthor.AuthorName" 
+                        class="w-full h-full object-cover"
+                    />
+                }
+                else
+                {
+                    <span class="text-lg font-black text-white">@CurrentAuthor.AuthorName.FirstOrDefault()</span>
+                }
+            </div>
         </div>
 
-        <div class="w-14 h-14 rounded-full border-2 border-white/60 shadow-lg overflow-hidden bg-slate-900 shrink-0">
-            <img 
-                src="@CurrentAuthor.ProfileImageUrl" 
-                alt="@CurrentAuthor.AuthorName" 
-                class="w-full h-full object-cover"
-            />
-        </div>
-    </div>
-
-    <!-- 1-6 Sayfalama Butonları -->
-    <div class="mt-4 pt-3 flex items-center justify-center gap-1.5 border-t border-white/10">
-        @for (int i = 0; i < Authors.Count; i++)
+        <!-- 1-N Sayfalama Butonları -->
+        @if (articles.Count > 1)
         {
-            var idx = i;
-            <button 
-                @onclick="() => activeIndex = idx"
-                class="w-6 h-6 rounded-md font-bold text-xs transition-all flex items-center justify-center"
-                style="@(activeIndex == idx ? "background-color: #ffffff; color: #dc2626;" : "background-color: rgba(255,255,255,0.15); color: #ffffff;")"
-            >
-                @(idx + 1)
-            </button>
+            <div class="mt-4 pt-3 flex items-center justify-center gap-1.5 border-t border-white/10">
+                @for (int i = 0; i < articles.Count; i++)
+                {
+                    var idx = i;
+                    <button 
+                        @onclick="() => activeIndex = idx"
+                        class="w-6 h-6 rounded-md font-bold text-xs transition-all flex items-center justify-center"
+                        style="@(activeIndex == idx ? "background-color: #ffffff; color: #dc2626;" : "background-color: rgba(255,255,255,0.15); color: #ffffff;")"
+                    >
+                        @(idx + 1)
+                    </button>
+                }
+            </div>
         }
     </div>
-</div>
+}
+else if (!isLoading)
+{
+    <div class="bg-gradient-to-br from-red-800 via-rose-700 to-red-900 rounded-2xl p-5 text-white shadow-xl flex flex-col justify-center items-center h-full min-h-[200px] text-center">
+        <span class="text-xs text-red-200">Henüz yayınlanmış köşe yazısı bulunmuyor.</span>
+    </div>
+}
 
 @code {
     private int activeIndex = 0;
+    private bool isLoading = true;
 
     public record ColumnistItem(
         string AuthorName,
@@ -64,15 +85,32 @@
         string Date
     );
 
-    private List<ColumnistItem> Authors = new()
-    {
-        new("Cevdet Sezgin", "Bal Gibi Pazarlık Yapmışsınız", "bal-gibi-pazarlik-yapmissiniz", "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", "Bugün"),
-        new("İhsan Eliaçık", "Adalet, Emek ve Dayanışmanın Önemi", "adalet-emek-ve-dayanismanin-onemi", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", "Dün"),
-        new("Dr. Selin Yılmaz", "Yeni Ekonomik Dengeler ve Beklentiler", "yeni-ekonomik-dengeler-ve-beklentiler", "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80", "29 Ağustos"),
-        new("Murat Güler", "Ortadoğu'da Değişen Dengeler", "ortadoguda-degisen-dengeler", "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80", "28 Ağustos"),
-        new("Zeynep Kaya", "Kültür Dünyamızda Neler Oluyor?", "kultur-dunyamizda-neler-oluyor", "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80", "27 Ağustos"),
-        new("Ahmet Demir", "Yerel Yönetimler ve Şeffaflık", "yerel-yonetimler-ve-seffaflik", "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80", "26 Ağustos")
-    };
+    private List<ColumnistItem> articles = new();
 
-    private ColumnistItem CurrentAuthor => Authors[activeIndex % Authors.Count];
+    private ColumnistItem CurrentAuthor => 
+        articles.Count > 0 ? articles[activeIndex % articles.Count] : new ColumnistItem("", "", "", "", "");
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var columnNews = await NewsApi.GetColumnNewsAsync(6);
+            articles = columnNews.Select(n => new ColumnistItem(
+                AuthorName: n.AuthorName,
+                ArticleTitle: n.Title,
+                ArticleSlug: n.Slug,
+                ProfileImageUrl: n.CoverImageUrl ?? "",
+                Date: (n.PublishedAt ?? n.CreatedAt).ToString("dd MMMM")
+            )).ToList();
+        }
+        catch
+        {
+            articles = new();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

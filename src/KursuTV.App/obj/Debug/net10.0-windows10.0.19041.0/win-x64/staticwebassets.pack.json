@@ -9,19 +9,19 @@
       "PackagePath": "staticwebassets\\_framework\\blazor.webview.js"
     },
     {
-      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\app.css",
+      "Id": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\index.html",
+      "Id": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {

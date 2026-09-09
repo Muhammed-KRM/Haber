@@ -26,7 +26,7 @@ public class DashboardManager : IDashboardService
         var totalCategories = await _context.Categories.CountAsync(c => c.IsActive, cancellationToken);
         var totalAuthors = await _context.Users.CountAsync(u => u.IsActive && u.Role != UserRole.SuperAdmin, cancellationToken);
 
-        var recentNewsResult = await _newsService.GetPublishedNewsPagedAsync(1, 5, null, cancellationToken);
+        var recentNewsResult = await _newsService.GetPublishedNewsPagedAsync(1, 5, cancellationToken: cancellationToken);
         var topViewed = await _newsService.GetMostViewedNewsAsync(5, cancellationToken);
 
         return new DashboardStatsDto(

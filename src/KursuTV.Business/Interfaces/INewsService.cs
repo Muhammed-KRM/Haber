@@ -1,4 +1,5 @@
 using KursuTV.Business.DTOs;
+using KursuTV.Data.Enums;
 
 namespace KursuTV.Business.Interfaces;
 
@@ -7,7 +8,14 @@ public interface INewsService
     // Okuyucu (Public) Metodları
     Task<List<HeadlineNewsDto>> GetHeadlinesAsync(int count = 7, CancellationToken cancellationToken = default);
     Task<List<BreakingNewsDto>> GetBreakingNewsAsync(int count = 10, CancellationToken cancellationToken = default);
-    Task<PagedResultDto<NewsListDto>> GetPublishedNewsPagedAsync(int pageNumber, int pageSize, int? categoryId = null, CancellationToken cancellationToken = default);
+    Task<PagedResultDto<NewsListDto>> GetPublishedNewsPagedAsync(
+        int pageNumber,
+        int pageSize,
+        int? categoryId = null,
+        NewsType? type = null,
+        Guid? authorId = null,
+        string? searchTerm = null,
+        CancellationToken cancellationToken = default);
     Task<NewsDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     Task<List<NewsListDto>> GetRelatedNewsAsync(Guid currentNewsId, List<int> tagIds, int count = 4, CancellationToken cancellationToken = default);
     Task<List<NewsListDto>> GetMostViewedNewsAsync(int count = 10, CancellationToken cancellationToken = default);

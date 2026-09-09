@@ -3135,11 +3135,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "projectUniqueName": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "projectName": "KursuTV.Worker",
-      "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "packagesPath": "C:\\Users\\muhammedk\\.nuget\\packages\\",
-      "outputPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\obj\\",
+      "outputPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3161,11 +3161,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj": {
-              "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj"
+            "d:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj": {
+              "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Business\\KursuTV.Business.csproj"
             },
-            "D:\\Haber\\KursuTV\\src\\KursuTV.Data\\KursuTV.Data.csproj": {
-              "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Data\\KursuTV.Data.csproj"
+            "d:\\Haber\\KursuTV\\src\\KursuTV.Data\\KursuTV.Data.csproj": {
+              "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Data\\KursuTV.Data.csproj"
             }
           }
         }

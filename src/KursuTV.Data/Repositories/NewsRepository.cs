@@ -48,6 +48,9 @@ public class NewsRepository : GenericRepository<News>, INewsRepository
         int pageNumber,
         int pageSize,
         int? categoryId = null,
+        NewsType? type = null,
+        Guid? authorId = null,
+        string? searchTerm = null,
         CancellationToken cancellationToken = default)
     {
         var query = _dbSet.AsNoTracking()
@@ -56,6 +59,22 @@ public class NewsRepository : GenericRepository<News>, INewsRepository
         if (categoryId.HasValue)
         {
             query = query.Where(n => n.NewsCategories.Any(nc => nc.CategoryId == categoryId.Value));
+        }
+
+        if (type.HasValue)
+        {
+            query = query.Where(n => n.Type == type.Value);
+        }
+
+        if (authorId.HasValue)
+        {
+            query = query.Where(n => n.AuthorId == authorId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.Trim().ToLower();
+            query = query.Where(n => n.Title.ToLower().Contains(term) || (n.Spot != null && n.Spot.ToLower().Contains(term)));
         }
 
         var totalCount = await query.CountAsync(cancellationToken);

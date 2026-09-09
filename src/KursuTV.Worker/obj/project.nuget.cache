@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lqbQNOQB0Lo=",
+  "dgSpecHash": "9rqcmdfMZzE=",
   "success": true,
-  "projectFilePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+  "projectFilePath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\muhammedk\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
@@ -78,9 +78,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "'AngleSharp' 0.17.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-pgww-w46g-26qg güvenlik açığı var",
-      "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "filePath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "libraryId": "AngleSharp",
       "targetGraphs": [
         "net10.0"
@@ -90,9 +90,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "'MailKit' 4.15.1 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-9j88-vvj5-vhgr güvenlik açığı var",
-      "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
+      "filePath": "d:\\Haber\\KursuTV\\src\\KursuTV.Worker\\KursuTV.Worker.csproj",
       "libraryId": "MailKit",
       "targetGraphs": [
         "net10.0"

@@ -50,9 +50,12 @@ public class NewsController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         [FromQuery] int? categoryId = null,
+        [FromQuery] NewsType? type = null,
+        [FromQuery] Guid? authorId = null,
+        [FromQuery] string? search = null,
         CancellationToken cancellationToken = default)
     {
-        var result = await _newsService.GetPublishedNewsPagedAsync(page, pageSize, categoryId, cancellationToken);
+        var result = await _newsService.GetPublishedNewsPagedAsync(page, pageSize, categoryId, type, authorId, search, cancellationToken);
         return Ok(result);
     }
 

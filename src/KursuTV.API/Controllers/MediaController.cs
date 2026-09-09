@@ -20,21 +20,20 @@ public class MediaController : ControllerBase
     [HttpPost("upload")]
     [Authorize]
     [RequestSizeLimit(50 * 1024 * 1024)] // 50 MB
+    [Consumes("multipart/form-data")]
     public async Task<ActionResult<MediaDto>> Upload(
-        [FromForm] IFormFile file,
-        [FromForm] string? altText,
-        [FromForm] Guid? newsId,
+        [FromForm] UploadMediaRequest request,
         CancellationToken cancellationToken = default)
     {
         var userId = GetCurrentUserId();
-        await using var stream = file.OpenReadStream();
+        await using var stream = request.File.OpenReadStream();
         var result = await _mediaService.UploadSingleFileAsync(
             stream,
-            file.FileName,
-            file.ContentType,
-            file.Length,
-            altText,
-            newsId,
+            request.File.FileName,
+            request.File.ContentType,
+            request.File.Length,
+            request.AltText,
+            request.NewsId,
             userId,
             cancellationToken
         );
@@ -67,4 +66,11 @@ public class MediaController : ControllerBase
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         return Guid.TryParse(claim, out var userId) ? userId : Guid.Empty;
     }
+}
+
+public class UploadMediaRequest
+{
+    public IFormFile File { get; set; } = null!;
+    public string? AltText { get; set; }
+    public Guid? NewsId { get; set; }
 }

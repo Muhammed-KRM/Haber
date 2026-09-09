@@ -176,7 +176,23 @@ else
 }
 
 app.UseCors(app.Environment.IsDevelopment() ? "AllowAll" : "Production");
-app.UseStaticFiles(); // uploads klasÃ¶rÃ¼ iÃ§in
+app.UseStaticFiles();
+
+var uploadPath = builder.Configuration["FileStorage:UploadPath"] ?? "wwwroot/uploads";
+if (!Path.IsPathRooted(uploadPath))
+{
+    uploadPath = Path.Combine(Directory.GetCurrentDirectory(), uploadPath);
+}
+if (!Directory.Exists(uploadPath))
+{
+    Directory.CreateDirectory(uploadPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadPath),
+    RequestPath = "/uploads"
+});
 app.UseAuthentication();
 app.UseMiddleware<BanCheckMiddleware>();
 app.UseAuthorization();

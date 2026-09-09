@@ -93,12 +93,8 @@
     {
         if (!string.IsNullOrWhiteSpace(Query))
         {
-            var paged = await NewsApi.GetPublishedNewsPagedAsync(1, 20);
-            if (paged != null)
-            {
-                var q = Query.Trim().ToLower();
-                results = paged.Items.Where(n => n.Title.ToLower().Contains(q) || (n.Spot != null && n.Spot.ToLower().Contains(q))).ToList();
-            }
+            var paged = await NewsApi.GetPublishedNewsPagedAsync(1, 20, search: Query.Trim());
+            results = paged?.Items ?? new();
         }
     }
 }

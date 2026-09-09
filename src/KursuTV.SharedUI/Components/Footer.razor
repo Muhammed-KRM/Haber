@@ -1,3 +1,6 @@
+@using KursuTV.Business.DTOs
+@inject CategoryApiService CategoryApi
+
 <footer class="bg-slate-950 text-slate-400 font-sans border-t-4 border-red-600 mt-16 select-none">
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -16,16 +19,25 @@
                 </div>
             </div>
 
-            <!-- 2. Kategoriler -->
+            <!-- 2. Kategoriler (Dinamik Veritabanı) -->
             <div class="space-y-3">
                 <h4 class="text-xs font-bold text-white uppercase tracking-wider">Kategoriler</h4>
                 <ul class="space-y-1.5 text-xs">
-                    <li><a href="/kategori/gundem" class="hover:text-white transition-colors">Gündem</a></li>
-                    <li><a href="/kategori/politika" class="hover:text-white transition-colors">Politika</a></li>
-                    <li><a href="/kategori/ekonomi" class="hover:text-white transition-colors">Ekonomi</a></li>
-                    <li><a href="/kategori/dunya" class="hover:text-white transition-colors">Dünya</a></li>
-                    <li><a href="/kategori/spor" class="hover:text-white transition-colors">Spor</a></li>
-                    <li><a href="/kategori/hayat" class="hover:text-white transition-colors">Hayat</a></li>
+                    @if (categories.Count > 0)
+                    {
+                        @foreach (var cat in categories)
+                        {
+                            <li><a href="/kategori/@cat.Slug" class="hover:text-white transition-colors">@cat.Name</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a href="/kategori/gundem" class="hover:text-white transition-colors">Gündem</a></li>
+                        <li><a href="/kategori/politika" class="hover:text-white transition-colors">Politika</a></li>
+                        <li><a href="/kategori/ekonomi" class="hover:text-white transition-colors">Ekonomi</a></li>
+                        <li><a href="/kategori/dunya" class="hover:text-white transition-colors">Dünya</a></li>
+                        <li><a href="/kategori/spor" class="hover:text-white transition-colors">Spor</a></li>
+                    }
                     <li><a href="/yazarlar" class="hover:text-white transition-colors">Yazarlar</a></li>
                 </ul>
             </div>
@@ -72,3 +84,24 @@
         </div>
     </div>
 </footer>
+
+@code {
+    private List<CategoryDto> categories = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var all = await CategoryApi.GetFlatAsync();
+            categories = all
+                .Where(c => c.ParentId == null && c.Slug != "kose-yazilari")
+                .OrderBy(c => c.SortOrder)
+                .Take(7)
+                .ToList();
+        }
+        catch
+        {
+            // Sessiz hata yakalama
+        }
+    }
+}

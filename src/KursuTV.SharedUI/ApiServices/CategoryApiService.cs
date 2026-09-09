@@ -16,7 +16,7 @@ public class CategoryApiService
     {
         try
         {
-            return await _http.GetFromJsonAsync<List<CategoryDto>>("api/categories/tree") ?? new();
+            return await _http.GetFromJsonAsync<List<CategoryDto>>("api/categories/tree", KursuTV.SharedUI.Extensions.HttpClientExtensions.DefaultOptions) ?? new();
         }
         catch
         {
@@ -28,7 +28,7 @@ public class CategoryApiService
     {
         try
         {
-            return await _http.GetFromJsonAsync<List<CategoryDto>>("api/categories/flat") ?? new();
+            return await _http.GetFromJsonAsync<List<CategoryDto>>("api/categories/flat", KursuTV.SharedUI.Extensions.HttpClientExtensions.DefaultOptions) ?? new();
         }
         catch
         {
@@ -40,7 +40,7 @@ public class CategoryApiService
     {
         try
         {
-            return await _http.GetFromJsonAsync<CategoryDto>($"api/categories/slug/{slug}");
+            return await _http.GetFromJsonAsync<CategoryDto>($"api/categories/slug/{slug}", KursuTV.SharedUI.Extensions.HttpClientExtensions.DefaultOptions);
         }
         catch
         {

@@ -26,6 +26,9 @@ public interface INewsRepository : IRepository<News>
         int pageNumber,
         int pageSize,
         int? categoryId = null,
+        NewsType? type = null,
+        Guid? authorId = null,
+        string? searchTerm = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>

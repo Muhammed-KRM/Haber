@@ -81,7 +81,7 @@ import { ToastService } from '../../core/services/toast.service';
 })
 export class LoginComponent {
   email = 'admin@kursutv.com';
-  password = 'Admin@123!';
+  password = 'Admin123!';
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
 

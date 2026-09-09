@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj": {}
+    "d:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj": {}
   },
   "projects": {
-    "D:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj": {
+    "d:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj",
+        "projectUniqueName": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj",
         "projectName": "KursuTV.App",
-        "projectPath": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj",
+        "projectPath": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\KursuTV.App.csproj",
         "packagesPath": "C:\\Users\\muhammedk\\.nuget\\packages\\",
-        "outputPath": "D:\\Haber\\KursuTV\\src\\KursuTV.App\\obj\\",
+        "outputPath": "d:\\Haber\\KursuTV\\src\\KursuTV.App\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [

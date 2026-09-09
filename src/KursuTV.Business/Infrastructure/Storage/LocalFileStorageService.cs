@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using KursuTV.Business.Interfaces;
 
@@ -8,8 +8,9 @@ public class LocalFileStorageService : IFileStorageService
 {
     private readonly string _uploadPath;
     private readonly ILogger<LocalFileStorageService> _logger;
+    private readonly IConfiguration _config;
 
-    // Ä°zin verilen dosya tÃ¼rleri ve maksimum boyut
+    // İzin verilen dosya türleri ve maksimum boyut
     private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
         ".jpg", ".jpeg", ".png", ".webp"
@@ -19,7 +20,12 @@ public class LocalFileStorageService : IFileStorageService
     public LocalFileStorageService(IConfiguration config, ILogger<LocalFileStorageService> logger)
     {
         _logger = logger;
-        _uploadPath = config["FileStorage:UploadPath"] ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+        _config = config;
+        _uploadPath = config["FileStorage:UploadPath"] ?? "wwwroot/uploads";
+        if (!Path.IsPathRooted(_uploadPath))
+        {
+            _uploadPath = Path.Combine(Directory.GetCurrentDirectory(), _uploadPath);
+        }
         
         // KlasÃ¶r yoksa oluÅŸtur
         if (!Directory.Exists(_uploadPath))
@@ -67,8 +73,9 @@ public class LocalFileStorageService : IFileStorageService
 
         _logger.LogInformation("Dosya yÃ¼klendi: {FileName} â†’ {FilePath} ({Size} bytes)", fileName, safeFileName, fileStream.Length);
 
-        // DosyanÄ±n URL'ini dÃ¶ndÃ¼r (relative path)
-        return $"/uploads/{safeFileName}";
+        // Dosyanın URL'ini döndür (absolute path)
+        var baseUrl = _config["FileStorage:BaseUrl"]?.TrimEnd('/') ?? "";
+        return $"{baseUrl}/uploads/{safeFileName}";
     }
 
     public Task DeleteAsync(string fileUrl)

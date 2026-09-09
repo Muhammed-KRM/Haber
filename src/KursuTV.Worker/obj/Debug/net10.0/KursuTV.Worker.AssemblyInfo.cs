@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KursuTV.Worker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15aa725ae022e673b7b92064e03c95c794504a73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa86a6d9a75337a101d2b8a673199334e10b3205")]
 [assembly: System.Reflection.AssemblyProductAttribute("KursuTV.Worker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KursuTV.Worker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

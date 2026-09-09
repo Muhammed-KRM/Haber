@@ -85,16 +85,19 @@ public class NewsManager : INewsService
         int pageNumber,
         int pageSize,
         int? categoryId = null,
+        NewsType? type = null,
+        Guid? authorId = null,
+        string? searchTerm = null,
         CancellationToken cancellationToken = default)
     {
-        var cacheKey = $"news:paged:{pageNumber}:{pageSize}:{categoryId}";
+        var cacheKey = $"news:paged:{pageNumber}:{pageSize}:{categoryId}:{type}:{authorId}:{searchTerm}";
         var cached = await _cacheService.GetAsync<PagedResultDto<NewsListDto>>(cacheKey);
         if (cached != null)
         {
             return cached;
         }
 
-        var (items, totalCount) = await _newsRepository.GetPublishedPagedAsync(pageNumber, pageSize, categoryId, cancellationToken);
+        var (items, totalCount) = await _newsRepository.GetPublishedPagedAsync(pageNumber, pageSize, categoryId, type, authorId, searchTerm, cancellationToken);
 
         var dtos = items.Select(n => new NewsListDto(
             n.Id,

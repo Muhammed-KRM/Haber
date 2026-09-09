@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<CommentApiService>();
         services.AddScoped<AuthApiService>();
         services.AddScoped<UserApiService>();
+        services.AddScoped<FinanceApiService>();
         
         return services;
     }

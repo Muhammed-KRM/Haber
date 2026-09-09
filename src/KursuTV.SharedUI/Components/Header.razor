@@ -1,31 +1,35 @@
+@using KursuTV.Business.DTOs
 @inject NavigationManager Nav
 @inject CategoryApiService CategoryApi
+@inject FinanceApiService FinanceApi
 
 <!-- ÜST PİYASA & DÖVİZ BANDI -->
 <div class="bg-slate-900 text-slate-300 text-[11px] py-1.5 px-4 border-b border-slate-800 font-sans">
     <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar gap-6">
         <div class="flex items-center gap-6 shrink-0 font-medium">
-            <span class="flex items-center gap-1.5 text-slate-400">
-                <span class="text-amber-500 font-bold">₿ Bitcoin</span> 78.979 <span class="text-emerald-400 font-semibold">+%4,95</span>
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-400">
-                <span class="text-indigo-400 font-bold">Ξ Ethereum</span> 2.508,6 <span class="text-emerald-400 font-semibold">+%2,07</span>
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-400">
-                <span class="text-emerald-400 font-bold">$ Dolar</span> 48,24 <span class="text-emerald-400 font-semibold">+%0,23</span>
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-400">
-                <span class="text-blue-400 font-bold">€ Euro</span> 56,09 <span class="text-emerald-400 font-semibold">+%0,15</span>
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-400">
-                <span class="text-yellow-400 font-bold">✦ Altın</span> 3.420 <span class="text-emerald-400 font-semibold">+%0,42</span>
-            </span>
+            @if (rates.Count > 0)
+            {
+                @foreach (var rate in rates)
+                {
+                    <span class="flex items-center gap-1.5 text-slate-400">
+                        <span class="@rate.ColorClass font-bold">@rate.Symbol @rate.Name</span> 
+                        @rate.Price.ToString("N2") 
+                        <span class="@(rate.ChangeRate >= 0 ? "text-emerald-400" : "text-rose-400") font-semibold">
+                            @(rate.ChangeRate >= 0 ? "+" : "")%@rate.ChangeRate.ToString("N2")
+                        </span>
+                    </span>
+                }
+            }
+            else
+            {
+                <span class="text-slate-500">Piyasa verileri yükleniyor...</span>
+            }
         </div>
 
         <div class="hidden md:flex items-center gap-4 text-slate-400 shrink-0">
             <span class="font-medium text-slate-300">@DateTime.Now.ToString("dd MMMM yyyy, dddd")</span>
             <span>&bull;</span>
-            <a href="http://localhost:4200" target="_blank" class="text-slate-300 hover:text-white transition-colors">Yönetim Paneli</a>
+            <a href="http://localhost:4201" target="_blank" class="text-slate-300 hover:text-white transition-colors">Yönetim Paneli</a>
         </div>
     </div>
 </div>
@@ -52,12 +56,20 @@
 
         <!-- ANA KATEGORİ MENÜSÜ -->
         <nav class="hidden md:flex items-center gap-6 text-sm font-bold tracking-wide uppercase">
-            <a href="/kategori/gundem" class="hover:text-red-100 transition-colors py-1">GÜNDEM</a>
-            <a href="/kategori/politika" class="hover:text-red-100 transition-colors py-1">POLİTİKA</a>
-            <a href="/kategori/ekonomi" class="hover:text-red-100 transition-colors py-1">EKONOMİ</a>
-            <a href="/kategori/dunya" class="hover:text-red-100 transition-colors py-1">DÜNYA</a>
-            <a href="/kategori/spor" class="hover:text-red-100 transition-colors py-1">SPOR</a>
-            <a href="/kategori/hayat" class="hover:text-red-100 transition-colors py-1">HAYAT</a>
+            @if (mainCategories.Count > 0)
+            {
+                @foreach (var cat in mainCategories)
+                {
+                    <a href="/kategori/@cat.Slug" class="hover:text-red-100 transition-colors py-1">@cat.Name.ToUpper()</a>
+                }
+            }
+            else
+            {
+                <a href="/kategori/gundem" class="hover:text-red-100 transition-colors py-1">GÜNDEM</a>
+                <a href="/kategori/politika" class="hover:text-red-100 transition-colors py-1">POLİTİKA</a>
+                <a href="/kategori/ekonomi" class="hover:text-red-100 transition-colors py-1">EKONOMİ</a>
+                <a href="/kategori/dunya" class="hover:text-red-100 transition-colors py-1">DÜNYA</a>
+            }
             <a href="/yazarlar" class="hover:text-red-100 transition-colors py-1 text-yellow-200">YAZARLAR</a>
         </nav>
 
@@ -77,17 +89,32 @@
         </div>
     </div>
 
-    <!-- ALT KATEGORİ ŞERİDİ (Kültür Sanat, Teknoloji, Röportaj, Sağlık) -->
+    <!-- ALT KATEGORİ ŞERİDİ -->
     <div class="bg-red-800/50 border-t border-white/10 px-4 py-1.5 text-xs font-medium text-white/90">
         <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar gap-4">
             <div class="flex items-center gap-4 shrink-0">
-                <a href="/kategori/kultur-sanat" class="hover:text-white transition-colors">Kültür & Sanat</a>
-                <span>&bull;</span>
-                <a href="/kategori/teknoloji" class="hover:text-white transition-colors">Teknoloji</a>
-                <span>&bull;</span>
-                <a href="/kategori/roportaj" class="hover:text-white transition-colors">Röportaj</a>
-                <span>&bull;</span>
-                <a href="/kategori/saglik" class="hover:text-white transition-colors">Sağlık</a>
+                @if (subCategories.Count > 0)
+                {
+                    @for (int i = 0; i < subCategories.Count; i++)
+                    {
+                        var cat = subCategories[i];
+                        <a href="/kategori/@cat.Slug" class="hover:text-white transition-colors">@cat.Name</a>
+                        @if (i < subCategories.Count - 1)
+                        {
+                            <span>&bull;</span>
+                        }
+                    }
+                }
+                else
+                {
+                    <a href="/kategori/kultur-sanat" class="hover:text-white transition-colors">Kültür & Sanat</a>
+                    <span>&bull;</span>
+                    <a href="/kategori/teknoloji" class="hover:text-white transition-colors">Teknoloji</a>
+                    <span>&bull;</span>
+                    <a href="/kategori/roportaj" class="hover:text-white transition-colors">Röportaj</a>
+                    <span>&bull;</span>
+                    <a href="/kategori/saglik" class="hover:text-white transition-colors">Sağlık</a>
+                }
             </div>
 
             <div class="flex items-center gap-3 shrink-0">
@@ -97,3 +124,36 @@
         </div>
     </div>
 </header>
+
+@code {
+    private List<CategoryDto> mainCategories = new();
+    private List<CategoryDto> subCategories = new();
+    private List<MarketRateDto> rates = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var categories = await CategoryApi.GetFlatAsync();
+            if (categories.Count > 0)
+            {
+                mainCategories = categories
+                    .Where(c => c.ParentId == null && c.Slug != "kose-yazilari")
+                    .OrderBy(c => c.SortOrder)
+                    .Take(6)
+                    .ToList();
+
+                subCategories = categories
+                    .Where(c => c.ParentId != null || (c.SortOrder > 6 && c.Slug != "kose-yazilari"))
+                    .Take(4)
+                    .ToList();
+            }
+
+            rates = await FinanceApi.GetRatesAsync();
+        }
+        catch
+        {
+            // Sessiz hata yakalama
+        }
+    }
+}

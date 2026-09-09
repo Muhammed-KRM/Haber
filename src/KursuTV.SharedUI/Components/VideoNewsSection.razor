@@ -1,57 +1,78 @@
-<!-- BU HAFTA / VİDEO & RÖPORTAJ BÖLÜMÜ -->
-<div class="space-y-4">
-    <div class="flex items-center justify-between border-b-2 border-red-600 pb-2">
-        <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-red-600"></span>
-            <h2 class="text-lg font-black text-slate-900 tracking-tight uppercase">BU HAFTA &bull; ÖZEL PROGRAMLAR</h2>
+@using KursuTV.Business.DTOs
+@inject NewsApiService NewsApi
+
+@if (videoNews.Count > 0)
+{
+    <!-- BU HAFTA / VİDEO & RÖPORTAJ BÖLÜMÜ -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between border-b-2 border-red-600 pb-2">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-600"></span>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight uppercase">BU HAFTA &bull; ÖZEL VİDEOLAR</h2>
+            </div>
+            <a href="/kategori/roportaj" class="text-xs font-bold text-red-600 hover:text-red-700 hover:underline">
+                Tüm Videolar &rarr;
+            </a>
         </div>
-        <a href="/kategori/video" class="text-xs font-bold text-red-600 hover:text-red-700 hover:underline">
-            Tüm Videolar &rarr;
-        </a>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            @for (int i = 0; i < videoNews.Count; i++)
+            {
+                var item = videoNews[i];
+                <a href="/haber/@item.Slug" class="group relative rounded-2xl overflow-hidden shadow-md bg-slate-950 aspect-[16/9] flex items-end p-5">
+                    @if (!string.IsNullOrEmpty(item.CoverImageUrl) && !item.CoverImageUrl.Contains("default"))
+                    {
+                        <img 
+                            src="@item.CoverImageUrl" 
+                            alt="@item.Title"
+                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70"
+                        />
+                    }
+                    else
+                    {
+                        <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900 to-red-950 opacity-90"></div>
+                    }
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                    
+                    <!-- Video Play İkonu -->
+                    <div class="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-600 text-white text-[10px] font-bold shadow">
+                        <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        @(item.Categories.FirstOrDefault()?.Name ?? "Video")
+                    </div>
+
+                    <div class="relative z-10 space-y-1">
+                        <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-red-300 transition-colors leading-tight drop-shadow">
+                            @item.Title
+                        </h3>
+                        @if (!string.IsNullOrEmpty(item.Spot))
+                        {
+                            <p class="text-xs text-slate-300 line-clamp-1">@item.Spot</p>
+                        }
+                    </div>
+                </a>
+            }
+        </div>
     </div>
+}
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- 1. Video Kartı (İhsan Eliaçık Programı) -->
-        <a href="/haber/ihsan-eliacik-ile-gundem-ozel" class="group relative rounded-2xl overflow-hidden shadow-md bg-slate-950 aspect-[16/9] flex items-end p-5">
-            <img 
-                src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80" 
-                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-            
-            <!-- YouTube Play İkonu -->
-            <div class="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-600 text-white text-[10px] font-bold shadow">
-                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                YouTube Özel
-            </div>
+@code {
+    private List<NewsListDto> videoNews = new();
+    private bool isLoading = true;
 
-            <div class="relative z-10 space-y-1">
-                <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-red-300 transition-colors leading-tight drop-shadow">
-                    İhsan Eliaçık ile Kürsü TV Gündem Özel
-                </h3>
-                <p class="text-xs text-slate-300 line-clamp-1">Haftanın en çok konuşulan başlıkları masaya yatırılıyor.</p>
-            </div>
-        </a>
-
-        <!-- 2. Video Kartı (30 Ağustos Zafer Özel) -->
-        <a href="/haber/30-agustos-bir-zaferden-daha-fazlasi" class="group relative rounded-2xl overflow-hidden shadow-md bg-slate-950 aspect-[16/9] flex items-end p-5">
-            <img 
-                src="https://images.unsplash.com/photo-1444653614773-995cb1ef902c?w=800&auto=format&fit=crop&q=80" 
-                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-            
-            <div class="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-600 text-white text-[10px] font-bold shadow">
-                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                Röportaj
-            </div>
-
-            <div class="relative z-10 space-y-1">
-                <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-red-300 transition-colors leading-tight drop-shadow">
-                    30 Ağustos: Bir Zaferden Daha Fazlası
-                </h3>
-                <p class="text-xs text-slate-300 line-clamp-1">Tarihçilerle bağımsızlık mücadelesinin bilinmeyen detayları.</p>
-            </div>
-        </a>
-    </div>
-</div>
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            videoNews = await NewsApi.GetVideoNewsAsync(4);
+        }
+        catch
+        {
+            videoNews = new();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
