@@ -131,11 +131,10 @@ import { NewsStatus, NewsType } from '../../core/models/news.model';
                   <tr class="hover:bg-slate-50/60 transition-colors">
                     <td class="py-3 px-3">
                       <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                        <div class="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 relative">
+                          <div class="w-full h-full flex items-center justify-center text-slate-400 text-[10px] font-bold">KTV</div>
                           @if (item.coverImageUrl) {
-                            <img [src]="item.coverImageUrl" class="w-full h-full object-cover" />
-                          } @else {
-                            <div class="w-full h-full flex items-center justify-center text-slate-400 text-[10px] font-bold">KTV</div>
+                            <img [src]="item.coverImageUrl" class="absolute inset-0 w-full h-full object-cover" (error)="$event.target.remove()" />
                           }
                         </div>
                         <div class="min-w-0 max-w-xs">
