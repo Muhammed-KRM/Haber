@@ -187,6 +187,22 @@ import { ToastContainerComponent } from '../components/toast-container.component
             </div>
             <div class="hidden my-2 border-t border-slate-800" [class.lg:block]="isDesktopCollapsed()"></div>
 
+            <!-- Sistem Logları -->
+            <a 
+              routerLink="/admin/logs" 
+              (click)="closeMobileSidebar()"
+              routerLinkActive="bg-red-600/15 text-red-400 font-semibold border-r-2 border-red-500"
+              [title]="'Sistem Logları'"
+              class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-all group"
+              [class.lg:justify-center]="isDesktopCollapsed()"
+              [class.lg:px-0]="isDesktopCollapsed()"
+            >
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span [class.lg:hidden]="isDesktopCollapsed()">Sistem Logları</span>
+            </a>
+
             <!-- Yazarlar & Kullanıcılar -->
             <a 
               routerLink="/admin/users" 

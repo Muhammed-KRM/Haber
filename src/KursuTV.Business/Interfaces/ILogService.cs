@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
+using KursuTV.Business.DTOs;
 
 namespace KursuTV.Business.Interfaces;
 
@@ -15,6 +16,9 @@ public interface ILogService
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string filePath = "",
         [CallerLineNumber] int lineNumber = 0);
+
+    Task<PagedResultDto<EndpointLogResponseDto>> GetEndpointLogsAsync(LogFilterRequest request, CancellationToken cancellationToken = default);
+    Task<PagedResultDto<FunctionLogResponseDto>> GetFunctionLogsAsync(LogFilterRequest request, CancellationToken cancellationToken = default);
 }
 
 public class EndpointLogEntry

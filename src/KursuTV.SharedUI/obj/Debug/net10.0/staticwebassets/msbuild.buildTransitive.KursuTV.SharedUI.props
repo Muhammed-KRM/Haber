@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\KursuTV.SharedUI.props" />
-</Project>

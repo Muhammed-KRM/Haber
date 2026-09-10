@@ -58,6 +58,11 @@ export const routes: Routes = [
         title: 'Yazarlar & Kullanıcılar | Kürsü TV'
       },
       {
+        path: 'logs',
+        loadComponent: () => import('./features/logs/logs.component').then(m => m.LogsComponent),
+        title: 'Sistem Logları | Kürsü TV'
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
         title: 'Site Ayarları & SEO | Kürsü TV'
